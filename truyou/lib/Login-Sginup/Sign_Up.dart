@@ -9,6 +9,7 @@ class SignUp extends StatelessWidget {
         home: Scaffold(
       body: Column(children: [
         Image(image: AssetImage('Assets/Logo/brain.png')),
+        Text('Sign Up'),
       ]),
     ));
   }
