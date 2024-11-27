@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/Sign_up.dart';
 
 void main() {
-  runApp(TruYouApp());
+  runApp(const TruYouApp());
 }
 
 class TruYouApp extends StatelessWidget {
@@ -11,6 +11,9 @@ class TruYouApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SignUp();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false, // Removes the debug banner
+      home: SignUp(), // Wraps the SignUp widget in MaterialApp
+    );
   }
 }

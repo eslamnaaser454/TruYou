@@ -8,7 +8,7 @@ class SignIn extends StatelessWidget {
     return const MaterialApp(
         home: Scaffold(
       body: Column(children: [
-        Image(image: AssetImage('Assets/Logo/brain.png')),
+        // Image(image: AssetImage('Assets/Logo/brain.png')),
         Text('TruYou', style: TextStyle(fontSize: 30)),
       ]),
     ));
