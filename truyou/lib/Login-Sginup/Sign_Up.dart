@@ -30,7 +30,7 @@ class SignUp extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'Mental health assistant',
+                  'Mental health ',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
