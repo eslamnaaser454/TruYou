@@ -119,21 +119,6 @@ class SignUp extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 // Sign-in with Google Button
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () {},
-                    label: Text('Sign-in with Google',
-                        style: TextStyle(color: Color(0xFFA259FF))),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Color(0xFFA259FF)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 20),
                 // Login Link
                 Row(
