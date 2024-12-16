@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
 
 class SplashScreen extends StatelessWidget {
