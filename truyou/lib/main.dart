@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:truyou/Login-Sginup/Sign_in.dart';
 // import 'package:truyou/screens/Sign_in.dart';
 import 'package:truyou/Login-Sginup/SplashScreen.dart';
+import 'package:truyou/Login-Sginup/chatboot/chat.dart';
 import 'package:truyou/Login-Sginup/recoveryquestion.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class TruYouApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Removes the debug banner
-      home: SplashScreen(), // Wraps the SignUp widget in MaterialApp
+      home: ChatScreen(), // Wraps the SignUp widget in MaterialApp
     );
   }
 }
