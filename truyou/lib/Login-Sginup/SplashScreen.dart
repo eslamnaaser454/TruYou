@@ -4,10 +4,10 @@ import 'package:truyou/welcomeScreens/welcomescreen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
-    Key? key,
+    super.key,
     this.backgroundColor = const Color(0xFF9747FF), // Purple background color
     this.logoSize = 100.0, // Adjusted size for better visibility
-  }) : super(key: key);
+  });
 
   final Color backgroundColor;
   final double logoSize;
@@ -19,7 +19,11 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
+<<<<<<< Updated upstream
           pageBuilder: (context, animation, secondaryAnimation) => WelcomeScreen(),
+=======
+          pageBuilder: (context, animation, secondaryAnimation) => const SignUp(),
+>>>>>>> Stashed changes
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Applying ease-in-out animation
             const begin = Offset(1.0, 0.0); // Start from the right
@@ -42,7 +46,7 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: backgroundColor,
         body: Center(
           child: Image(
-            image: AssetImage('Assets/Logo/brain(White).png'),
+            image: const AssetImage('Assets/Logo/brain(White).png'),
             width: logoSize,
             height: logoSize,
             fit: BoxFit.contain,
@@ -54,3 +58,23 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
+<<<<<<< Updated upstream
+=======
+// Dummy LoginPage for navigation demonstration
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: const Text('Login Button'),
+        ),
+      ),
+    );
+  }
+}
+>>>>>>> Stashed changes

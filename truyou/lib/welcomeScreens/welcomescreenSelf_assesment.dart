@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WelcomescreenselfAssesment extends StatelessWidget {
-  const WelcomescreenselfAssesment({Key? key}) : super(key: key);
+  const WelcomescreenselfAssesment({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -89,7 +89,7 @@ class SignIn extends StatelessWidget {
                                       rememberMe = value ?? false;
                                     });
                                   },
-                                  fillColor: MaterialStateProperty.all(
+                                  fillColor: WidgetStateProperty.all(
                                       const Color(0xFFA259FF)),
                                 ),
                               );

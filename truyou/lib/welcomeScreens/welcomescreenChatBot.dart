@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Welcomescreenchatbot extends StatelessWidget {
-  const Welcomescreenchatbot({Key? key}) : super(key: key);
+  const Welcomescreenchatbot({super.key});
 
   @override
   Widget build(BuildContext context) {
