@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:truyou/settingspages/notificationsettingspage.dart';
 import 'aboutsettingspage.dart'; // Import the AboutPage
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -549,7 +550,17 @@ class ContactSupportOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async {
+        const email =
+            'mailto:trueyou.mentalhealthapp@gmail.com?subject=Support&body=Hi%20Team,';
+        if (await canLaunch(email)) {
+          await launch(email);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open email app')),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         margin: const EdgeInsets.only(bottom: 12),
@@ -609,7 +620,17 @@ class ProblemReportOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async {
+        const email =
+            'mailto:trueyou.mentalhealthapp@gmail.com?subject=Problem%20Report&body=Please%20describe%20your%20problem:';
+        if (await canLaunch(email)) {
+          await launch(email);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open email app')),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         margin: const EdgeInsets.only(bottom: 12),
@@ -729,3 +750,5 @@ class UpgradeAd extends StatelessWidget {
     );
   }
 }
+
+// comment

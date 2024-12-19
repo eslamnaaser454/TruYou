@@ -19,6 +19,7 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
+
           pageBuilder: (context, animation, secondaryAnimation) => WelcomeScreen(),
 
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -54,6 +55,7 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
+
 
 // Dummy LoginPage for navigation demonstration
 class LoginPage extends StatelessWidget {
