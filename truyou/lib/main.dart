@@ -34,7 +34,7 @@ class TruYouApp extends StatelessWidget {
         // Wraps the SignUp widget in MaterialApp
         initialRoute: '/',
         routes: {
-          '/': (context) => SettingsPage(),
+          '/': (context) => ChatbotstartScreen(),
           '/chatstart': (context) => const Creatnewchat(),
           '/chatbot': (context) => ChatScreen(),
           '/welcome': (context) => const WelcomeScreen(),
