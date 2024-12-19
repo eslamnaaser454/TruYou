@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +76,10 @@ class SignUp extends StatelessWidget {
                       width: screenWidth * 0.75,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: Color(0xFFA259FF),
+                        color: const Color(0xFFA259FF),
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Sign-up',
                           style: TextStyle(
@@ -139,19 +139,19 @@ class SignUp extends StatelessWidget {
       width: double.infinity,
       height: 48,
       decoration: BoxDecoration(
-        color: Color(0xFFF8F5FF),
+        color: const Color(0xFFF8F5FF),
         borderRadius: BorderRadius.circular(25),
       ),
       child: TextField(
         decoration: InputDecoration(
           hintText: placeholder,
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: Color(0xB2C0B1E8),
           ),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         ),
       ),
     );

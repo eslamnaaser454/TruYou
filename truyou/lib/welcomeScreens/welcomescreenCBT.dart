@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Welcomescreencbt extends StatelessWidget {
-  const Welcomescreencbt({Key? key}) : super(key: key);
+  const Welcomescreencbt({super.key});
 
   @override
   Widget build(BuildContext context) {

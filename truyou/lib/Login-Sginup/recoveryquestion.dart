@@ -104,7 +104,7 @@ Widget build(BuildContext context) {
                     width: width,
                     height: 48,
                     decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
+                    color: const Color(0xFFF5F5F5),
                     borderRadius: BorderRadius.circular(25),
                     ),
                     child: Padding(
@@ -133,10 +133,10 @@ Widget build(BuildContext context) {
                     width: width,
                     height: 48,
                     decoration: BoxDecoration(
-                        color: Color(0xFFA259FF),
+                        color: const Color(0xFFA259FF),
                         borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                         'Confirm',
                         style: TextStyle(
@@ -155,10 +155,10 @@ Widget build(BuildContext context) {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                    Text(
+                    const Text(
                         'Already have an account? ',
                         style: TextStyle(
-                        color: const Color(0xFFC0B1E8),
+                        color: Color(0xFFC0B1E8),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Inter',
@@ -166,7 +166,7 @@ Widget build(BuildContext context) {
                     ),
                     GestureDetector(
                         onTap: onLogin,
-                        child: Text(
+                        child: const Text(
                         'Login',
                         style: TextStyle(
                             color: Color(0xFFA259FF),

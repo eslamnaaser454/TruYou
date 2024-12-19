@@ -24,13 +24,24 @@ class _NotificationSettingState extends State<NotificationSetting> {
             children: [
               SizedBox(height: 16),
               // Header
-              const Row(
+              Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(left: 23),
-                      child:
-                          Image(image: AssetImage("Media/icons/previous.png"))),
-                  Expanded(
+                    padding: EdgeInsets.only(left: 23),
+                    // Updated section: Use MouseRegion to change cursor
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Image(
+                          image: AssetImage("Media/icons/previous.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(left: 12),
                       child: Text(
@@ -91,7 +102,8 @@ class _NotificationSettingState extends State<NotificationSetting> {
                                     moodBasedNotify = value;
                                   });
                                 },
-                                activeColor: Colors.purple,
+                                inactiveThumbColor: Color(0xFFA259FF),
+                                activeColor: Color(0xFFA259FF),
                               ),
                             ],
                           ),
@@ -133,7 +145,8 @@ class _NotificationSettingState extends State<NotificationSetting> {
                                     activityBasedNotify = value;
                                   });
                                 },
-                                activeColor: Colors.purple,
+                                inactiveThumbColor: Color(0xFFA259FF),
+                                activeColor: Color(0xFFA259FF),
                               ),
                             ],
                           ),
