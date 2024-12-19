@@ -64,32 +64,37 @@ class WelcomescreenselfAssesment extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 // Dots indicator
-                Container(
-                  width: screenWidth * 0.2,
-                  height: 10,
-                  alignment: Alignment.center,
-                  child: Image.network(
-                      'https://dashboard.codeparrot.ai/api/assets/Z18pjs-923gCQmG'),
-                ),
+                // Container(
+                //   width: screenWidth * 0.2,
+                //   height: 10,
+                //   alignment: Alignment.center,
+                //   child: Image.network(
+                //       'https://dashboard.codeparrot.ai/api/assets/Z18pjs-923gCQmG'),
+                // ),
                 const SizedBox(height: 30),
                 // Start Your Journey button
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Container(
-                    width: screenWidth * 0.75,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Start Your Journey',
-                        style: TextStyle(
-                          fontFamily: 'Urbanist',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFFA259FF),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/signup');
+                    },
+                    child: Container(
+                      width: screenWidth * 0.75,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Start Your Journey',
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA259FF),
+                          ),
                         ),
                       ),
                     ),

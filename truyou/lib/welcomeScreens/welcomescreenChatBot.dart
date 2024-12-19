@@ -64,13 +64,13 @@ class Welcomescreenchatbot extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 // Dots indicator
-                Container(
-                  width: screenWidth * 0.2,
-                  height: 10,
-                  alignment: Alignment.center,
-                  child: Image.network(
-                      'https://dashboard.codeparrot.ai/api/assets/Z18pjJs-923gCQmF'),
-                ),
+                // Container(
+                //   width: screenWidth * 0.2,
+                //   height: 10,
+                //   alignment: Alignment.center,
+                //   child: Image.network(
+                //       'https://dashboard.codeparrot.ai/api/assets/Z18pjJs-923gCQmF'),
+                // ),
                 const SizedBox(height: 30),
                 // Next button
                 MouseRegion(

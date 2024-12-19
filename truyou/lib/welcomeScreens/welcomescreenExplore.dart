@@ -64,13 +64,13 @@ class Welcomescreenexplore extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 // Dots indicator
-                Container(
-                  width: screenWidth * 0.2,
-                  height: 10,
-                  alignment: Alignment.center,
-                  child: Image.network(
-                      'https://dashboard.codeparrot.ai/api/assets/Z18pjs-923gCQmH'),
-                ),
+                // Container(
+                //   width: screenWidth * 0.2,
+                //   height: 10,
+                //   alignment: Alignment.center,
+                //   child: Image.network(
+                //       'https://dashboard.codeparrot.ai/api/assets/Z18pjs-923gCQmH'),
+                // ),
                 const SizedBox(height: 30),
                 // Next button
                 MouseRegion(

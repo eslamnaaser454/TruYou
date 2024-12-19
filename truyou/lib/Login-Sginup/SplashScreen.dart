@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
+import 'package:truyou/welcomeScreens/welcomescreen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -18,7 +19,7 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => SignUp(),
+          pageBuilder: (context, animation, secondaryAnimation) => WelcomeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Applying ease-in-out animation
             const begin = Offset(1.0, 0.0); // Start from the right
@@ -53,20 +54,3 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-// Dummy LoginPage for navigation demonstration
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text('Login Button'),
-        ),
-      ),
-    );
-  }
-}
