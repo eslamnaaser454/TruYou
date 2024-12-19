@@ -99,14 +99,6 @@ class TruYouPlus extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: NetworkImage(
-                                'https://dashboard.codeparrot.ai/api/assets/Z2RLLhEM3nUkN2uC'),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
                       ),
                     ),
                   ],
