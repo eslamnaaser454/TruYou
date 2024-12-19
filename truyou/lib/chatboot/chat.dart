@@ -26,11 +26,12 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<MessageModel> _messages = [];
-  
+
   // Create the GenerativeModel instance
   final GenerativeModel _model = GenerativeModel(
     model: 'gemini-1.5-flash-latest', // Replace with the correct model
-    apiKey: 'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
+    apiKey:
+        'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
   );
 
   // Send message to the model and get the response
@@ -53,35 +54,68 @@ Future<void> _sendMessage() async {
     // Print the user's message for debugging purposes
     print('User message: ${userMessage.message}');
 
+    // Directive to restrict the chatbot's focus
+    final directive = """
+You are a chatbot specialized in mental health and psychological support. 
+You can respond only to queries related to:
+1. Stress management
+2. Anxiety
+3. Depression
+4. Emotional well-being
+5. Psychological self-care
+If the user's query is unrelated to these topics, politely explain that you can only assist with mental health-related matters.
+""";
+
+    // Prepare the prompt
+    final prompt = directive + '\nUser: ${userMessage.message}';
+
     try {
-      // Prepare the conversation history as context for the model
-      // You can include the last few messages to give the model context
-      final conversationHistory = _messages.map((msg) => msg.message).join('\n');
-
-      // Create the prompt by including the conversation history
-      final prompt = conversationHistory + '\nUser: ' + userMessage.message;
-
       // Create content for the API call
       final content = [Content.text(prompt)];
+
+      // Add a "typing" placeholder message while waiting for a response
+      setState(() {
+        _messages.add(MessageModel(
+          isUser: false,
+          message: "Typing...",
+          time: DateTime.now(),
+        ));
+      });
 
       // Get the generated response from the model
       final response = await _model.generateContent(content);
 
-      // Check if the response is non-empty
-      final botMessage = MessageModel(
-        isUser: false,
-        message: response.text ?? "Oops! Something went wrong.",
-        time: DateTime.now(),
-      );
-
-      // Add the bot's response to the message list
+      // Remove the "typing" placeholder
       setState(() {
-        _messages.add(botMessage);
+        _messages.removeWhere((msg) => msg.message == "Typing...");
       });
+
+      // Validate the response
+      if (response.text != null && _isMentalHealthRelated(response.text!)) {
+        final botMessage = MessageModel(
+          isUser: false,
+          message: response.text!,
+          time: DateTime.now(),
+        );
+
+        // Add the bot's response to the message list
+        setState(() {
+          _messages.add(botMessage);
+        });
+      } else {
+        setState(() {
+          _messages.add(MessageModel(
+            isUser: false,
+            message: "I'm here to assist with mental health and psychological support topics only.",
+            time: DateTime.now(),
+          ));
+        });
+      }
     } catch (e) {
       print('Error: $e');
       // Handle errors gracefully and display an error message
       setState(() {
+        _messages.removeWhere((msg) => msg.message == "Typing...");
         _messages.add(MessageModel(
           isUser: false,
           message: "Oops! Something went wrong. Please try again.",
@@ -90,6 +124,25 @@ Future<void> _sendMessage() async {
       });
     }
   }
+}
+
+// Helper function to validate if the response relates to mental health topics
+bool _isMentalHealthRelated(String message) {
+  final mentalHealthKeywords = [
+    'mental health',
+    'psychological support',
+    'anxiety',
+    'depression',
+    'stress',
+    'emotional well-being',
+    'self-care',
+    'therapy',
+    'mindfulness',
+    'relaxation',
+    'coping',
+    'mental wellness'
+  ];
+  return mentalHealthKeywords.any((keyword) => message.toLowerCase().contains(keyword));
 }
 
 
@@ -143,7 +196,8 @@ Future<void> _sendMessage() async {
                         decoration: InputDecoration(
                           hintText: "Type To start Conversation",
                           hintStyle: TextStyle(
-                            color: Color.fromRGBO(162, 89, 255, 1).withOpacity(0.3),
+                            color: Color.fromRGBO(162, 89, 255, 1)
+                                .withOpacity(0.3),
                             fontFamily: 'Urbanist',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -277,7 +331,8 @@ class MessageBubble extends StatelessWidget {
   final DateTime timestamp;
 
   MessageBubble({
-    this.message = "Focus on your senses. Notice the ground, sounds, and smells.",
+    this.message =
+        "Focus on your senses. Notice the ground, sounds, and smells.",
     this.isUser = false,
     DateTime? timestamp,
   }) : this.timestamp = timestamp ?? DateTime.now();
@@ -299,7 +354,7 @@ class MessageBubble extends StatelessWidget {
         children: [
           Container(
             constraints: BoxConstraints(
-              maxWidth: 237,
+              maxWidth: 300,
             ),
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(

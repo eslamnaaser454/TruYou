@@ -70,7 +70,7 @@ class Welcomescreencbt extends StatelessWidget {
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/chatbot');
+                      Navigator.pushNamed(context, '/chatbotwelcome');
                     },
                     child: Container(
                       width: screenWidth * 0.75,
