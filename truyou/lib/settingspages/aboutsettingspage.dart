@@ -24,7 +24,18 @@ class AboutPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image(image: AssetImage("Media/icons/previous.png")),
+                    // Updated section: Use MouseRegion to change cursor
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Image(
+                          image: AssetImage("Media/icons/previous.png"),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 12),
                       child: const Text(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/settingspages/notificationsettingspage.dart';
+import 'aboutsettingspage.dart'; // Import the AboutPage
 
 void main() {
   runApp(MyApp());
@@ -70,11 +72,22 @@ class SettingsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     NotificationSettingOption(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationSetting()),
+                        );
+                      },
                     ),
                     const SizedBox(height: 12),
                     AboutOption(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AboutPage()),
+                        );
+                      },
                     ),
                     const SizedBox(height: 12),
                     ContactSupportOption(
