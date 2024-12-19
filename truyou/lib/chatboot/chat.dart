@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart'; // Assuming this package is used for the API
+import 'package:truyou/chatboot/model.dart';
+import 'model.dart'; // Assuming the MessageModel is in a separate file named model.dart
+import 'Gemini.dart';
 
 void main() {
   runApp(ChatApp());
@@ -21,33 +25,73 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
-  final List<Map<String, dynamic>> _messages = [];
-  final List<String> _autoReplies = [
-    "Understand your feelings. Let's start with deep breathing.",
-    "Let's try a different approach. Mindful walking?",
-    "Remember to take breaks. You're doing great!",
-    "Try to focus on the present moment. What do you see around you?",
-    "Remember to take care of yourself. Have you had water today?",
-    "Focus on your senses. Notice the ground, sounds, and smells.",
-    "Take things one step at a time. You've got this.",
-    "Remember, small progress is still progress."
-  ];
+  final List<MessageModel> _messages = [];
+  
+  // Create the GenerativeModel instance
+  final GenerativeModel _model = GenerativeModel(
+    model: 'gemini-1.5-flash-latest', // Replace with the correct model
+    apiKey: 'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
+  );
 
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
+  // Send message to the model and get the response
+Future<void> _sendMessage() async {
+  if (_controller.text.isNotEmpty) {
+    final userMessage = MessageModel(
+      isUser: true,
+      message: _controller.text,
+      time: DateTime.now(),
+    );
+
+    // Add the user's message to the list
+    setState(() {
+      _messages.add(userMessage);
+    });
+
+    // Clear the input field
+    _controller.clear();
+
+    // Print the user's message for debugging purposes
+    print('User message: ${userMessage.message}');
+
+    try {
+      // Prepare the conversation history as context for the model
+      // You can include the last few messages to give the model context
+      final conversationHistory = _messages.map((msg) => msg.message).join('\n');
+
+      // Create the prompt by including the conversation history
+      final prompt = conversationHistory + '\nUser: ' + userMessage.message;
+
+      // Create content for the API call
+      final content = [Content.text(prompt)];
+
+      // Get the generated response from the model
+      final response = await _model.generateContent(content);
+
+      // Check if the response is non-empty
+      final botMessage = MessageModel(
+        isUser: false,
+        message: response.text ?? "Oops! Something went wrong.",
+        time: DateTime.now(),
+      );
+
+      // Add the bot's response to the message list
       setState(() {
-        _messages.add({
-          "text": _controller.text,
-          "isUser": true,
-          "timestamp": DateTime.now()
-        });
-        String reply = _autoReplies[_messages.length % _autoReplies.length];
-        _messages
-            .add({"text": reply, "isUser": false, "timestamp": DateTime.now()});
-        _controller.clear();
+        _messages.add(botMessage);
+      });
+    } catch (e) {
+      print('Error: $e');
+      // Handle errors gracefully and display an error message
+      setState(() {
+        _messages.add(MessageModel(
+          isUser: false,
+          message: "Oops! Something went wrong. Please try again.",
+          time: DateTime.now(),
+        ));
       });
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +108,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 itemBuilder: (context, index) {
                   final message = _messages[index];
                   return MessageBubble(
-                    message: message['text'],
-                    isUser: message['isUser'],
-                    timestamp: message['timestamp'],
+                    message: message.message,
+                    isUser: message.isUser,
+                    timestamp: message.time,
                   );
                 },
               ),
@@ -89,11 +133,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(
-                            30), // Increased to make it more rounded
+                        borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: Color(0xFFA259FF)
-                              .withOpacity(0.2), // Light border color
+                          color: Color(0xFFA259FF).withOpacity(0.2),
                         ),
                       ),
                       child: TextField(
@@ -101,8 +143,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         decoration: InputDecoration(
                           hintText: "Type To start Conversation",
                           hintStyle: TextStyle(
-                            color: Color.fromRGBO(162, 89, 255, 1)
-                                .withOpacity(0.3),
+                            color: Color.fromRGBO(162, 89, 255, 1).withOpacity(0.3),
                             fontFamily: 'Urbanist',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -122,12 +163,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Container(
                       width: 51.77,
                       height: 45,
-                      padding:
-                          EdgeInsets.all(7), // Padding ensures consistent size
+                      padding: EdgeInsets.all(7),
                       decoration: BoxDecoration(
-                        color: Color(0xFFA259FF), // Background color
-                        shape: BoxShape
-                            .circle, // Makes the container a perfect circle
+                        color: Color(0xFFA259FF),
+                        shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.send,
@@ -163,43 +202,38 @@ class ChatHeader extends StatelessWidget {
       height: 60,
       margin: const EdgeInsets.all(8.0),
       decoration: const BoxDecoration(
-        color: Color(0xFF8B5CF6), // Header background color
+        color: Color(0xFF8B5CF6),
         borderRadius: BorderRadius.all(
-          Radius.circular(16), // Rounded corners for the header
+          Radius.circular(16),
         ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Back Arrow with Padding
           Padding(
-            padding: const EdgeInsets.only(left: 8.0), // Padding for left arrow
+            padding: const EdgeInsets.only(left: 8.0),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // White Circular Background
                 Container(
                   width: 30,
                   height: 32,
                   decoration: const BoxDecoration(
-                    color: Colors.white, // Background color
-                    shape: BoxShape.circle, // Circular shape
+                    color: Colors.white,
+                    shape: BoxShape.circle,
                   ),
                 ),
-                // Arrow Icon
                 GestureDetector(
                   onTap: onBackPressed ?? () => Navigator.of(context).pop(),
                   child: const Icon(
                     Icons.arrow_back_ios_new,
-                    color: Color(0xFF8B5CF6), // Purple color for the arrow
+                    color: Color(0xFF8B5CF6),
                     size: 18,
                   ),
                 ),
               ],
             ),
           ),
-
-          // Title (Center)
           Text(
             title,
             style: const TextStyle(
@@ -209,26 +243,22 @@ class ChatHeader extends StatelessWidget {
               fontFamily: 'Inter',
             ),
           ),
-
-          // AI Logo with Padding
           Padding(
-            padding: const EdgeInsets.only(right: 8.0), // Padding for AI logo
+            padding: const EdgeInsets.only(right: 8.0),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // White Circular Background
                 Container(
                   width: 35,
                   height: 32,
                   decoration: const BoxDecoration(
-                    color: Colors.white, // Background color
-                    shape: BoxShape.circle, // Circular shape
+                    color: Colors.white,
+                    shape: BoxShape.circle,
                   ),
                 ),
-                // AI Logo Image
                 Image.asset(
-                  'Assets/Logo/ai2.png', // Path to AI logo
-                  width: 36, // Adjust logo size
+                  'Assets/Logo/ai2.png',
+                  width: 36,
                   height: 36,
                   fit: BoxFit.contain,
                 ),
@@ -247,8 +277,7 @@ class MessageBubble extends StatelessWidget {
   final DateTime timestamp;
 
   MessageBubble({
-    this.message =
-        "Focus on your senses. Notice the ground, sounds, and smells.",
+    this.message = "Focus on your senses. Notice the ground, sounds, and smells.",
     this.isUser = false,
     DateTime? timestamp,
   }) : this.timestamp = timestamp ?? DateTime.now();
@@ -286,7 +315,6 @@ class MessageBubble extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (!isUser) ...[
-                  // AI Image next to AI's message
                   Image.asset(
                     'Assets/Logo/brain.png',
                     width: 24,
@@ -297,8 +325,6 @@ class MessageBubble extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                 ],
-
-                // Message Text
                 Flexible(
                   child: Text(
                     message,
@@ -310,13 +336,10 @@ class MessageBubble extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // For User's Message, show the user's image beside their message (on the right)
                 if (isUser) ...[
-                  SizedBox(
-                      width: 10), // Add space between message and user image
+                  SizedBox(width: 10),
                   Image.asset(
-                    'Assets/Logo/user.png', // User image path
+                    'Assets/Logo/user.png',
                     width: 24,
                     height: 24,
                     errorBuilder: (context, error, stackTrace) {
