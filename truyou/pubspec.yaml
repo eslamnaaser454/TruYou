@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  url_launcher: ^6.1.10
+  
   flutter:
     sdk: flutter
   flutter_launcher_icons: "^0.14.2"
@@ -73,7 +75,7 @@ flutter:
     - Assets/Logo/
     - Media/images/
     - Media/icons/
-
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
