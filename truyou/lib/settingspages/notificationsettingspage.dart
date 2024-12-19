@@ -9,7 +9,7 @@ class NotificationSetting extends StatefulWidget {
 
 class _NotificationSettingState extends State<NotificationSetting> {
   bool moodBasedNotify = true;
-  bool activityBasedNotify = false;
+  bool activityBasedNotify = true;
 
   @override
   Widget build(BuildContext context) {
