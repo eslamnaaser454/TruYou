@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/SplashScreen.dart';
 import 'package:truyou/selfAssessmentPages/ProfessionalHelpScreen.dart';
 // import 'package:truyou/Login-Sginup/Sign_Up.dart';
 // import 'package:truyou/Login-Sginup/Sign_in.dart';
@@ -29,20 +30,21 @@ class TruYouApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false, // Removes the debug banner
-        // Wraps the SignUp widget in MaterialApp
-        initialRoute: '/',
-        routes: {
-          '/': (context) =>  ChatbotstartScreen(),
-          '/chatstart': (context) => const Creatnewchat(),
-          '/chatbot': (context) => ChatScreen(),
-          '/welcome': (context) => const WelcomeScreen(),
-          '/cbt': (context) => const Welcomescreencbt(),
-          '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
-          '/explore': (context) => const Welcomescreenexplore(),
-          '/self_assessment': (context) => const WelcomescreenselfAssesment(),
-          '/signup': (context) => const SignUp(),
-        });
+    // return MaterialApp(
+    //     debugShowCheckedModeBanner: false, // Removes the debug banner
+    //     // Wraps the SignUp widget in MaterialApp
+    //     initialRoute: '/',
+    //     routes: {
+    //       '/': (context) =>  SplashScreen(),
+    //       '/chatstart': (context) => const Creatnewchat(),
+    //       '/chatbot': (context) => ChatScreen(),
+    //       '/welcome': (context) => const WelcomeScreen(),
+    //       '/cbt': (context) => const Welcomescreencbt(),
+    //       '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
+    //       '/explore': (context) => const Welcomescreenexplore(),
+    //       '/self_assessment': (context) => const WelcomescreenselfAssesment(),
+    //       '/signup': (context) => const SignUp(),
+    //     });
+    return SettingsPage();
   }
 }
