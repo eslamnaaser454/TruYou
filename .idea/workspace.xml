@@ -5,22 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6aef57c-f915-4602-b01e-8abb51035a79" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/truyou/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/truyou/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/Login-Sginup/SplashScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/Login-Sginup/SplashScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/truyou/lib/chatboot/Gemini.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/chatboot/Gemini.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/truyou/lib/chatboot/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/chatboot/chat.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/truyou/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/settingspages/mainpage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/settingspages/mainpage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/truyou/lib/settingspages/trueyoupluspage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/settingspages/trueyoupluspage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,9 +40,9 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/TruYou&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/flutter&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }

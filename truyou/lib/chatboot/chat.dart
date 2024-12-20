@@ -58,11 +58,16 @@ Future<void> _sendMessage() async {
     final directive = """
 You are a chatbot specialized in mental health and psychological support. 
 You can respond only to queries related to:
-1. Stress management
-2. Anxiety
-3. Depression
-4. Emotional well-being
-5. Psychological self-care
+1. Anxiety and Stress Management
+2. Depression and Mood Disorders
+3. Anger Management
+4. Cognitive Behavioral Therapy (CBT)
+5. Emotional Well-being and Self-care
+6. Trauma and PTSD
+7. Grief and Loss
+8. Relationships and Communication Issues
+9. Mindfulness and Relaxation Techniques
+10. Coping with Life Transitions
 If the user's query is unrelated to these topics, politely explain that you can only assist with mental health-related matters.
 """;
 
@@ -132,20 +137,27 @@ bool _isMentalHealthRelated(String message) {
     'mental health',
     'psychological support',
     'anxiety',
-    'depression',
     'stress',
+    'depression',
+    'anger management',
+    'cognitive behavioral therapy',
+    'cbt',
     'emotional well-being',
     'self-care',
-    'therapy',
+    'trauma',
+    'ptsd',
+    'grief',
+    'loss',
+    'relationships',
+    'communication issues',
     'mindfulness',
     'relaxation',
     'coping',
-    'mental wellness'
+    'mental wellness',
+    'life transitions',
   ];
   return mentalHealthKeywords.any((keyword) => message.toLowerCase().contains(keyword));
 }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

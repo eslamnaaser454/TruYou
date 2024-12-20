@@ -29,10 +29,17 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   
+  cloud_firestore: ^5.6.0
+  firebase_auth: ^5.3.4
+  firebase_core: ^3.9.0
+  firebase_data_connect: ^0.1.0
+  firebase_messaging: ^15.1.6
+  firebase_storage: ^12.3.7
   flutter:
     sdk: flutter
   flutter_launcher_icons: "^0.14.2"
   google_generative_ai: ^0.4.6
+  google_sign_in: ^6.2.2
   http: ^1.2.2
   intl: ^0.20.1
   url_launcher: ^6.3.1
@@ -40,8 +47,8 @@ dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "Assets/Logo/brain.png"
-  adaptive_icon_background: "Assets/Logo/brain.png"
+  image_path: "Assets/Logo/ic_launcher_round.png"
+  adaptive_icon_background: "Assets/Logo/ic_launcher_round.png"
 
 
   # The following adds the Cupertino Icons font to your application.
