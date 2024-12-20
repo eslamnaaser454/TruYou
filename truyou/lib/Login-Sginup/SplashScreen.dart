@@ -19,11 +19,10 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-<<<<<<< Updated upstream
+
           pageBuilder: (context, animation, secondaryAnimation) => WelcomeScreen(),
-=======
-          pageBuilder: (context, animation, secondaryAnimation) => const SignUp(),
->>>>>>> Stashed changes
+
+
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Applying ease-in-out animation
             const begin = Offset(1.0, 0.0); // Start from the right
@@ -58,8 +57,6 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-<<<<<<< Updated upstream
-=======
 // Dummy LoginPage for navigation demonstration
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -77,4 +74,4 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
->>>>>>> Stashed changes
+

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class ProfessionalHelpScreen extends StatefulWidget {
-  const ProfessionalHelpScreen({Key? key}) : super(key: key);
+class Yesornoquestion extends StatefulWidget {
+  const Yesornoquestion({Key? key}) : super(key: key);
 
   @override
-  _ProfessionalHelpScreenState createState() => _ProfessionalHelpScreenState();
+  YesOrNoQuestionScreenState createState() => YesOrNoQuestionScreenState();
 }
 
-class _ProfessionalHelpScreenState extends State<ProfessionalHelpScreen> {
+class YesOrNoQuestionScreenState extends State<Yesornoquestion> {
   String? selectedOption;
 
   @override
@@ -34,9 +35,12 @@ class _ProfessionalHelpScreenState extends State<ProfessionalHelpScreen> {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.only(left: screenWidth * 0.05),
-                  child: GestureDetector(
-                    onTap: () {}, // Add functionality for back button
-                    child:Image(image: AssetImage("Media/icons/"))
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {}, // Add functionality for back button
+                      child:Image(image: AssetImage("Media/icons/previous.png"))
+                    ),
                   ),
                 ),
               ),
@@ -44,7 +48,7 @@ class _ProfessionalHelpScreenState extends State<ProfessionalHelpScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Text(
-                  'Have you sought professional help before?',
+                  'Do you experience sudden mood swings throughout the day?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Urbanist',
