@@ -8,12 +8,14 @@ class TruYouPlusPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: TruYouPlus(
-          onClose: () {
-            Navigator.pop(context); // Navigate back to the previous page
-          },
-          onGoPlusNow: () {}, // Removed print statement
-          onLifetimePurchase: () {}, // Removed print statement
+        body: SafeArea(
+          child: TruYouPlus(
+            onClose: () {
+              Navigator.pop(context); // Navigate back to the previous page
+            },
+            onGoPlusNow: () {}, // Removed print statement
+            onLifetimePurchase: () {}, // Removed print statement
+          ),
         ),
       ),
     );

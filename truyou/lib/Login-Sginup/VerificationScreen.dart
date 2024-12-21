@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/PasswordRecover.dart';
+import 'package:truyou/Login-Sginup/Sign_in.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -179,7 +180,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               .update({'isVerify': true}); // Update the 'isVerify' field to true
           
           // Redirect to the password recovery page if the email is verified
-          Navigator.push(context, _createPageRoute(PasswordRECOBERY()));
+          Navigator.push(context, _createPageRoute(LoginScreen()));
         } catch (e) {
           print('Error updating isVerify field: $e');
         }

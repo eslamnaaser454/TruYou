@@ -7,6 +7,8 @@ import 'package:truyou/Login-Sginup/SplashScreen.dart';
 import 'package:truyou/chatboot/chatstart.dart';
 import 'package:truyou/chatboot/creatnewchat.dart';
 import 'package:truyou/dashboard/dashboardPage.dart';
+import 'package:truyou/explore/explore.dart';
+import 'package:truyou/notification/notification.dart';
 
 import 'package:truyou/profile/profilepage.dart';
 import 'package:truyou/selfAssessmentPages/ProfessionalHelpScreen.dart';
@@ -54,9 +56,9 @@ class TruYouApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false, // Removes the debug banner
         // Wraps the SignUp widget in MaterialApp
-        initialRoute: '/',
+        initialRoute: '/splash',
         routes: {
-          '/': (context) =>  DashboardPage(),
+          
           '/chatstart': (context) => const Creatnewchat(),
           '/chatbot': (context) => ChatScreen(),
           '/welcome': (context) => const WelcomeScreen(),
@@ -64,11 +66,8 @@ class TruYouApp extends StatelessWidget {
           '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
           '/explore': (context) => const Welcomescreenexplore(),
           '/self_assessment': (context) => const WelcomescreenselfAssesment(),
-             '/splash': (context) =>   SplashScreen(),
+            '/splash': (context) =>   SplashScreen(),
             '/Welcome':(context)=>WelcomeScreen(),
-         //** */
-   
-   
         '/signup': (context) =>  SignUpScreen(),
         '/login': (context) =>  LoginScreen(),
         '/Pass':(context) =>const PasswordRECOBERY(),
