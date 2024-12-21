@@ -13,121 +13,131 @@ class _DashboardPageState extends State<DashboardPage> {
   int currentPageIndex = 0;
   int currentDialogIndex = 0;
 
- void showDialogSequence(BuildContext context) {
-  List<String> dialogQuestions = [
-    "How well did you sleep?",
-    "How was your nutrition?",
-    "How are you feeling today?"
-  ];
+  void showDialogSequence(BuildContext context) {
+    List<String> dialogQuestions = [
+      "How well did you sleep?",
+      "How was your nutrition?",
+      "How are you feeling today?"
+    ];
 
-  String selectedOption = "Good";
+    String selectedOption = "Good";
 
-  if (currentDialogIndex < dialogQuestions.length) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20), // Dialog rounded corners
-              ),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          dialogQuestions[currentDialogIndex],
-                          style: TextStyle(
-                            fontSize: constraints.maxWidth * 0.06,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Urbanist',
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: constraints.maxHeight * 0.05),
-                        ...["Excellent", "Good", "Normal", "Bad"].map((option) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(197, 239, 230, 255),
-                              borderRadius: BorderRadius.circular(25), // Option rounded corners
-                              border: Border.all(
-                                color: option == selectedOption ? const Color.fromARGB(255, 56, 199, 61) : Colors.transparent,
-                                width: 2,
-                              ),
-                            ),
-                            child: RadioListTile(
-                              title: Text(
-                                option,
-                                style: TextStyle(
-                                  fontFamily: 'Urbanist',
-                                  fontWeight: FontWeight.bold, // Bold font
-                                ),
-                              ),
-                              value: option,
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value.toString();
-                                });
-                              },
-                              activeColor: Colors.green,
-                            ),
-                          );
-                        }).toList(),
-                        SizedBox(height: constraints.maxHeight * 0.05),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF9747FF), // Button color
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20), // Button shape
-                            ),
-                            minimumSize: Size(double.infinity, 50), // Full-width button
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            if (currentDialogIndex < dialogQuestions.length - 1) {
-                              setState(() {
-                                currentDialogIndex++;
-                              });
-                              showDialogSequence(context);
-                            } else {
-                              setState(() {
-                                currentDialogIndex = 0;
-                              });
-                            }
-                          },
-                          child: Text(
-                            currentDialogIndex < dialogQuestions.length - 1 ? "Next" : "Finish",
+    if (currentDialogIndex < dialogQuestions.length) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(20), // Dialog rounded corners
+                ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            dialogQuestions[currentDialogIndex],
                             style: TextStyle(
-                              fontSize: constraints.maxWidth * 0.05,
+                              fontSize: constraints.maxWidth * 0.06,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Urbanist',
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-        );
-      },
-    );
-  } else {
-    setState(() {
-      currentDialogIndex = 0;
-    });
+                          SizedBox(height: constraints.maxHeight * 0.05),
+                          ...["Excellent", "Good", "Normal", "Bad"]
+                              .map((option) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(197, 239, 230, 255),
+                                borderRadius: BorderRadius.circular(
+                                    25), // Option rounded corners
+                                border: Border.all(
+                                  color: option == selectedOption
+                                      ? const Color.fromARGB(255, 56, 199, 61)
+                                      : Colors.transparent,
+                                  width: 2,
+                                ),
+                              ),
+                              child: RadioListTile(
+                                title: Text(
+                                  option,
+                                  style: TextStyle(
+                                    fontFamily: 'Urbanist',
+                                    fontWeight: FontWeight.bold, // Bold font
+                                  ),
+                                ),
+                                value: option,
+                                groupValue: selectedOption,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedOption = value.toString();
+                                  });
+                                },
+                                activeColor: Colors.green,
+                              ),
+                            );
+                          }).toList(),
+                          SizedBox(height: constraints.maxHeight * 0.05),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color(0xFF9747FF), // Button color
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(20), // Button shape
+                              ),
+                              minimumSize: Size(
+                                  double.infinity, 50), // Full-width button
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              if (currentDialogIndex <
+                                  dialogQuestions.length - 1) {
+                                setState(() {
+                                  currentDialogIndex++;
+                                });
+                                showDialogSequence(context);
+                              } else {
+                                setState(() {
+                                  currentDialogIndex = 0;
+                                });
+                              }
+                            },
+                            child: Text(
+                              currentDialogIndex < dialogQuestions.length - 1
+                                  ? "Next"
+                                  : "Finish",
+                              style: TextStyle(
+                                fontSize: constraints.maxWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Urbanist',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
+      );
+    } else {
+      setState(() {
+        currentDialogIndex = 0;
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -136,49 +146,52 @@ class _DashboardPageState extends State<DashboardPage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(constraints.maxWidth * 0.04),
-              child: Column(
-                children: [
-                  Header(
-                    userName: 'Waleed',
-                    date: 'Friday, Nov 22, 2024',
-                    onBackPressed: () {},
-                    maxWidth: constraints.maxWidth,
-                  ),
-                  SizedBox(height: constraints.maxWidth * 0.04),
-                  StreakCard(
-                    streakCount: 1,
-                    onExplore: () {
-                      showDialogSequence(context);
-                    },
-                    maxWidth: constraints.maxWidth,
-                  ),
-                  SizedBox(height: constraints.maxWidth * 0.04),
-                  MoodCard(
-                    mood: 'Happy',
-                    question: 'How was your day?',
-                    onEnterMood: () {
-                      print('Enter Mood tapped');
-                    },
-                    maxWidth: constraints.maxWidth,
-                  ),
-                  SizedBox(height: constraints.maxWidth * 0.04),
-                  CBTProgressCard(
-                    progress: 0.25,
-                    onEnterCBT: () {
-                      print('Enter CBT tapped');
-                    },
-                    maxWidth: constraints.maxWidth,
-                  ),
-                  SizedBox(height: constraints.maxWidth * 0.04),
-                  ChatBotCard(
-                    onChatBotPressed: () {
-                      print('Open ChatBot tapped');
-                    },
-                    maxWidth: constraints.maxWidth,
-                  ),
-                ],
+            child: SafeArea(
+              // Added SafeArea
+              child: Padding(
+                padding: EdgeInsets.all(constraints.maxWidth * 0.04),
+                child: Column(
+                  children: [
+                    Header(
+                      userName: 'Waleed',
+                      date: 'Friday, Nov 22, 2024',
+                      onBackPressed: () {},
+                      maxWidth: constraints.maxWidth,
+                    ),
+                    SizedBox(height: constraints.maxWidth * 0.04),
+                    StreakCard(
+                      streakCount: 1,
+                      onExplore: () {
+                        showDialogSequence(context);
+                      },
+                      maxWidth: constraints.maxWidth,
+                    ),
+                    SizedBox(height: constraints.maxWidth * 0.04),
+                    MoodCard(
+                      mood: 'Happy',
+                      question: 'How was your day?',
+                      onEnterMood: () {
+                        print('Enter Mood tapped');
+                      },
+                      maxWidth: constraints.maxWidth,
+                    ),
+                    SizedBox(height: constraints.maxWidth * 0.04),
+                    CBTProgressCard(
+                      progress: 0.25,
+                      onEnterCBT: () {
+                        print('Enter CBT tapped');
+                      },
+                      maxWidth: constraints.maxWidth,
+                    ),
+                    SizedBox(height: constraints.maxWidth * 0.04),
+                    ChatBotCard(
+                      onChatBotPressed: () {
+                        print('Open ChatBot tapped');
+                      },
+                      maxWidth: constraints.maxWidth,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
