@@ -60,7 +60,7 @@ class TruYouPlus extends StatelessWidget {
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Image.asset(
-                      'Media/icons/groupyellow.png',
+                      'Media/icons/Groupyellow.png',
                       width: 22,
                       height: 22,
                     ),
@@ -121,6 +121,7 @@ class TruYouPlus extends StatelessWidget {
                         fontFamily: 'Urbanist',
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -136,6 +137,7 @@ class TruYouPlus extends StatelessWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
                     height: 1.2,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 35),

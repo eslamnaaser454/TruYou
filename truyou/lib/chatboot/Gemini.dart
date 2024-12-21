@@ -10,7 +10,7 @@ class Geminichatbot extends StatefulWidget {
 class _GeminichatbotState extends State<Geminichatbot> {
   static const apiKey = 'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ'; // Replace with your actual API key
   final model = GenerativeModel(
-    model: 'gemini-1.5-flash-latest',
+    model: 'models/gemini-2.0-flash-exp',
     apiKey: apiKey,
   );
 

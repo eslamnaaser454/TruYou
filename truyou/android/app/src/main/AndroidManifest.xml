@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
         android:label="truyou"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/truyouicon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,15 +33,19 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <!-- Required to query activities that can process text, see:
-         https://developer.android.com/training/package-visibility and
-         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
-         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <!-- Queries section: Add intent filters for email apps -->
     <queries>
+        <!-- For email apps that handle mailto: URIs -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <!-- For activities that process plain text -->
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+
 </manifest>

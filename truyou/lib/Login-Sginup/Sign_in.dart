@@ -161,24 +161,24 @@ class SignIn extends StatelessWidget {
                               color: Color(0xFFC0B1E8),
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUp()),
-                              );
-                            },
-                            child: const Text(
-                              'Sign-up',
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFFA259FF),
-                              ),
-                            ),
-                          ),
+                          // TextButton(
+                          //   onPressed: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => const SignUp()),
+                          //     );
+                          //   },
+                          //   child: const Text(
+                          //     'Sign-up',
+                          //     style: TextStyle(
+                          //       fontFamily: 'Inter',
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.w700,
+                          //       color: Color(0xFFA259FF),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
