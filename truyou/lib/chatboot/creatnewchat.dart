@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/actionBar/actionBar.dart'; // Import ActionBar
+import 'package:truyou/dashboard/dashboardPage.dart'; // Import DashboardPage
+import 'package:truyou/chatboot/chatstart.dart'; // Import ChatbotstartScreen
+import 'package:truyou/profile/profilepage.dart'; // Import ProfilePage
 
 class Creatnewchat extends StatelessWidget {
   const Creatnewchat({Key? key}) : super(key: key);
@@ -6,6 +10,35 @@ class Creatnewchat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    int currentPageIndex = 3;
+
+    void _onItemTapped(int index) {
+      switch (index) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardPage()),
+          );
+          break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
+          );
+          break;
+        // case 4:
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ProfilePage(
+        //             email: 'user@example.com')), // Pass the email as needed
+        //   );
+        //   break;
+        default:
+          // Handle other cases if necessary
+          break;
+      }
+    }
 
     return Scaffold(
       body: Container(
@@ -113,6 +146,10 @@ class Creatnewchat extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: ActionBar(
+        selectedIndex: currentPageIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

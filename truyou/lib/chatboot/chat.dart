@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart'; // Assuming this package is used for the API
 import 'package:truyou/chatboot/model.dart';
+import 'package:truyou/actionBar/actionBar.dart'; // Import ActionBar
+import 'package:truyou/dashboard/dashboardPage.dart'; // Import DashboardPage
+import 'package:truyou/chatboot/chatstart.dart'; // Import ChatbotstartScreen
+import 'package:truyou/profile/profilepage.dart'; // Import ProfilePage
 import 'model.dart'; // Assuming the MessageModel is in a separate file named model.dart
 import 'Gemini.dart';
 
@@ -26,6 +30,39 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<MessageModel> _messages = [];
+  int currentPageIndex = 3;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
+        );
+        break;
+      // case 4:
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ProfilePage(
+      //             email: 'user@example.com')), // Pass the email as needed
+      //   );
+      //   break;
+      default:
+        // Handle other cases if necessary
+        break;
+    }
+  }
 
   // Create the GenerativeModel instance
   final GenerativeModel _model = GenerativeModel(
@@ -35,27 +72,27 @@ class _ChatScreenState extends State<ChatScreen> {
   );
 
   // Send message to the model and get the response
-Future<void> _sendMessage() async {
-  if (_controller.text.isNotEmpty) {
-    final userMessage = MessageModel(
-      isUser: true,
-      message: _controller.text,
-      time: DateTime.now(),
-    );
+  Future<void> _sendMessage() async {
+    if (_controller.text.isNotEmpty) {
+      final userMessage = MessageModel(
+        isUser: true,
+        message: _controller.text,
+        time: DateTime.now(),
+      );
 
-    // Add the user's message to the list
-    setState(() {
-      _messages.add(userMessage);
-    });
+      // Add the user's message to the list
+      setState(() {
+        _messages.add(userMessage);
+      });
 
-    // Clear the input field
-    _controller.clear();
+      // Clear the input field
+      _controller.clear();
 
-    // Print the user's message for debugging purposes
-    print('User message: ${userMessage.message}');
+      // Print the user's message for debugging purposes
+      print('User message: ${userMessage.message}');
 
-    // Directive to restrict the chatbot's focus
-    final directive = """
+      // Directive to restrict the chatbot's focus
+      final directive = """
 You are a chatbot specialized in mental health and psychological support. 
 You can respond only to queries related to:
 1. Anxiety and Stress Management
@@ -71,93 +108,96 @@ You can respond only to queries related to:
 If the user's query is unrelated to these topics, politely explain that you can only assist with mental health-related matters.
 """;
 
-    // Prepare the prompt
-    final prompt = directive + '\nUser: ${userMessage.message}';
+      // Prepare the prompt
+      final prompt = directive + '\nUser: ${userMessage.message}';
 
-    try {
-      // Create content for the API call
-      final content = [Content.text(prompt)];
+      try {
+        // Create content for the API call
+        final content = [Content.text(prompt)];
 
-      // Add a "typing" placeholder message while waiting for a response
-      setState(() {
-        _messages.add(MessageModel(
-          isUser: false,
-          message: "Typing...",
-          time: DateTime.now(),
-        ));
-      });
-
-      // Get the generated response from the model
-      final response = await _model.generateContent(content);
-
-      // Remove the "typing" placeholder
-      setState(() {
-        _messages.removeWhere((msg) => msg.message == "Typing...");
-      });
-
-      // Validate the response
-      if (response.text != null && _isMentalHealthRelated(response.text!)) {
-        final botMessage = MessageModel(
-          isUser: false,
-          message: response.text!,
-          time: DateTime.now(),
-        );
-
-        // Add the bot's response to the message list
-        setState(() {
-          _messages.add(botMessage);
-        });
-      } else {
+        // Add a "typing" placeholder message while waiting for a response
         setState(() {
           _messages.add(MessageModel(
             isUser: false,
-            message: "I'm here to assist with mental health and psychological support topics only.",
+            message: "Typing...",
+            time: DateTime.now(),
+          ));
+        });
+
+        // Get the generated response from the model
+        final response = await _model.generateContent(content);
+
+        // Remove the "typing" placeholder
+        setState(() {
+          _messages.removeWhere((msg) => msg.message == "Typing...");
+        });
+
+        // Validate the response
+        if (response.text != null && _isMentalHealthRelated(response.text!)) {
+          final botMessage = MessageModel(
+            isUser: false,
+            message: response.text!,
+            time: DateTime.now(),
+          );
+
+          // Add the bot's response to the message list
+          setState(() {
+            _messages.add(botMessage);
+          });
+        } else {
+          setState(() {
+            _messages.add(MessageModel(
+              isUser: false,
+              message:
+                  "I'm here to assist with mental health and psychological support topics only.",
+              time: DateTime.now(),
+            ));
+          });
+        }
+      } catch (e) {
+        print('Error: $e');
+        // Handle errors gracefully and display an error message
+        setState(() {
+          _messages.removeWhere((msg) => msg.message == "Typing...");
+          _messages.add(MessageModel(
+            isUser: false,
+            message: "Oops! Something went wrong. Please try again.",
             time: DateTime.now(),
           ));
         });
       }
-    } catch (e) {
-      print('Error: $e');
-      // Handle errors gracefully and display an error message
-      setState(() {
-        _messages.removeWhere((msg) => msg.message == "Typing...");
-        _messages.add(MessageModel(
-          isUser: false,
-          message: "Oops! Something went wrong. Please try again.",
-          time: DateTime.now(),
-        ));
-      });
     }
   }
-}
 
 // Helper function to validate if the response relates to mental health topics
-bool _isMentalHealthRelated(String message) {
-  final mentalHealthKeywords = [
-    'mental health',
-    'psychological support',
-    'anxiety',
-    'stress',
-    'depression',
-    'anger management',
-    'cognitive behavioral therapy',
-    'cbt',
-    'emotional well-being',
-    'self-care',
-    'trauma',
-    'ptsd',
-    'grief',
-    'loss',
-    'relationships',
-    'communication issues',
-    'mindfulness',
-    'relaxation',
-    'coping',
-    'mental wellness',
-    'life transitions',
-  ];
-  return mentalHealthKeywords.any((keyword) => message.toLowerCase().contains(keyword));
-}
+  bool _isMentalHealthRelated(String message) {
+    final mentalHealthKeywords = [
+      'mental health',
+      'psychological support',
+      'anxiety',
+      'stress',
+      'depression',
+      'anger management',
+      'cognitive behavioral therapy',
+      'cbt',
+      'emotional well-being',
+      'self-care',
+      'trauma',
+      'ptsd',
+      'grief',
+      'loss',
+      'relationships',
+      'communication issues',
+      'mindfulness',
+      'relaxation',
+      'coping',
+      'mental wellness',
+      'life transitions',
+    ];
+    return mentalHealthKeywords
+        .any((keyword) => message.toLowerCase().contains(keyword));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,6 +286,10 @@ bool _isMentalHealthRelated(String message) {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: ActionBar(
+        selectedIndex: currentPageIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
