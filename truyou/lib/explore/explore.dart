@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Explore Screen',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ExploreScreen(),
+    );
+  }
+}
 
 class ExploreScreen extends StatelessWidget {
   @override
@@ -35,7 +50,7 @@ class ExploreScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '50 Total',
+                'Categories',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -46,64 +61,58 @@ class ExploreScreen extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  CategoryButton(text: 'Depression', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Anxiety', backgroundColor: Colors.yellow),
-                  CategoryButton(text: 'Schizophrenia', backgroundColor: Colors.white),
+                  CategoryButton(
+                      text: 'Depression', backgroundColor: Colors.white),
+                  CategoryButton(
+                      text: 'Anxiety', backgroundColor: Colors.yellow),
+                  CategoryButton(
+                      text: 'Schizophrenia', backgroundColor: Colors.white),
                   CategoryButton(text: 'Phobia', backgroundColor: Colors.blue),
                   CategoryButton(text: 'Fear', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Obsession', backgroundColor: Colors.red),
-                  CategoryButton(text: 'Sadness', backgroundColor: Colors.white),
+                  CategoryButton(
+                      text: 'Obsession', backgroundColor: Colors.red),
+                  CategoryButton(
+                      text: 'Sadness', backgroundColor: Colors.white),
                   CategoryButton(text: 'Anger', backgroundColor: Colors.purple),
-                  CategoryButton(text: 'Despair', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Insomnia', backgroundColor: Colors.green),
-                  CategoryButton(text: 'Frustration', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Happiness', backgroundColor: Colors.orange),
+                  CategoryButton(
+                      text: 'Despair', backgroundColor: Colors.white),
+                  CategoryButton(
+                      text: 'Insomnia', backgroundColor: Colors.green),
+                  CategoryButton(
+                      text: 'Frustration', backgroundColor: Colors.white),
+                  CategoryButton(
+                      text: 'Happiness', backgroundColor: Colors.orange),
                 ],
               ),
               SizedBox(height: 16),
-              Text(
-                'Selected : Anxiety Phobia Obsession Anger Insomnia Happiness',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: 16),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: (Color(0xFF9A4AFF)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                  ),
-                  child: Text('Search for topics'),
-                ),
-              ),
               SizedBox(height: 32),
               SectionHeader(title: 'Natural Photos'),
               SizedBox(height: 16),
-              ImageCard(imagePath: 'images/image1.png', title: 'Beautiful Landscape'),
+              ImageCard(
+                  imagePath: 'Media/images/explore1.png',
+                  title: 'Beautiful Landscape'),
               SizedBox(height: 32),
               SectionHeader(title: 'Articles'),
               SizedBox(height: 16),
-              ArticleCard(title: 'The importance of mental health', onRead: () {}),
+              ArticleCard(
+                  title: 'The importance of mental health', onRead: () {}),
               SizedBox(height: 8),
-              ArticleCard(title: 'How do you improve your mental health?', onRead: () {}),
+              ArticleCard(
+                  title: 'How do you improve your mental health?',
+                  onRead: () {}),
               SizedBox(height: 8),
               ArticleCard(title: 'Mental health at work', onRead: () {}),
               SizedBox(height: 32),
               SectionHeader(title: 'Videos'),
               SizedBox(height: 16),
-              ImageCard(imagePath: 'https://dashboard.codeparrot.ai/api/assets/Z2II_5LpdV9y-3O_', title: 'Video Title'),
+              VideoCard(
+                  thumbnailUrl: 'http://cp.asset/لقطة-الش.png',
+                  title: 'Video Title',
+                  duration: '14:00',
+                  onPlay: () {}),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: 2,
-        onItemSelected: (index) {},
       ),
     );
   }
@@ -145,72 +154,94 @@ class CategoryButton extends StatelessWidget {
   }
 }
 
-class NavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onItemSelected;
+// class NavigationBar extends StatelessWidget {
+//   final int selectedIndex;
+//   final Function(int) onItemSelected;
 
-  const NavigationBar({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemSelected,
-  }) : super(key: key);
+//   const NavigationBar({
+//     Key? key,
+//     required this.selectedIndex,
+//     required this.onItemSelected,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 96,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('https://dashboard.codeparrot.ai/api/assets/Z2IJBJLpdV9y-3PA'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildNavItem(0, 'https://dashboard.codeparrot.ai/api/assets/Z2IJBZLpdV9y-3PB', 'Home', 29),
-            _buildNavItem(1, 'https://dashboard.codeparrot.ai/api/assets/Z2IJBZLpdV9y-3PC', 'CBT', 23),
-            _buildNavItem(2, 'https://dashboard.codeparrot.ai/api/assets/Z2IJBpLpdV9y-3PD', 'Explore', 21),
-            _buildNavItem(3, 'https://dashboard.codeparrot.ai/api/assets/Z2IJBpLpdV9y-3PE', 'ChatBot', 23),
-            _buildNavItem(4, 'https://dashboard.codeparrot.ai/api/assets/Z2IJB5LpdV9y-3PF', 'Profile', 20),
-          ],
-        ),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 96,
+//       decoration: BoxDecoration(
+//         image: DecorationImage(
+//           image: NetworkImage(
+//               'https://dashboard.codeparrot.ai/api/assets/Z2a2UREM3nUkN26y'),
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 20),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             _buildNavItem(
+//                 0,
+//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN26z',
+//                 'Home',
+//                 29),
+//             _buildNavItem(
+//                 1,
+//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN260',
+//                 'CBT',
+//                 23),
+//             _buildNavItem(
+//                 2,
+//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN261',
+//                 'Explore',
+//                 21),
+//             _buildNavItem(
+//                 3,
+//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN262',
+//                 'ChatBot',
+//                 23),
+//             _buildNavItem(
+//                 4,
+//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN263',
+//                 'Profile',
+//                 20),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 
-  Widget _buildNavItem(int index, String iconPath, String label, double iconSize) {
-    bool isSelected = selectedIndex == index;
-    return GestureDetector(
-      onTap: () => onItemSelected(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: iconSize,
-            height: iconSize,
-            margin: const EdgeInsets.only(bottom: 4),
-            child: Image.asset(
-              iconPath,
-              color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
-            ),
-          ),
-          Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
-              fontSize: 10,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   Widget _buildNavItem(
+//       int index, String iconPath, String label, double iconSize) {
+//     bool isSelected = selectedIndex == index;
+//     return GestureDetector(
+//       onTap: () => onItemSelected(index),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Container(
+//             width: iconSize,
+//             height: iconSize,
+//             margin: const EdgeInsets.only(bottom: 4),
+//             child: Image.network(
+//               iconPath,
+//               color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
+//             ),
+//           ),
+//           Text(
+//             label,
+//             style: TextStyle(
+//               color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
+//               fontSize: 10,
+//               fontFamily: 'Inter',
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class ArticleCard extends StatelessWidget {
   final String title;
@@ -231,7 +262,8 @@ class ArticleCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(22.5),
         border: Border.all(color: Color(0xFF9A4AFF)),
         image: DecorationImage(
-          image: AssetImage('https://dashboard.codeparrot.ai/api/assets/Z2IJDpLpdV9y-3PG'),
+          image: NetworkImage(
+              'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN264'),
           fit: BoxFit.cover,
         ),
       ),
@@ -246,7 +278,8 @@ class ArticleCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17),
                 image: DecorationImage(
-                  image: AssetImage('https://dashboard.codeparrot.ai/api/assets/Z2IJE5LpdV9y-3PH'),
+                  image: NetworkImage(
+                      'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN265'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -286,7 +319,8 @@ class ArticleCard extends StatelessWidget {
                     height: 9,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('https://dashboard.codeparrot.ai/api/assets/Z2IJFJLpdV9y-3PI'),
+                        image: NetworkImage(
+                            'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN266'),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -330,7 +364,7 @@ class ImageCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
+            child: Image.network(
               imagePath,
               width: 314,
               height: 209,
@@ -368,16 +402,16 @@ class ImageCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'See all',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {},
+                  //   child: Text(
+                  //     'See all',
+                  //     style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontSize: 14,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -420,6 +454,114 @@ class SectionHeader extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class VideoCard extends StatelessWidget {
+  final String thumbnailUrl;
+  final String title;
+  final String duration;
+  final VoidCallback onPlay;
+
+  const VideoCard({
+    Key? key,
+    required this.thumbnailUrl,
+    required this.title,
+    required this.duration,
+    required this.onPlay,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 327,
+      height: 137,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.network(
+              thumbnailUrl,
+              width: 327,
+              height: 137,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Center(
+              child: GestureDetector(
+                onTap: onPlay,
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: Colors.black,
+                    size: 32,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 8,
+            right: 8,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                duration,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 8,
+            left: 8,
+            right: 60,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withOpacity(0.5),
+                    offset: Offset(0, 1),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

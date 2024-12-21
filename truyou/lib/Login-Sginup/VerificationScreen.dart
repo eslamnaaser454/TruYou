@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
+import 'package:truyou/dashboard/dashboardPage.dart';
+import 'package:truyou/dashboard/welcome_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -162,7 +164,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     }
   }
 
-  Future<void> _checkVerificationStatus(BuildContext context) async {
+Future<void> _checkVerificationStatus(BuildContext context) async {
   try {
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -179,8 +181,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
               .doc(user!.uid) // Use the user's Firebase Authentication UID
               .update({'isVerify': true}); // Update the 'isVerify' field to true
           
-          // Redirect to the password recovery page if the email is verified
-          Navigator.push(context, _createPageRoute(LoginScreen()));
+          if (mounted) {
+            // Redirect to the welcome screen only if the widget is still in the tree
+            Navigator.push(context, _createPageRoute(WelcomeScreenn(email: email)));
+          }
         } catch (e) {
           print('Error updating isVerify field: $e');
         }
@@ -204,6 +208,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     );
   }
 }
+
 
   PageRouteBuilder _createPageRoute(Widget page) {
     return PageRouteBuilder(
