@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
+import 'package:truyou/Login-Sginup/Sign_in.dart';
 import 'package:truyou/Login-Sginup/SplashScreen.dart';
 import 'package:truyou/chatboot/chatstart.dart';
 import 'package:truyou/chatboot/creatnewchat.dart';
+
 import 'package:truyou/profile/profilepage.dart';
 import 'package:truyou/selfAssessmentPages/ProfessionalHelpScreen.dart';
 import 'package:truyou/settingspages/mainpage.dart';
@@ -50,9 +53,9 @@ class TruYouApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false, // Removes the debug banner
         // Wraps the SignUp widget in MaterialApp
-        initialRoute: '/',
+        initialRoute: '/splash',
         routes: {
-          '/': (context) => ProfilePage(),
+         
           '/chatstart': (context) => const Creatnewchat(),
           '/chatbot': (context) => ChatScreen(),
           '/welcome': (context) => const WelcomeScreen(),
@@ -60,6 +63,14 @@ class TruYouApp extends StatelessWidget {
           '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
           '/explore': (context) => const Welcomescreenexplore(),
           '/self_assessment': (context) => const WelcomescreenselfAssesment(),
+             '/splash': (context) =>   SplashScreen(),
+            '/Welcome':(context)=>WelcomeScreen(),
+         //** */
+   
+   
+        '/signup': (context) =>  SignUpScreen(),
+        '/login': (context) =>  LoginScreen(),
+        '/Pass':(context) =>const PasswordRECOBERY(),
         });
   }
 }

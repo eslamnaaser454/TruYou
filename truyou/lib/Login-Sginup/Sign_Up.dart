@@ -4,10 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/Sign_in.dart';
+
 import 'package:truyou/Login-Sginup/VerificationScreen.dart';
-// import 'package:flutter_application_1/Test/Verifycode.dart';
-// import 'package:flutter_application_1/auth/PasswordRecover.dart';
-// import 'package:flutter_application_1/auth/login.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -41,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: 50),
                   child: Column(
                     children: [
-                      Image(image: AssetImage('Assets/Logo/brain.png')),
+                      Image(image: AssetImage('images/brain.png')),
                       SizedBox(height: 10),
                       Text(
                         'TruYou',
@@ -107,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Navigator.push(context, _createPageRoute(LoginScreen()));
+                          Navigator.push(context, _createPageRoute(LoginScreen()));
                         },
                         child: const Text(
                           'Login',
@@ -346,6 +345,6 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
         return SlideTransition(position: offsetAnimation, child: child);
       },
       transitionDuration: const Duration(milliseconds: 300),
-);
-}
+    );
+  }
 }

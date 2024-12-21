@@ -179,7 +179,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               .update({'isVerify': true}); // Update the 'isVerify' field to true
           
           // Redirect to the password recovery page if the email is verified
-          Navigator.push(context, _createPageRoute(PasswordRecover()));
+          Navigator.push(context, _createPageRoute(PasswordRECOBERY()));
         } catch (e) {
           print('Error updating isVerify field: $e');
         }

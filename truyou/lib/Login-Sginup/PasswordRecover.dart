@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:truyou/Login-Sginup/CreateNewPassword.dart';
-import 'package:truyou/Login-Sginup/Sign_in.dart';
+import 'dart:async';
+class PasswordRECOBERY extends StatelessWidget{
+  const PasswordRECOBERY({super.key});
 
-class PasswordRecover extends StatelessWidget {
-  const PasswordRecover({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+        debugShowCheckedModeBanner: false,
+     home: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
@@ -22,25 +21,20 @@ class PasswordRecover extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        icon: const Icon(Icons.arrow_back,
-                            color: Color(0xFFA259FF)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignIn(),
-                              ));
-                        }),
+                      icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                      onPressed: () {}
+                    ),
+                  
                   ],
                 ),
-
+      
                 const SizedBox(height: 20),
-
+      
                 // Logo and brand
                 const Column(
                   children: [
-                    Image(
-                      image: AssetImage('Assets/Logo/brain.png'),
+                   Image(
+                      image: AssetImage('images/brain.png'),
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -63,7 +57,7 @@ class PasswordRecover extends StatelessWidget {
                     ),
                   ],
                 ),
-
+      
                 const SizedBox(height: 40),
                 const Text(
                   'Password Recovery',
@@ -74,7 +68,7 @@ class PasswordRecover extends StatelessWidget {
                     color: Color(0xFFA259FF),
                   ),
                 ),
-
+      
                 const SizedBox(height: 20),
                 // Form fields
                 Container(
@@ -96,7 +90,7 @@ class PasswordRecover extends StatelessWidget {
                     ),
                   ),
                 ),
-
+      
                 const SizedBox(height: 13),
                 // Dropdown
                 Container(
@@ -122,7 +116,7 @@ class PasswordRecover extends StatelessWidget {
                     onChanged: (value) {},
                   ),
                 ),
-
+      
                 const SizedBox(height: 13),
                 Container(
                   decoration: BoxDecoration(
@@ -143,17 +137,11 @@ class PasswordRecover extends StatelessWidget {
                     ),
                   ),
                 ),
-
+      
                 const SizedBox(height: 24),
                 // Send button
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CreatePasswordScreen(),
-                        ));
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA259FF),
                     minimumSize: const Size(270, 48),
@@ -171,7 +159,7 @@ class PasswordRecover extends StatelessWidget {
                     ),
                   ),
                 ),
-
+      
                 const Spacer(),
                 // Bottom text
                 Row(
@@ -187,13 +175,7 @@ class PasswordRecover extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignIn(),
-                            ));
-                      },
+                      onPressed: () {},
                       child: const Text(
                         'Login',
                         style: TextStyle(
@@ -215,3 +197,6 @@ class PasswordRecover extends StatelessWidget {
     );
   }
 }
+
+
+

@@ -1,74 +1,135 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:truyou/Login-Sginup/ResetPassword.dart';
+import 'package:truyou/Login-Sginup/ResetPasswordfromprofile.dart';
+import 'package:truyou/Login-Sginup/Sign_in.dart';
+import 'package:truyou/settingspages/trueyoupluspage.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
-    );
-  }
-}
 
 class ProfilePage extends StatefulWidget {
+    final String email;
+
+  // Constructor to accept the email
+  ProfilePage({required this.email});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+ 
   Map<String, dynamic>? userData;
-  String userId = "ucFlNscXu8R55jobaFGkEKEWvNn2"; // Replace with your userId
-
+   // Replace with your userId
+late String email;
   @override
   void initState() {
+      email=widget.email;
     super.initState();
+   
     fetchUserData();
+   
   }
+Future<void> fetchUserData() async {
+  try {
+    print("Fetching data for email: $email");
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
 
-  Future<void> fetchUserData() async {
-    try {
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+    print("Documents fetched: ${querySnapshot.docs.length}");
+    if (querySnapshot.docs.isNotEmpty) {
+      setState(() {
+        userData = querySnapshot.docs.first.data() as Map<String, dynamic>;
+      });
+      print("User data: $userData");
+    } else {
+      print("No user found with the provided email.");
+    }
+  } catch (e) {
+    print("Error fetching user data: $e");
+  }
+}Future<void> updateUserField(String fieldName, String newValue) async {
+  try {
+    // Rule 1: Validate phone number length
+    if (fieldName == 'phone' && (newValue.length < 8 || newValue.length > 20)) {
+      throw Exception('Phone is invalid');
+    }
+    
+    bool _validatePhoneNumber(String phoneNumber) {
+      final regex = RegExp(r'^[+]?[0-9]+$');
+      return regex.hasMatch(phoneNumber) && phoneNumber.length >= 8;
+    }
+
+    if (fieldName == 'phone') {
+      if (_validatePhoneNumber(newValue) == false) {
+        throw Exception('Phone is invalid');
+      }
+    }
+
+    // Rule 2: Check if phone number already exists in the database
+    if (fieldName == 'phone') {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(userId)
+          .where('phone', isEqualTo: newValue)
           .get();
 
-      if (userSnapshot.exists) {
-        setState(() {
-          userData = userSnapshot.data() as Map<String, dynamic>;
-        });
+      if (querySnapshot.docs.isNotEmpty) {
+        if (querySnapshot.docs.first['email'] != email) {
+          throw Exception('Phone number is already in use.');
+        }
       }
-    } catch (e) {
-      print("Error fetching user data: $e");
     }
-  }
 
-  Future<void> updateUserField(String fieldName, String newValue) async {
-    try {
+    // Rule 3: Check if username already exists in the database
+    if (fieldName == 'username') {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('username', isEqualTo: newValue)
+          .get();
+
+      // If there is already a document with this username and it's not the current user's username
+      if (querySnapshot.docs.isNotEmpty) {
+        if (querySnapshot.docs.first['email'] != email) {
+          throw Exception('Username is already in use.');
+        }
+      }
+    }
+
+    // Rule 4: Fetch the document by email and update the field
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (userSnapshot.docs.isNotEmpty) {
+      String docId = userSnapshot.docs.first.id;
+
+      // Update the field in the document
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(userId)
+          .doc(docId)
           .update({fieldName: newValue});
+
       setState(() {
         userData![fieldName] = newValue;
       });
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('$fieldName updated successfully')),
       );
-    } catch (e) {
-      print("Error updating $fieldName: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update $fieldName')),
-      );
+    } else {
+      throw Exception('No user found with the provided email.');
     }
+  } catch (e) {
+    print("Error updating $fieldName: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$fieldName is already exist')),
+    );
   }
+}
+
 
   void editField(String fieldName, String currentValue) {
     TextEditingController controller = TextEditingController(text: currentValue);
@@ -152,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       size: size,
                       icon: 'Media/icons/padlock 1.png',
                       text: 'Change Password',
-                      onEdit: () => editField('password', ''),
+                      onEdit: () => Navigator.push(context, _createPageRoute(ResetPassword_P(email:email))),
                     ),
                     SizedBox(height: size.height * 0.03),
                     UpgradeAd(size: size),
@@ -160,7 +221,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     LogoutButton(
                       size: size,
                       onPressed: () {
-                        print('Logout');
+                        
+                       Navigator.push(context, _createPageRoute(LoginScreen()));
                       },
                     ),
                     SizedBox(height: size.height * 0.05),
@@ -168,6 +230,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+    );
+  }
+   PageRouteBuilder _createPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 }
@@ -320,7 +398,7 @@ class UpgradeAd extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Upgrade to TruYou Plus');
+         Navigator.push(context, _createPageRoute(TruYouPlusPage()));
       },
       child: Container(
         width: double.infinity,
@@ -354,6 +432,23 @@ class UpgradeAd extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+  
+  PageRouteBuilder _createPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 }
