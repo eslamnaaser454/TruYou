@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6aef57c-f915-4602-b01e-8abb51035a79" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/chatboot/Gemini.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/chatboot/Gemini.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/chatboot/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/chatboot/chat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/truyou/lib/settingspages/trueyoupluspage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/truyou/lib/settingspages/trueyoupluspage.dart" afterDir="false" />
-    </list>
+    <list default="true" id="b6aef57c-f915-4602-b01e-8abb51035a79" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +34,7 @@
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/flutter&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/TruYou&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }

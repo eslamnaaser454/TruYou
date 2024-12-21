@@ -30,11 +30,17 @@ class SettingsPage extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Row(
+          title: Row(
             children: [
-              MouseRegion(
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Image(image: AssetImage("Media/icons/previous.png"))),
+                  child: Image.asset("Media/icons/previous.png"),
+                ),
+              ),
               SizedBox(width: 10),
               Padding(
                 padding: EdgeInsets.all(8.0),
