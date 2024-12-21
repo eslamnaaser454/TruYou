@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/chatboot/chatstart.dart';
+import 'package:truyou/notification/notification.dart';
+import 'package:truyou/profile/profilepage.dart';
 import 'package:truyou/settingspages/mainpage.dart';
-
-import 'package:flutter/material.dart';
-import 'package:truyou/settingspages/mainpage.dart';
+import 'package:truyou/actionBar/actionBar.dart'; // Import the ActionBar
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -30,8 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
             builder: (context, setState) {
               return Dialog(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(20), // Dialog rounded corners
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -56,8 +56,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               margin: EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(197, 239, 230, 255),
-                                borderRadius: BorderRadius.circular(
-                                    25), // Option rounded corners
+                                borderRadius: BorderRadius.circular(25),
                                 border: Border.all(
                                   color: option == selectedOption
                                       ? const Color.fromARGB(255, 56, 199, 61)
@@ -70,7 +69,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   option,
                                   style: TextStyle(
                                     fontFamily: 'Urbanist',
-                                    fontWeight: FontWeight.bold, // Bold font
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 value: option,
@@ -87,14 +86,11 @@ class _DashboardPageState extends State<DashboardPage> {
                           SizedBox(height: constraints.maxHeight * 0.05),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Color(0xFF9747FF), // Button color
+                              backgroundColor: Color(0xFF9747FF),
                               shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(20), // Button shape
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              minimumSize: Size(
-                                  double.infinity, 50), // Full-width button
+                              minimumSize: Size(double.infinity, 50),
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -147,7 +143,6 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (context, constraints) {
           return SingleChildScrollView(
             child: SafeArea(
-              // Added SafeArea
               child: Padding(
                 padding: EdgeInsets.all(constraints.maxWidth * 0.04),
                 child: Column(
@@ -197,29 +192,36 @@ class _DashboardPageState extends State<DashboardPage> {
           );
         },
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
+      bottomNavigationBar: ActionBar(
+        selectedIndex: currentPageIndex,
+        onItemTapped: (int index) {
           setState(() {
             currentPageIndex = index;
           });
+          switch (index) {
+            case 0:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DashboardPage()),
+              );
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
+              );
+              break;
+            // case 4:
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => ProfilePage(email: )), // Pass the email as needed
+            //   );
+            //   break;
+            default:
+              // Handle other cases if necessary
+              break;
+          }
         },
-        indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.notifications_sharp),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.messenger_sharp),
-            label: 'Messages',
-          ),
-        ],
       ),
     );
   }
@@ -277,14 +279,14 @@ class Header extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                      // onTap: () {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => SettingsPage(),
-                      //     ),
-                      //   );
-                      // },
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationScreen(),
+                          ),
+                        );
+                      },
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Image.asset('Media/icons/bell-ring.png'),
@@ -346,11 +348,11 @@ class Header extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: maxWidth * 0.0001,
+            bottom: maxWidth * 0.000001,
             right: maxWidth * 0.05,
             child: Image.asset(
-              'Media/images/palmtree.png',
-              width: 156,
+              'Media/images/palm tree-pana.png',
+              width: 160,
             ),
           ),
         ],
