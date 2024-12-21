@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,27 +20,30 @@ Future<void> _submitName() async {
 
   if (name.isNotEmpty) {
     try {
- // Reference to the Firestore collection
-    final userRef = _firestore.collection('users').doc(widget.email);
 
-    // Fetch the document
-    DocumentSnapshot userDoc = await userRef.get();
- SetOptions(merge: true); // This will merge fields instead of overwriting
-    if (userDoc.exists) {
-      // Document exists, update it with the new attribute
-      await userRef.update({'name': name});
-      print("User updated successfully.");
-    } else {
-      print("User with email ${widget.email} does not exist.");
-    }
-      
+ User? user = FirebaseAuth.instance.currentUser;
+
+   await FirebaseFirestore.instance
+              .collection('users') // Replace with your actual collection name
+              .doc(user!.uid) // Use the user's Firebase Authentication UID
+              .update({'name': name}); // Update the 'isVerify' field to true
+          
+ /*
+        await FirebaseFirestore.instance
+              .collection('users') // Replace with your actual collection name
+              .doc(user!.uid) // Use the user's Firebase Authentication UID
+              .update({'name': name}); // Update the 'isVerify' field to true
+          
+  */
+      print("User data updated or created successfully.");
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Name stored successfully!')),
       );
 
-      _nameController.clear();
+  
     } catch (e) {
+      print("Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
@@ -47,9 +51,10 @@ Future<void> _submitName() async {
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Please enter a name')),
-);
+    );
+  }
 }
-}
+
 
 
   @override
