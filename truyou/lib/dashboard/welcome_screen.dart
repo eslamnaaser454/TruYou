@@ -9,8 +9,12 @@ class WelcomeScreenn extends StatefulWidget {
   const WelcomeScreenn({Key? key, required this.email}) : super(key: key);
 
   @override
+  
   _WelcomeScreennState createState() => _WelcomeScreennState();
-}
+
+
+
+    }
 
 class _WelcomeScreennState extends State<WelcomeScreenn> {
   final TextEditingController _nameController = TextEditingController();

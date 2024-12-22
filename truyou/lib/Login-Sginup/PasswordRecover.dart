@@ -40,7 +40,7 @@ class PasswordRECOBERY extends StatelessWidget{
                     Text(
                       'TruYou',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -49,7 +49,7 @@ class PasswordRECOBERY extends StatelessWidget{
                     Text(
                       'Mental health assistant',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 9,
                         fontWeight: FontWeight.w500,
                         color: Color(0x6B000000),
@@ -62,7 +62,7 @@ class PasswordRECOBERY extends StatelessWidget{
                 const Text(
                   'Password Recovery',
                   style: TextStyle(
-                    fontFamily: 'Inter',
+                    fontFamily: 'Urbanist',
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFA259FF),
@@ -82,7 +82,7 @@ class PasswordRECOBERY extends StatelessWidget{
                       border: InputBorder.none,
                       hintText: 'Username',
                       hintStyle: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Color(0xB2C0B1E8),
@@ -106,7 +106,7 @@ class PasswordRECOBERY extends StatelessWidget{
                     hint: const Text(
                       'Choose Question',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFFA259FF),
@@ -129,7 +129,7 @@ class PasswordRECOBERY extends StatelessWidget{
                       border: InputBorder.none,
                       hintText: 'Question Answer',
                       hintStyle: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Color(0xB2C0B1E8),
@@ -152,7 +152,7 @@ class PasswordRECOBERY extends StatelessWidget{
                   child: const Text(
                     'Send',
                     style: TextStyle(
-                      fontFamily: 'Inter',
+                      fontFamily: 'Urbanist',
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
@@ -168,7 +168,7 @@ class PasswordRECOBERY extends StatelessWidget{
                     const Text(
                       'Already have an account?',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFFC0B1E8),
@@ -179,7 +179,7 @@ class PasswordRECOBERY extends StatelessWidget{
                       child: const Text(
                         'Login',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFFA259FF),

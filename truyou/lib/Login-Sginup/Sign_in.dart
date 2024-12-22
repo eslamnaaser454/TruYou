@@ -52,7 +52,7 @@ class _LoginScreen extends State<LoginScreen> {
                       Text(
                         'TruYou',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -61,7 +61,7 @@ class _LoginScreen extends State<LoginScreen> {
                       Text(
                         'Mental health assistant',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 9,
                           fontWeight: FontWeight.w500,
                           color: Color(0x6B000000),
@@ -71,7 +71,7 @@ class _LoginScreen extends State<LoginScreen> {
                       Text(
                         'Sign-in',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFFA259FF),
@@ -107,7 +107,7 @@ class _LoginScreen extends State<LoginScreen> {
                           const Text(
                             'Remember me',
                             style: TextStyle(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Urbanist',
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Color(0xB2C0B1E8),
@@ -193,7 +193,7 @@ class _LoginScreen extends State<LoginScreen> {
                         child: const Text(
                           'Sign in',
                           style: TextStyle(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Urbanist',
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -210,7 +210,7 @@ class _LoginScreen extends State<LoginScreen> {
                         child: const Text(
                           'Forget password ?',
                           style: TextStyle(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Urbanist',
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFFC0B1E8),
@@ -225,7 +225,7 @@ class _LoginScreen extends State<LoginScreen> {
                           const Text(
                             "Don't have an account?",
                             style: TextStyle(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Urbanist',
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFFC0B1E8),
@@ -240,7 +240,7 @@ class _LoginScreen extends State<LoginScreen> {
                             child: const Text(
                               'Sign-up',
                               style: TextStyle(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Urbanist',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFFA259FF),
@@ -275,7 +275,7 @@ class _LoginScreen extends State<LoginScreen> {
             border: InputBorder.none,
             hintText: placeholder,
             hintStyle: const TextStyle(
-              fontFamily: 'Inter',
+              fontFamily: 'Urbanist',
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Color(0xB2C0B1E8),
@@ -304,7 +304,7 @@ class _LoginScreen extends State<LoginScreen> {
                 border: InputBorder.none,
                 hintText: placeholder,
                 hintStyle: const TextStyle(
-                  fontFamily: 'Inter',
+                  fontFamily: 'Urbanist',
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Color(0xB2C0B1E8),
