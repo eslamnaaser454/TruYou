@@ -130,7 +130,7 @@ Future<void> _sendVerificationLink() async {
                     Text(
                       'TruYou',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF242C5B),
@@ -140,7 +140,7 @@ Future<void> _sendVerificationLink() async {
                     Text(
                       'Mental health assistant',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontSize: 9,
                         fontWeight: FontWeight.w500,
                         color: Color(0x6B000000),
@@ -165,7 +165,7 @@ Future<void> _sendVerificationLink() async {
                 child: const Text(
                   'Reset Password',
                   style: TextStyle(
-                    fontFamily: 'Inter',
+                    fontFamily: 'Urbanist',
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     color: Colors.white,

@@ -23,6 +23,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   void initState() {
     super.initState();
     email = widget.email;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _sendVerificationLink(context);
     });
@@ -55,7 +56,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       Text(
                         'TruYou',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF242C5B),
@@ -65,7 +66,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       Text(
                         'Mental health assistant',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 9,
                           fontWeight: FontWeight.w500,
                           color: Color(0x6B000000),
@@ -75,7 +76,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       Text(
                         'Verify Your Email',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFFA259FF),
@@ -92,7 +93,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       Text(
                         'Verification Link sent to $maskedEmail',
                         style: const TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF242C5B),
@@ -128,7 +129,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           child: const Text(
                             'VERIFY',
                             style: TextStyle(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Urbanist',
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
@@ -247,5 +248,5 @@ Future<void> _checkVerificationStatus(BuildContext context) async {
             child: const Text('OK'),
           ),
         ],
-    ),);}
+      ),);}
 }

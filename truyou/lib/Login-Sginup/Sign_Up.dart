@@ -45,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text(
                         'TruYou',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF242C5B),
@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text(
                         'Mental health assistant',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 9,
                           fontWeight: FontWeight.w500,
                           color: Color(0x6B000000),
@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text(
                         'Sign-up',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFFA259FF),
@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const Text(
                         'Already have an account? ',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFFC0B1E8),
@@ -111,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text(
                           'Login',
                           style: TextStyle(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Urbanist',
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                             color: Color(0xFFA259FF),
@@ -143,12 +143,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           border: InputBorder.none,
           hintText: placeholder,
           hintStyle: const TextStyle(
-            fontFamily: 'Inter',
+            fontFamily: 'Urbanist',
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: Color(0xB2C0B1E8),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         ),
       ),
     );
@@ -172,25 +172,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 border: InputBorder.none,
                 hintText: placeholder,
                 hintStyle: const TextStyle(
-                  fontFamily: 'Inter',
+                  fontFamily: 'Urbanist',
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Color(0xB2C0B1E8),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-              color: const Color(0xB2C0B1E8),
+          Padding(
+            padding: const EdgeInsets.only(right:10.0),
+            child: IconButton(
+              icon: Icon(
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: const Color(0xB2C0B1E8),
+            
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
             ),
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = !isPasswordVisible;
-              });
-            },
           ),
         ],
       ),
@@ -225,6 +229,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if(emailController.text.length>320){
   _showAlert(context, 'Email is not Valid');
             return;
+
+
+
+          }
+
+          if(emailController.text.isEmpty){
+  _showAlert(context, 'Email Can\'t be empty');
+            return;
+
 
 
           }
@@ -294,7 +307,7 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
         child: const Text(
           'Sign-up',
           style: TextStyle(
-            fontFamily: 'Inter',
+            fontFamily: 'Urbanist',
             fontSize: 16,
             fontWeight: FontWeight.w800,
             color: Colors.white,
