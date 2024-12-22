@@ -1,7 +1,6 @@
 // بسم الله
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TaskDetailPage extends StatefulWidget {
   final String taskName;
@@ -19,7 +18,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Timer? timer;
   int remainingSeconds = 120; // 2 minutes
 
-  late YoutubePlayerController _youtubeController;
 
   final Map<String, String> taskInstructions = {
     'Deep Breathing': 'Inhale deeply, hold briefly, exhale slowly, repeat for calm.',
@@ -28,25 +26,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     'Mindful Walking': 'Focus on each step, breathe, and observe surroundings.',
     'Grounding Techniques': 'Use senses to connect with the present moment.',
   };
-
-  @override
-  void initState() {
-    super.initState();
-    _youtubeController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '',
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _youtubeController.dispose();
-    timer?.cancel();
-    super.dispose();
-  }
 
   void _toggleTimer() {
     if (isRunning) {
@@ -244,10 +223,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       borderRadius: BorderRadius.circular(25),
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
-                        child: YoutubePlayer(
-                          controller: _youtubeController,
-                          showVideoProgressIndicator: true,
-                        ),
                       ),
                     ),
                   ],
