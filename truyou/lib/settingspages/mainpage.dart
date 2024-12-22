@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truyou/settingspages/notificationsettingspage.dart';
 import 'aboutsettingspage.dart'; // Import the AboutPage
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class SettingsPage extends StatelessWidget {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,7 +88,9 @@ class SettingsPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationSetting()),
+                              builder: (context) => NotificationSetting(
+                                    userId: user!.uid,
+                                  )),
                         );
                       },
                     ),
