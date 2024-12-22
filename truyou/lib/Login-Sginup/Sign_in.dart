@@ -100,7 +100,7 @@ class _LoginScreen extends State<LoginScreen> {
                                   });
                                 },
                                 fillColor: WidgetStateProperty.all(
-                                    const Color(0xFFA259FF)),
+                                    const Color.fromARGB(255, 178, 9, 9)),
                               );
                             },
                           ),
@@ -309,20 +309,23 @@ class _LoginScreen extends State<LoginScreen> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xB2C0B1E8),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-              color: const Color(0xB2C0B1E8),
+          Padding(
+            padding: const EdgeInsets.only(right:10.0),
+            child: IconButton(
+              icon: Icon(
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: const Color(0xB2C0B1E8),
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
             ),
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = !isPasswordVisible;
-              });
-            },
           ),
         ],
       ),

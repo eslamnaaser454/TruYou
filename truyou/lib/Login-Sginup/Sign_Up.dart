@@ -148,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             fontWeight: FontWeight.w600,
             color: Color(0xB2C0B1E8),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         ),
       ),
     );
@@ -177,20 +177,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xB2C0B1E8),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-              color: const Color(0xB2C0B1E8),
+          Padding(
+            padding: const EdgeInsets.only(right:10.0),
+            child: IconButton(
+              icon: Icon(
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: const Color(0xB2C0B1E8),
+            
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
             ),
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = !isPasswordVisible;
-              });
-            },
           ),
         ],
       ),
@@ -225,6 +229,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if(emailController.text.length>320){
   _showAlert(context, 'Email is not Valid');
             return;
+
+
+
+          }
+
+          if(emailController.text.isEmpty){
+  _showAlert(context, 'Email Can\'t be empty');
+            return;
+
 
 
           }
