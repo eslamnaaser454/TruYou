@@ -4,6 +4,7 @@ import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 import 'package:truyou/Login-Sginup/SplashScreen.dart';
+import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/chatstart.dart';
 import 'package:truyou/chatboot/creatnewchat.dart';
 import 'package:truyou/dashboard/dashboardPage.dart';
@@ -51,7 +52,7 @@ class TruYouApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => const SplashScreen(),
+        '/': (context) => ExplorePage(),
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),

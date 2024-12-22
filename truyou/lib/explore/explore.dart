@@ -143,7 +143,7 @@
 //   }
 
 //   void _searchForTopics() {
-//     // Simulate fetching images and articles from the internet
+//     // Simulate fetching Media images/and articles from the internet
 //     setState(() {
 //       imageUrls = List.generate(
 //           9,
@@ -347,16 +347,16 @@ class _ExplorePageState extends State<ExplorePage> {
   List<String> selectedTopics = [];
   List<String> imageUrls = [];
   List<Map<String, String>> articles = [];
-  final List<String> natureImageUrls = [
-    'images/natural_image (1).jpg',
-    'images/natural_image (2).jpg',
-    'images/natural_image (3).jpg',
-    'images/natural_image (4).jpg',
-    'images/natural_image (5).jpg',
-    'images/natural_image (6).jpg',
-    'images/natural_image (7).jpg',
-    'images/natural_image (8).jpg',
-    'images/natural_image (9).jpg',
+  final List<String> natureImageMedia = [
+    'Media/images/natural_image (1).jpg',
+    'Media/images/natural_image (2).jpg',
+    'Media/images/natural_image (3).jpg',
+    'Media/images/natural_image (4).jpg',
+    'Media/images/natural_image (5).jpg',
+    'Media/images/natural_image (6).jpg',
+    'Media/images/natural_image (7).jpg',
+    'Media/images/natural_image (8).jpg',
+    'Media/images/natural_image (9).jpg',
   ];
 
   @override
@@ -393,8 +393,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: IconButton(
-                icon:
-                    const Icon(Icons.widgets_rounded, color: Color(0xFFA259FF)),
+                icon: const Icon(Icons.widgets_rounded, color: Color(0xFFA259FF)),
                 onPressed: () {},
               ),
             ),
@@ -501,7 +500,7 @@ class _ExplorePageState extends State<ExplorePage> {
       throw Exception('Failed to load articles');
     }
 
-    // Simulate fetching images from the internet
+    // Simulate fetching Media images/from the internet
     setState(() {
       imageUrls = List.generate(
           9,
@@ -511,26 +510,27 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   Widget _buildImageList() {
-  return GridView.builder(
-    shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 3,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-    ),
-    itemCount: natureImageUrls.length,
-    itemBuilder: (context, index) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Image.network(
-          natureImageUrls[index],
-          fit: BoxFit.cover,
-        ),
-      );
-    },
-  );
-}
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: natureImageMedia.length,
+      itemBuilder: (context, index) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: Image.asset(
+            natureImageMedia[index],
+            fit: BoxFit.cover,
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildArticleList() {
     return ListView.builder(
       shrinkWrap: true,
@@ -544,7 +544,7 @@ class _ExplorePageState extends State<ExplorePage> {
             child: Container(
               height: 70, // Decreased height
               decoration: BoxDecoration(
-                border: Border.all(    color: Color(0xFF9A4AFF), width: 4),
+                border: Border.all(color: Color(0xFF9A4AFF), width: 4),
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Row(
@@ -601,13 +601,26 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
-  void _launchURL(String url) async {
-    if (await url_launcher.canLaunch(url)) {
-      await url_launcher.launch(url, forceSafariVC: false, forceWebView: false);
-    } else {
-      throw 'Could not launch $url';
+void _launchURL(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (await url_launcher.canLaunchUrl(uri)) {
+    try {
+      await url_launcher.launchUrl(
+        uri,
+        mode: url_launcher.LaunchMode.externalApplication,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to launch URL: $e')),
+      );
     }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Could not launch $url')),
+    );
   }
+}
+
 }
 
 class _ButtonWidget extends StatefulWidget {

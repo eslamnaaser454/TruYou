@@ -581,8 +581,6 @@
 import 'package:flutter/material.dart';
 import 'package:truyou/cbt/ProgramDetailPage.dart';
 import 'package:truyou/cbt/AdditionalProgramsPage.dart';
-import 'package:truyou/cbt/AdditionalProgramsPage.dart';
-import 'package:truyou/cbt/ProgramDetailPage.dart';
 
 class ExampleScreen extends StatefulWidget {
   const ExampleScreen({super.key, required this.programs});
@@ -661,7 +659,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
             Container(
               margin: const EdgeInsets.all(10.0),
               width: containerWidth,
-              height: 250,
+              height: 300, // Increased height from 250 to 300
               decoration: BoxDecoration(
                 color: const Color(0xFFA259FF),
                 borderRadius: BorderRadius.circular(15),
