@@ -70,105 +70,106 @@ class _ChatScreenState extends State<ChatScreen> {
     apiKey:
         'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
   );
-
-  // Send message to the model and get the response
-  Future<void> _sendMessage() async {
-    if (_controller.text.isNotEmpty) {
-      final userMessage = MessageModel(
-        isUser: true,
-        message: _controller.text,
-        time: DateTime.now(),
-      );
-
-      // Add the user's message to the list
-      setState(() {
-        _messages.add(userMessage);
-      });
-
-      // Clear the input field
-      _controller.clear();
-
-      // Print the user's message for debugging purposes
-      print('User message: ${userMessage.message}');
-
-      // Directive to restrict the chatbot's focus
-      final directive = """
+final directive = """
 You are a chatbot specialized in mental health and psychological support. 
-You can respond only to queries related to:
-1. Anxiety and Stress Management
-2. Depression and Mood Disorders
-3. Anger Management
-4. Cognitive Behavioral Therapy (CBT)
-5. Emotional Well-being and Self-care
-6. Trauma and PTSD
-7. Grief and Loss
-8. Relationships and Communication Issues
-9. Mindfulness and Relaxation Techniques
-10. Coping with Life Transitions
-If the user's query is unrelated to these topics, politely explain that you can only assist with mental health-related matters.
+Your goal is to help users with emotional well-being by engaging in thoughtful, context-aware conversations. 
+You should:
+- Respond to topics related to mental health, stress, emotions, and coping strategies.
+- Acknowledge and address the user’s emotional state as inferred from their queries.
+- Reflect on the user’s past messages to provide context-aware responses.
+- Offer helpful resources, general advice, or reflective prompts when applicable.
+- Maintain an empathetic and supportive tone throughout the conversation.
+
+If a topic is unrelated to mental health, kindly redirect the user to focus on mental health-related discussions.
+""";
+  // Send message to the model and get the response
+  
+Future<void> _sendMessage() async {
+  if (_controller.text.isNotEmpty) {
+    final userMessage = MessageModel(
+      isUser: true,
+      message: _controller.text,
+      time: DateTime.now(),
+    );
+
+    // Add the user's message to the list
+    setState(() {
+      _messages.add(userMessage);
+    });
+
+    // Clear the input field
+    _controller.clear();
+
+    // Combine previous messages for context
+    final conversationHistory = _messages
+        .map((msg) => msg.isUser ? "User: ${msg.message}" : "Bot: ${msg.message}")
+        .join('\n');
+
+    // Prepare the prompt with the conversation history
+    final prompt = """
+$directive
+
+Conversation so far:
+$conversationHistory
+
+User: ${userMessage.message}
 """;
 
-      // Prepare the prompt
-      final prompt = directive + '\nUser: ${userMessage.message}';
+    try {
+      final content = [Content.text(prompt)];
 
-      try {
-        // Create content for the API call
-        final content = [Content.text(prompt)];
+      // Add a "typing" placeholder
+      setState(() {
+        _messages.add(MessageModel(
+          isUser: false,
+          message: "Typing...",
+          time: DateTime.now(),
+        ));
+      });
 
-        // Add a "typing" placeholder message while waiting for a response
+      // Get the response from the model
+      final response = await _model.generateContent(content);
+
+      // Remove the "typing" placeholder
+      setState(() {
+        _messages.removeWhere((msg) => msg.message == "Typing...");
+      });
+
+      if (response.text != null) {
+        final botMessage = MessageModel(
+          isUser: false,
+          message: response.text!,
+          time: DateTime.now(),
+        );
+
+        // Add the bot's response to the message list
+        setState(() {
+          _messages.add(botMessage);
+        });
+      } else {
         setState(() {
           _messages.add(MessageModel(
             isUser: false,
-            message: "Typing...",
-            time: DateTime.now(),
-          ));
-        });
-
-        // Get the generated response from the model
-        final response = await _model.generateContent(content);
-
-        // Remove the "typing" placeholder
-        setState(() {
-          _messages.removeWhere((msg) => msg.message == "Typing...");
-        });
-
-        // Validate the response
-        if (response.text != null && _isMentalHealthRelated(response.text!)) {
-          final botMessage = MessageModel(
-            isUser: false,
-            message: response.text!,
-            time: DateTime.now(),
-          );
-
-          // Add the bot's response to the message list
-          setState(() {
-            _messages.add(botMessage);
-          });
-        } else {
-          setState(() {
-            _messages.add(MessageModel(
-              isUser: false,
-              message:
-                  "I'm here to assist with mental health and psychological support topics only.",
-              time: DateTime.now(),
-            ));
-          });
-        }
-      } catch (e) {
-        print('Error: $e');
-        // Handle errors gracefully and display an error message
-        setState(() {
-          _messages.removeWhere((msg) => msg.message == "Typing...");
-          _messages.add(MessageModel(
-            isUser: false,
-            message: "Oops! Something went wrong. Please try again.",
+            message:
+                "I'm here to assist with mental health and psychological support. Let's focus on your well-being.",
             time: DateTime.now(),
           ));
         });
       }
+    } catch (e) {
+      print('Error: $e');
+      // Handle errors gracefully
+      setState(() {
+        _messages.removeWhere((msg) => msg.message == "Typing...");
+        _messages.add(MessageModel(
+          isUser: false,
+          message: "Oops! Something went wrong. Please try again.",
+          time: DateTime.now(),
+        ));
+      });
     }
   }
-
+}
 // Helper function to validate if the response relates to mental health topics
   bool _isMentalHealthRelated(String message) {
     final mentalHealthKeywords = [

@@ -6,6 +6,7 @@ import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/ResetPassword.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
 import 'package:truyou/Login-Sginup/VerificationScreen.dart';
+import 'package:truyou/dashboard/dashboardPage.dart';
 import 'package:truyou/profile/profilepage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,8 +15,8 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreen createState() => _LoginScreen();
 }
-class _LoginScreen extends State<LoginScreen> {
 
+class _LoginScreen extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isPasswordVisible = false; // State variable for password visibility
@@ -98,7 +99,8 @@ class _LoginScreen extends State<LoginScreen> {
                                     rememberMe = value ?? false;
                                   });
                                 },
-                                fillColor: WidgetStateProperty.all(const Color(0xFFA259FF)),
+                                fillColor: WidgetStateProperty.all(
+                                    const Color(0xFFA259FF)),
                               );
                             },
                           ),
@@ -116,64 +118,71 @@ class _LoginScreen extends State<LoginScreen> {
                       const SizedBox(height: 20),
                       // Sign In Button
                       ElevatedButton(
-                                   onPressed: () async {
-  try {
-    // Attempt to sign in with Firebase Authentication
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-      email: usernameController.text,
-      password: passwordController.text,
-    );
+                        onPressed: () async {
+                          try {
+                            // Attempt to sign in with Firebase Authentication
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                              email: usernameController.text,
+                              password: passwordController.text,
+                            );
 
-    // If successful, navigate to the Home Page
-    
-    // Now, check if the email is verified from Firestore
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users') // Your Firestore collection name
-        .doc(userCredential.user!.uid) // Get the user's UID from Firebase Auth
-        .get();
+                            // If successful, navigate to the Home Page
 
-    if (userDoc.exists) {
-      // Check the 'isVerify' field in Firestore
-      bool isVerified = userDoc['isVerify'] ?? false;
+                            // Now, check if the email is verified from Firestore
+                            DocumentSnapshot userDoc = await FirebaseFirestore
+                                .instance
+                                .collection(
+                                    'users') // Your Firestore collection name
+                                .doc(userCredential.user!
+                                    .uid) // Get the user's UID from Firebase Auth
+                                .get();
 
-      if (isVerified) {
-        // If the user is verified, navigate to the HomePage
-       Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ProfilePage(email:usernameController.text)), // Replace HomePage with your actual home widget
-    );
-      } else {
-        // If the user is not verified, navigate to the KIP page
-        Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => VerificationScreen(email:usernameController.text)), // Replace HomePage with your actual home widget
-    );
-      }
-    } 
+                            if (userDoc.exists) {
+                              // Check the 'isVerify' field in Firestore
+                              bool isVerified = userDoc['isVerify'] ?? false;
 
-   
-  } catch (e) {
-    // Show an alert if there is an error (e.g., wrong credentials)
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text("The email or password you entered is incorrect."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-},
+                              if (isVerified) {
+                                // If the user is verified, navigate to the HomePage
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DashboardPage(), // Replace HomePage with your actual home widget
+                                ));
+                              } else {
+                                // If the user is not verified, navigate to the KIP page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VerificationScreen(
+                                          email: usernameController
+                                              .text)), // Replace HomePage with your actual home widget
+                                );
+                              }
+                            }
+                          } catch (e) {
+                            // Show an alert if there is an error (e.g., wrong credentials)
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(
+                                      "The email or password you entered is incorrect."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFA259FF),
                           minimumSize: const Size(270, 48),
@@ -195,9 +204,8 @@ class _LoginScreen extends State<LoginScreen> {
                       // Forget Password
                       TextButton(
                         onPressed: () {
-
- Navigator.push(context, _createPageRoute( ResetPassword()));
-
+                          Navigator.push(
+                              context, _createPageRoute(ResetPassword()));
                         },
                         child: const Text(
                           'Forget password ?',
@@ -226,7 +234,8 @@ class _LoginScreen extends State<LoginScreen> {
                           TextButton(
                             onPressed: () {
                               // navigate to sign up page (sign-up button)
-                              Navigator.push(context, _createPageRoute( SignUpScreen()));
+                              Navigator.push(
+                                  context, _createPageRoute(SignUpScreen()));
                             },
                             child: const Text(
                               'Sign-up',
@@ -262,7 +271,6 @@ class _LoginScreen extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: TextField(
           controller: controller,
-         
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: placeholder,
@@ -277,7 +285,9 @@ class _LoginScreen extends State<LoginScreen> {
       ),
     );
   }
-  Widget _buildPasswordField(String placeholder, TextEditingController controller) {
+
+  Widget _buildPasswordField(
+      String placeholder, TextEditingController controller) {
     return Container(
       height: 48,
       decoration: BoxDecoration(
@@ -318,6 +328,7 @@ class _LoginScreen extends State<LoginScreen> {
       ),
     );
   }
+
   PageRouteBuilder _createPageRoute(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
@@ -326,7 +337,8 @@ class _LoginScreen extends State<LoginScreen> {
         const end = Offset.zero;
         const curve = Curves.easeInOut;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var offsetAnimation = animation.drive(tween);
 
         return SlideTransition(position: offsetAnimation, child: child);

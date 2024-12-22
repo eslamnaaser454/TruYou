@@ -772,7 +772,14 @@ class ChatBotCard extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: onChatBotPressed,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ChatbotstartScreen()), // Replace with your screen
+                    );
+                  },
                   borderRadius: BorderRadius.circular(10),
                   child: Center(
                     child: Text(

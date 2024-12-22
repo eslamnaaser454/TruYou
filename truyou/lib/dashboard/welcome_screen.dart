@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:truyou/dashboard/dashboardPage.dart';
 
 class WelcomeScreenn extends StatefulWidget {
   final String email;
@@ -15,47 +16,41 @@ class _WelcomeScreennState extends State<WelcomeScreenn> {
   final TextEditingController _nameController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-Future<void> _submitName() async {
-  final name = _nameController.text.trim();
+  Future<void> _submitName() async {
+    final name = _nameController.text.trim();
 
-  if (name.isNotEmpty) {
-    try {
+    if (name.isNotEmpty) {
+      try {
+        User? user = FirebaseAuth.instance.currentUser;
 
- User? user = FirebaseAuth.instance.currentUser;
-
-   await FirebaseFirestore.instance
-              .collection('users') // Replace with your actual collection name
-              .doc(user!.uid) // Use the user's Firebase Authentication UID
-              .update({'name': name}); // Update the 'isVerify' field to true
-          
- /*
         await FirebaseFirestore.instance
-              .collection('users') // Replace with your actual collection name
-              .doc(user!.uid) // Use the user's Firebase Authentication UID
-              .update({'name': name}); // Update the 'isVerify' field to true
-          
-  */
-      print("User data updated or created successfully.");
+            .collection('users') // Replace with your actual collection name
+            .doc(user!.uid) // Use the user's Firebase Authentication UID
+            .update({'name': name}); // Update the 'isVerify' field to true
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Name stored successfully!')),
-      );
+        print("User data updated or created successfully.");
 
-  
-    } catch (e) {
-      print("Error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Name stored successfully!')),
+        );
+
+        // Navigate to DashboardPage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardPage()),
+        );
+      } catch (e) {
+        print("Error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        const SnackBar(content: Text('Please enter a name')),
       );
     }
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please enter a name')),
-    );
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
