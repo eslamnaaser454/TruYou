@@ -1,327 +1,594 @@
+//بسم الله
+// import 'package:flutter/material.dart';
+// import 'dart:math';
+// import 'package:url_launcher/url_launcher.dart' as url_launcher;
+
+// class ExplorePage extends StatefulWidget {
+//   @override
+//   _ExplorePageState createState() => _ExplorePageState();
+// }
+
+// class _ExplorePageState extends State<ExplorePage> {
+//   final List<List<String>> topics = [
+//     ['Depression', 'Anxiety', 'Schizophrenia', 'Phobia', 'Fear'],
+//     ['Obsession', 'Sadness', 'Anger', 'Despair', 'Insomnia'],
+//     ['Frustration', 'Happiness', 'Headache', 'Stress', 'Worry'],
+//     ['Calmness', 'Joy', 'Excitement', 'Peace', 'Relaxation'],
+//   ];
+
+//   List<String> selectedTopics = [];
+//   List<String> imageUrls = [];
+//   List<String> articleUrls = [];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         title: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Container(
+//               decoration: BoxDecoration(
+//                 color: const Color(0xFFC0B1E8).withOpacity(0.2),
+//                 borderRadius: BorderRadius.circular(15),
+//               ),
+//               child: IconButton(
+//                 icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+//                 onPressed: () => Navigator.of(context).pop(),
+//               ),
+//             ),
+//             const Text(
+//               'Explore',
+//               style: TextStyle(
+//                 fontFamily: 'Urbanist',
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.w700,
+//                 color: Colors.black,
+//               ),
+//             ),
+//             Container(
+//               decoration: BoxDecoration(
+//                 color: const Color(0xFFC0B1E8).withOpacity(0.2),
+//                 borderRadius: BorderRadius.circular(15),
+//               ),
+//               child: IconButton(
+//                 icon:
+//                     const Icon(Icons.widgets_rounded, color: Color(0xFFA259FF)),
+//                 onPressed: () {},
+//               ),
+//             ),
+//           ],
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               ...topics.map((row) => _buildRow(row)).toList(),
+//               SizedBox(height: 20),
+//               Text(
+//                 'Selected: ${selectedTopics.join(', ')}',
+//                 style: TextStyle(
+//                   fontSize: 16,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.black.withOpacity(0.5),
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               ElevatedButton(
+//                 onPressed: _searchForTopics,
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: const Color(0xFF7E6BF2),
+//                   minimumSize: const Size(double.infinity, 48),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(24),
+//                   ),
+//                 ),
+//                 child: const Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Text(
+//                       'Search for topics',
+//                       style: TextStyle(
+//                         fontFamily: 'Urbanist',
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.w600,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                     SizedBox(width: 8),
+//                   ],
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               _buildImageList(),
+//               const SizedBox(height: 15),
+//               _buildArticleList(),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildRow(List<String> rowTopics) {
+//     return Container(
+//       height: 75,
+//       margin: EdgeInsets.symmetric(vertical: 4.0),
+//       child: ListView(
+//         scrollDirection: Axis.horizontal,
+//         children: rowTopics
+//             .map((topic) => _ButtonWidget(
+//                   topic: topic,
+//                   onSelected: _toggleSelection,
+//                 ))
+//             .toList(),
+//       ),
+//     );
+//   }
+
+//   void _toggleSelection(String topic, bool isSelected) {
+//     setState(() {
+//       if (isSelected) {
+//         selectedTopics.add(topic);
+//       } else {
+//         selectedTopics.remove(topic);
+//       }
+//     });
+//   }
+
+//   void _searchForTopics() {
+//     // Simulate fetching images and articles from the internet
+//     setState(() {
+//       imageUrls = List.generate(
+//           9,
+//           (index) =>
+//               'https://via.placeholder.com/150?text=${selectedTopics.isNotEmpty ? selectedTopics[index % selectedTopics.length] : 'Image'}');
+//       articleUrls = List.generate(
+//           3,
+//           (index) =>
+//               'https://example.com/article?topic=${selectedTopics.isNotEmpty ? selectedTopics[index % selectedTopics.length] : 'Article'}');
+//     });
+//   }
+
+//   Widget _buildImageList() {
+//     return GridView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 3,
+//         crossAxisSpacing: 8,
+//         mainAxisSpacing: 8,
+//       ),
+//       itemCount: imageUrls.length,
+//       itemBuilder: (context, index) {
+//         return ClipRRect(
+//           borderRadius: BorderRadius.circular(25),
+//           child: Image.network(
+//             imageUrls[index],
+//             fit: BoxFit.cover,
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   Widget _buildArticleList() {
+//     return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       itemCount: articleUrls.length,
+//       itemBuilder: (context, index) {
+//         return Padding(
+//           padding: const EdgeInsets.symmetric(vertical: 8.0),
+//           child: ClipRRect(
+//             borderRadius: BorderRadius.circular(25),
+//             child: Container(
+//               height: 70, // Decreased height
+//               decoration: BoxDecoration(
+//                 border: Border.all(color: Color(0xFF9A4AFF), width: 3),
+//                 borderRadius: BorderRadius.circular(25),
+//               ),
+//               child: Row(
+//                 children: [
+//                   Expanded(
+//                     child: Padding(
+//                       padding: const EdgeInsets.fromLTRB(
+//                           12, 8, 8, 8), // Add left padding of 3px
+//                       child: Text(
+//                         'Article about ${selectedTopics.isNotEmpty ? selectedTopics[index % selectedTopics.length] : 'Topic'}',
+//                         style: TextStyle(
+//                             fontSize: 16,
+//                             fontWeight: FontWeight.bold,
+//                             color: Color(0xFF9A4AFF)),
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     margin: const EdgeInsets.all(5),
+//                     child: ElevatedButton(
+//                       onPressed: () => _launchURL(articleUrls[index]),
+//                       style: ElevatedButton.styleFrom(
+//                         backgroundColor: Color(0xFF9A4AFF),
+//                         minimumSize: Size(20, double.infinity),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(20),
+//                         ),
+//                       ),
+//                       child: Row(
+//                         children: [
+//                           Text(
+//                             'Read',
+//                             style: TextStyle(
+//                                 fontSize: 14,
+//                                 fontWeight: FontWeight.bold,
+//                                 color: Color.fromARGB(255, 255, 255, 255)),
+//                           ),
+//                           SizedBox(width: 8),
+//                           Icon(
+//                             Icons.arrow_forward,
+//                             color: Colors.white,
+//                             size: 16,
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   void _launchURL(String url) async {
+//     if (await url_launcher.canLaunch(url)) {
+//       await url_launcher.launch(url, forceSafariVC: false, forceWebView: false);
+//     } else {
+//       throw 'Could not launch $url';
+//     }
+//   }
+// }
+
+// class _ButtonWidget extends StatefulWidget {
+//   final String topic;
+//   final Function(String, bool) onSelected;
+
+//   _ButtonWidget({required this.topic, required this.onSelected});
+
+//   @override
+//   __ButtonWidgetState createState() => __ButtonWidgetState();
+// }
+
+// class __ButtonWidgetState extends State<_ButtonWidget> {
+//   Color buttonColor = Colors.white;
+//   Color textColor = Colors.black;
+//   bool isSelected = false;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+//       child: ConstrainedBox(
+//         constraints: BoxConstraints(minWidth: 100),
+//         child: ElevatedButton(
+//           onPressed: () {
+//             setState(() {
+//               if (isSelected) {
+//                 buttonColor = Colors.white;
+//                 textColor = Colors.black;
+//               } else {
+//                 buttonColor = _getRandomColor();
+//                 textColor = Colors.white;
+//               }
+//               isSelected = !isSelected;
+//               widget.onSelected(widget.topic, isSelected);
+//             });
+//           },
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: buttonColor,
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(25.0),
+//             ),
+//             shadowColor: Colors.black,
+//             elevation: 5,
+//           ),
+//           child: Text(
+//             widget.topic,
+//             style: TextStyle(
+//               color: textColor,
+//               fontSize: 16,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Color _getRandomColor() {
+//     final random = Random();
+//     return Color.fromARGB(
+//       255,
+//       random.nextInt(256),
+//       random.nextInt(256),
+//       random.nextInt(256),
+//     );
+//   }
+// }
+
+/// باستخدام api
+//بسم الله
 import 'package:flutter/material.dart';
+import 'dart:math';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Explore Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ExploreScreen(),
-    );
-  }
+  _ExplorePageState createState() => _ExplorePageState();
 }
 
-class ExploreScreen extends StatelessWidget {
+class _ExplorePageState extends State<ExplorePage> {
+  final List<List<String>> topics = [
+    ['Depression', 'Anxiety', 'Schizophrenia', 'Phobia', 'Fear'],
+    ['Obsession', 'Sadness', 'Anger', 'Despair', 'Insomnia'],
+    ['Frustration', 'Happiness', 'Headache', 'Stress', 'Worry'],
+    ['Calmness', 'Joy', 'Excitement', 'Peace', 'Relaxation'],
+  ];
+
+  List<String> selectedTopics = [];
+  List<String> imageUrls = [];
+  List<Map<String, String>> articles = [];
+  final List<String> natureImageUrls = [
+    'images/natural_image (1).jpg',
+    'images/natural_image (2).jpg',
+    'images/natural_image (3).jpg',
+    'images/natural_image (4).jpg',
+    'images/natural_image (5).jpg',
+    'images/natural_image (6).jpg',
+    'images/natural_image (7).jpg',
+    'images/natural_image (8).jpg',
+    'images/natural_image (9).jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.grid_view, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
-        title: Text(
-          'Explore',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFC0B1E8).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            const Text(
+              'Explore',
+              style: TextStyle(
+                fontFamily: 'Urbanist',
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFC0B1E8).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: IconButton(
+                icon:
+                    const Icon(Icons.widgets_rounded, color: Color(0xFFA259FF)),
+                onPressed: () {},
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              ...topics.map((row) => _buildRow(row)).toList(),
+              SizedBox(height: 20),
               Text(
-                'Categories',
+                'Selected: ${selectedTopics.join(', ')}',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black.withOpacity(0.5),
                 ),
               ),
-              SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  CategoryButton(
-                      text: 'Depression', backgroundColor: Colors.white),
-                  CategoryButton(
-                      text: 'Anxiety', backgroundColor: Colors.yellow),
-                  CategoryButton(
-                      text: 'Schizophrenia', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Phobia', backgroundColor: Colors.blue),
-                  CategoryButton(text: 'Fear', backgroundColor: Colors.white),
-                  CategoryButton(
-                      text: 'Obsession', backgroundColor: Colors.red),
-                  CategoryButton(
-                      text: 'Sadness', backgroundColor: Colors.white),
-                  CategoryButton(text: 'Anger', backgroundColor: Colors.purple),
-                  CategoryButton(
-                      text: 'Despair', backgroundColor: Colors.white),
-                  CategoryButton(
-                      text: 'Insomnia', backgroundColor: Colors.green),
-                  CategoryButton(
-                      text: 'Frustration', backgroundColor: Colors.white),
-                  CategoryButton(
-                      text: 'Happiness', backgroundColor: Colors.orange),
-                ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _searchForTopics,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF7E6BF2),
+                  minimumSize: const Size(double.infinity, 55),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Search for topics',
+                      style: TextStyle(
+                        fontFamily: 'Urbanist',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                  ],
+                ),
               ),
-              SizedBox(height: 16),
-              SizedBox(height: 32),
-              SectionHeader(title: 'Natural Photos'),
-              SizedBox(height: 16),
-              ImageCard(
-                  imagePath: 'Media/images/explore1.png',
-                  title: 'Beautiful Landscape'),
-              SizedBox(height: 32),
-              SectionHeader(title: 'Articles'),
-              SizedBox(height: 16),
-              ArticleCard(
-                  title: 'The importance of mental health', onRead: () {}),
-              SizedBox(height: 8),
-              ArticleCard(
-                  title: 'How do you improve your mental health?',
-                  onRead: () {}),
-              SizedBox(height: 8),
-              ArticleCard(title: 'Mental health at work', onRead: () {}),
-              SizedBox(height: 32),
-              SectionHeader(title: 'Videos'),
-              SizedBox(height: 16),
-              VideoCard(
-                  thumbnailUrl: 'http://cp.asset/لقطة-الش.png',
-                  title: 'Video Title',
-                  duration: '14:00',
-                  onPlay: () {}),
+              const SizedBox(height: 20),
+              _buildImageList(),
+              const SizedBox(height: 15),
+              _buildArticleList(),
             ],
           ),
         ),
       ),
     );
   }
-}
 
-class CategoryButton extends StatelessWidget {
-  final String text;
-  final Color backgroundColor;
-
-  const CategoryButton({
-    Key? key,
-    required this.text,
-    required this.backgroundColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildRow(List<String> rowTopics) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
+      height: 75,
+      margin: EdgeInsets.symmetric(vertical: 0.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: rowTopics
+            .map((topic) => _ButtonWidget(
+                  topic: topic,
+                  onSelected: _toggleSelection,
+                ))
+            .toList(),
       ),
     );
   }
-}
 
-// class NavigationBar extends StatelessWidget {
-//   final int selectedIndex;
-//   final Function(int) onItemSelected;
+  void _toggleSelection(String topic, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        selectedTopics.add(topic);
+      } else {
+        selectedTopics.remove(topic);
+      }
+    });
+  }
 
-//   const NavigationBar({
-//     Key? key,
-//     required this.selectedIndex,
-//     required this.onItemSelected,
-//   }) : super(key: key);
+  Future<void> _searchForTopics() async {
+    if (selectedTopics.isEmpty) return;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 96,
-//       decoration: BoxDecoration(
-//         image: DecorationImage(
-//           image: NetworkImage(
-//               'https://dashboard.codeparrot.ai/api/assets/Z2a2UREM3nUkN26y'),
-//           fit: BoxFit.cover,
-//         ),
-//       ),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 20),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             _buildNavItem(
-//                 0,
-//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN26z',
-//                 'Home',
-//                 29),
-//             _buildNavItem(
-//                 1,
-//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN260',
-//                 'CBT',
-//                 23),
-//             _buildNavItem(
-//                 2,
-//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN261',
-//                 'Explore',
-//                 21),
-//             _buildNavItem(
-//                 3,
-//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN262',
-//                 'ChatBot',
-//                 23),
-//             _buildNavItem(
-//                 4,
-//                 'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN263',
-//                 'Profile',
-//                 20),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+    final query = selectedTopics.join(' OR ');
+    final response = await http.get(
+      Uri.parse('https://newsapi.org/v2/everything?q=$query&apiKey=365a7c877415446e82b362fea76cef98'),
+    );
 
-//   Widget _buildNavItem(
-//       int index, String iconPath, String label, double iconSize) {
-//     bool isSelected = selectedIndex == index;
-//     return GestureDetector(
-//       onTap: () => onItemSelected(index),
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Container(
-//             width: iconSize,
-//             height: iconSize,
-//             margin: const EdgeInsets.only(bottom: 4),
-//             child: Image.network(
-//               iconPath,
-//               color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
-//             ),
-//           ),
-//           Text(
-//             label,
-//             style: TextStyle(
-//               color: isSelected ? Colors.black : Colors.black.withOpacity(0.5),
-//               fontSize: 10,
-//               fontFamily: 'Inter',
-//               fontWeight: FontWeight.w600,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        articles = (data['articles'] as List).take(9).map((article) => {
+          'title': article['title'] as String,
+          'url': article['url'] as String,
+        }).toList().cast<Map<String, String>>();
+      });
+    } else {
+      throw Exception('Failed to load articles');
+    }
 
-class ArticleCard extends StatelessWidget {
-  final String title;
-  final VoidCallback onRead;
+    // Simulate fetching images from the internet
+    setState(() {
+      imageUrls = List.generate(
+          9,
+          (index) =>
+              'https://via.placeholder.com/150?text=${selectedTopics.isNotEmpty ? selectedTopics[index % selectedTopics.length] : 'Image'}');
+    });
+  }
 
-  const ArticleCard({
-    Key? key,
-    required this.title,
-    required this.onRead,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 321,
-      height: 45,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22.5),
-        border: Border.all(color: Color(0xFF9A4AFF)),
-        image: DecorationImage(
-          image: NetworkImage(
-              'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN264'),
+  Widget _buildImageList() {
+  return GridView.builder(
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 3,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+    ),
+    itemCount: natureImageUrls.length,
+    itemBuilder: (context, index) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Image.network(
+          natureImageUrls[index],
           fit: BoxFit.cover,
         ),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            top: 5,
+      );
+    },
+  );
+}
+  Widget _buildArticleList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: articles.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
             child: Container(
-              width: 69,
-              height: 34,
+              height: 70, // Decreased height
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                image: DecorationImage(
-                  image: NetworkImage(
-                      'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN265'),
-                  fit: BoxFit.cover,
-                ),
+                border: Border.all(    color: Color(0xFF9A4AFF), width: 4),
+                borderRadius: BorderRadius.circular(25),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 16),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontFamily: 'Urbanist',
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF9A4AFF),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 11,
-            top: 15,
-            child: GestureDetector(
-              onTap: onRead,
               child: Row(
                 children: [
-                  Text(
-                    'Read',
-                    style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          12, 8, 8, 8), // Add left padding of 3px
+                      child: Text(
+                        articles[index]['title']!,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF9A4AFF)),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 6),
                   Container(
-                    width: 9,
-                    height: 9,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://dashboard.codeparrot.ai/api/assets/Z2a2UhEM3nUkN266'),
-                        fit: BoxFit.contain,
+                    margin: const EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () => _launchURL(articles[index]['url']!),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF9A4AFF),
+                        minimumSize: Size(20, double.infinity),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Read',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -329,239 +596,82 @@ class ArticleCard extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  void _launchURL(String url) async {
+    if (await url_launcher.canLaunch(url)) {
+      await url_launcher.launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
-class ImageCard extends StatelessWidget {
-  final String imagePath;
-  final String title;
+class _ButtonWidget extends StatefulWidget {
+  final String topic;
+  final Function(String, bool) onSelected;
 
-  const ImageCard({
-    Key? key,
-    required this.imagePath,
-    required this.title,
-  }) : super(key: key);
+  _ButtonWidget({required this.topic, required this.onSelected});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 314,
-      height: 209,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              imagePath,
-              width: 314,
-              height: 209,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.7),
-                    Colors.transparent,
-                  ],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: Text(
-                  //     'See all',
-                  //     style: TextStyle(
-                  //       color: Colors.white,
-                  //       fontSize: 14,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  __ButtonWidgetState createState() => __ButtonWidgetState();
 }
 
-class SectionHeader extends StatelessWidget {
-  final String title;
-
-  const SectionHeader({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+class __ButtonWidgetState extends State<_ButtonWidget> {
+  Color buttonColor = Colors.white;
+  Color textColor = Colors.black;
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 100),
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              if (isSelected) {
+                buttonColor = Colors.white;
+                textColor = Colors.black;
+              } else {
+                buttonColor = _getRandomColor();
+                textColor = Colors.white;
+              }
+              isSelected = !isSelected;
+              widget.onSelected(widget.topic, isSelected);
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            shadowColor: Colors.black,
+            elevation: 5,
           ),
-        ),
-        TextButton(
-          onPressed: () {},
           child: Text(
-            'See all',
+            widget.topic,
             style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF9A4AFF),
+              color: textColor,
+              fontSize: 16,
             ),
           ),
         ),
-      ],
+      ),
     );
   }
-}
 
-class VideoCard extends StatelessWidget {
-  final String thumbnailUrl;
-  final String title;
-  final String duration;
-  final VoidCallback onPlay;
-
-  const VideoCard({
-    Key? key,
-    required this.thumbnailUrl,
-    required this.title,
-    required this.duration,
-    required this.onPlay,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 327,
-      height: 137,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              thumbnailUrl,
-              width: 327,
-              height: 137,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned.fill(
-            child: Center(
-              child: GestureDetector(
-                onTap: onPlay,
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.8),
-                  ),
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: Colors.black,
-                    size: 32,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 8,
-            right: 8,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                duration,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 8,
-            left: 8,
-            right: 60,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    color: Colors.black.withOpacity(0.5),
-                    offset: Offset(0, 1),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
+  Color _getRandomColor() {
+    final random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
     );
   }
 }
