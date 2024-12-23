@@ -88,33 +88,33 @@ class _LoginScreen extends State<LoginScreen> {
                       _buildPasswordField('Password', passwordController),
                       const SizedBox(height: 15),
                       // Remember Me
-                      Row(
-                        children: [
-                          StatefulBuilder(
-                            builder: (context, setState) {
-                              return Checkbox(
-                                value: rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    rememberMe = value ?? false;
-                                  });
-                                },
-                                fillColor: WidgetStateProperty.all(
-                                    const Color(0xFFA259FF)),
-                              );
-                            },
-                          ),
-                          const Text(
-                            'Remember me',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xB2C0B1E8),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     StatefulBuilder(
+                      //       builder: (context, setState) {
+                      //         return Checkbox(
+                      //           value: rememberMe,
+                      //           onChanged: (value) {
+                      //             setState(() {
+                      //               rememberMe = value ?? false;
+                      //             });
+                      //           },
+                      //           fillColor: WidgetStateProperty.all(
+                      //               const Color(0xFFA259FF)),
+                      //         );
+                      //       },
+                      //     ),
+                      //     const Text(
+                      //       'Remember me',
+                      //       style: TextStyle(
+                      //         fontFamily: 'Inter',
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w500,
+                      //         color: Color(0xB2C0B1E8),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       const SizedBox(height: 20),
                       // Sign In Button
                       ElevatedButton(
