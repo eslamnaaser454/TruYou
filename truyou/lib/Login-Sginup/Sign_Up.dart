@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 
 import 'package:truyou/Login-Sginup/VerificationScreen.dart';
+import 'package:truyou/TESTERRORpage.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -222,10 +223,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           bool usernameExists = await _checkIfExists('username', usernameController.text);
          String phoneNumber = mobileController.text.replaceAll(RegExp(r'\D'), ''); // Remove non-numeric characters
           if(usernameController.text.isEmpty){
-  _showAlert(context, 'User Name Can\'t be empty');
+  _showAlert(context, 'Username Can\'t be empty');
             return;
-
           }
+          
           if(emailController.text.length>320){
   _showAlert(context, 'Email is not Valid');
             return;
@@ -317,6 +318,9 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
     );
   }
 
+  void _showAutoDismissDialog(BuildContext context, String description) {
+   
+  }
   // Function to check if a field (email, phone, username) already exists in Firestore
   Future<bool> _checkIfExists(String field, String value) async {
     QuerySnapshot result = await FirebaseFirestore.instance
@@ -328,19 +332,27 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
 
   // Show alert dialog
   void _showAlert(BuildContext context, String message) {
+     bool dialogOpen = true;
+
+    // Show the dialog
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
+      builder: (context) => ErrorMessagePopup(
+        title: 'Custom Error',
+        description: 'Something went wrong. Please try again.',
       ),
-    );
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 1.5 seconds
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+  }
   }
 
   // Page transition animation
@@ -360,4 +372,4 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
       transitionDuration: const Duration(milliseconds: 300),
     );
   }
-}
+
