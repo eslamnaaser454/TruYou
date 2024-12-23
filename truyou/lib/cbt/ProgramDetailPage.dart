@@ -1,14 +1,16 @@
 // بسم الله
-// بسم الله
+
 import 'package:flutter/material.dart';
-import 'TaskTypeAPage.dart'; // Import TaskTypeAPage
-import 'TaskTypeBPage.dart'; // Import TaskTypeBPage
+import 'package:shared_preferences/shared_preferences.dart';
+import 'TaskTypeAPage.dart';
+import 'TaskTypeBPage.dart';
 import 'TaskDetailPage.dart';
 
 class ProgramDetailPage extends StatefulWidget {
   final String programName;
 
-  const ProgramDetailPage({Key? key, required this.programName}) : super(key: key);
+  const ProgramDetailPage({Key? key, required this.programName})
+      : super(key: key);
 
   @override
   _ProgramDetailPageState createState() => _ProgramDetailPageState();
@@ -16,10 +18,39 @@ class ProgramDetailPage extends StatefulWidget {
 
 class _ProgramDetailPageState extends State<ProgramDetailPage> {
   late List<Map<String, String>> tasks;
+  late List<bool> taskCompletion;
+  double progress = 0.0;
 
   @override
   void initState() {
     super.initState();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedTasks = prefs.getStringList('tasks');
+    final savedCompletion =
+        prefs.getStringList('taskCompletion')?.map((e) => e == 'true').toList();
+    final lastUpdated = prefs.getInt('lastUpdated') ?? 0;
+
+    if (DateTime.now().millisecondsSinceEpoch - lastUpdated >
+        12 * 60 * 60 * 1000) {
+      _initializeTasks();
+    } else if (savedTasks != null && savedCompletion != null) {
+      tasks = savedTasks.map((task) {
+        final parts = task.split('|');
+        return {'title': parts[0], 'description': parts[1]};
+      }).toList();
+      taskCompletion = savedCompletion;
+    } else {
+      _initializeTasks();
+    }
+    _calculateProgress();
+    setState(() {});
+  }
+
+  void _initializeTasks() {
     if (widget.programName == 'Anxiety Management') {
       tasks = [
         {
@@ -52,66 +83,76 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
         {'title': 'Task 5', 'description': 'Description of Task 5'},
       ];
     }
+    taskCompletion = List<bool>.filled(tasks.length, false);
+  }
+
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final taskStrings =
+        tasks.map((task) => '${task['title']}|${task['description']}').toList();
+    final completionStrings = taskCompletion.map((e) => e.toString()).toList();
+    await prefs.setStringList('tasks', taskStrings);
+    await prefs.setStringList('taskCompletion', completionStrings);
+    await prefs.setInt('lastUpdated', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  void _calculateProgress() {
+    final completedTasks =
+        taskCompletion.where((completed) => completed).length;
+    progress = (completedTasks / tasks.length) * 100;
   }
 
   void openTaskPage(BuildContext context, String taskName, int taskIndex) {
+    if (!taskCompletion[taskIndex]) {
+      setState(() {
+        taskCompletion[taskIndex] = true;
+        _calculateProgress();
+        _saveTasks();
+      });
+    }
+
     if (widget.programName == 'Anxiety Management') {
       if (taskName == 'Deep Breathing') {
-        // Open TaskDetailPage for the first task
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => TaskDetailPage(
               taskName: taskName,
-              videoUrl: '', // No video URL needed
+              videoUrl: '',
             ),
           ),
         );
       } else if (taskName == 'Progressive Muscle Relaxation') {
-        // Open TaskTypeBPage for the third task with specific content
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => TaskTypeBPage(
               taskName: taskName,
-              questionText: 'The Five Senses Exercise is a simple and effective grounding technique to help people stay present in the moment, especially during times of distress or anxiety. It works by focusing on your surroundings and engaging your five senses. Here\'s how it works:\n\n'
-                            'Notice 5 Things You Can See:\n'
-                            'Look around and identify five things you can see. Try to pick something you might not usually notice, like a pattern on the wall, the way light reflects on a surface, or the texture of an object.\n\n'
-                            'Notice 4 Things You Can Feel:\n'
-                            'Focus on four things you can physically feel, such as the texture of your clothing, the sensation of your feet on the ground, the warmth of your hands, or a breeze against your skin.\n\n'
-                            'Notice 3 Things You Can Hear:\n'
-                            'Pay attention to the sounds around you. It could be the hum of a fan, birds chirping outside, distant traffic, or even your own breathing.\n\n'
-                            'Notice 2 Things You Can Smell:\n'
-                            'Notice two distinct smells. If you can’t immediately identify any, look for something nearby to smell, such as a cup of coffee, a piece of fruit, or your own soap or lotion.\n\n'
-                            'Notice 1 Thing You Can Taste:\n'
-                            'Focus on one thing you can taste. It could be a sip of a drink, a piece of gum, or simply the lingering taste in your mouth.\n\n'
-                            'This exercise helps shift attention away from overwhelming thoughts or feelings by focusing on the physical world, providing a sense of grounding and calm.',
-              imageAsset: 'images/brain.png', // Replace with your image path
+              questionText:
+                  'Notice 5 Things You Can See: Look around and identify five things you can see. Try to pick something you might not usually notice, like a pattern on the wall, the way light reflects on a surface, or the texture of an object.',
+              imageAsset: '',
             ),
           ),
         );
       } else if (taskName == 'Thought Record Worksheet') {
-        
-        // Open TaskTypeAPage for the second task
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => TaskTypeAPage(
               taskName: taskName,
               questionText: 'Question 2',
-              imageAsset: 'images/brain.png', // Replace with your image path
+              imageAsset: 'Media/images/brain.png',
             ),
           ),
         );
       }
     } else {
-      // Default behavior for other tasks
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => TaskDetailPage(
             taskName: taskName,
-            videoUrl: '', // No video URL needed
+            videoUrl: '',
           ),
         ),
       );
@@ -141,7 +182,10 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ...List.generate(3, (index) => _buildOptionCard(context, taskIndex, 'Read small book', 'For 10 minutes')),
+                ...List.generate(
+                    3,
+                    (index) => _buildOptionCard(context, taskIndex,
+                        'Read small book', 'For 10 minutes')),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
@@ -172,7 +216,8 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
     );
   }
 
-  Widget _buildOptionCard(BuildContext context, int taskIndex, String title, String subtitle) {
+  Widget _buildOptionCard(
+      BuildContext context, int taskIndex, String title, String subtitle) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8.0),
       padding: const EdgeInsets.all(12.0),
@@ -210,9 +255,9 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           ElevatedButton(
             onPressed: () {
               setState(() {
-                tasks[taskIndex]['title'] = title; // Replace task
+                tasks[taskIndex]['title'] = title;
               });
-              Navigator.of(context).pop(); // Close dialog
+              Navigator.of(context).pop();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFA259FF),
@@ -265,6 +310,18 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
                     },
                   );
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Progress: ${progress.toStringAsFixed(1)}%',
+                style: const TextStyle(
+                  fontFamily: 'Urbanist',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
             ),
           ],

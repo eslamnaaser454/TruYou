@@ -306,6 +306,7 @@
 //   }
 // }
 
+
 // custom view
 // import 'package:flutter/material.dart';
 // import 'package:flutter_application_2/cbtpage/ProgramDetailPage.dart';
@@ -580,7 +581,7 @@
 // بسم الله
 import 'package:flutter/material.dart';
 import 'package:truyou/cbt//ProgramDetailPage.dart';
-import 'package:truyou/cbt/AdditionalProgramsPage.dart';
+import 'package:truyou/cbt//AdditionalProgramsPage.dart';
 
 class ExampleScreen extends StatefulWidget {
   const ExampleScreen({super.key, required this.programs});
@@ -593,11 +594,26 @@ class ExampleScreen extends StatefulWidget {
 
 class _ExampleScreenState extends State<ExampleScreen> {
   List<Map<String, String>> mainPrograms = [
-    {'title': 'Anxiety Management', 'description': 'Learn new techniques'},
-    {'title': 'Depression Support', 'description': 'Find effective support'},
-    {'title': 'Stress Reduction', 'description': 'Explore better methods'},
-    {'title': 'Social Anxiety', 'description': 'Gain confidence'},
-    {'title': 'Mindfulness', 'description': 'Practice mindfulness'},
+    {
+      'title': 'Anxiety Management',
+      'description': 'Learn new techniques'
+    },
+    {
+      'title': 'Depression Support',
+      'description': 'Find effective support'
+    },
+    {
+      'title': 'Stress Reduction',
+      'description': 'Explore better methods'
+    },
+    {
+      'title': 'Social Anxiety',
+      'description': 'Gain confidence'
+    },
+    {
+      'title': 'Mindfulness',
+      'description': 'Practice mindfulness'
+    },
     {
       'title': 'Cognitive Restructuring',
       'description': 'Change negative thought'
@@ -612,8 +628,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
   void _addProgram(String program) {
     setState(() {
       if (!mainPrograms.any((p) => p['title'] == program)) {
-        mainPrograms
-            .add({'title': program, 'description': 'Description Of Program'});
+        mainPrograms.add({'title': program, 'description': 'Description Of Program'});
         additionalPrograms.remove(program);
         _showToast(context, program);
       }
@@ -654,8 +669,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5.0, left: 16.0, right: 16.0),
+                      padding: const EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -670,8 +684,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(Icons.arrow_back,
-                                  color: Color(0xFFA259FF)),
+                              child: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
                             ),
                           ),
                           const Padding(
@@ -693,8 +706,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.wysiwyg_rounded,
-                                color: Color(0xFFA259FF)),
+                            child: const Icon(Icons.wysiwyg_rounded, color: Color(0xFFA259FF)),
                           ),
                         ],
                       ),
@@ -712,22 +724,21 @@ class _ExampleScreenState extends State<ExampleScreen> {
                 ),
               ),
               ...mainPrograms.map((program) => ProgramCard(
-                    width: containerWidth,
-                    title: program['title']!,
-                    description: program['description']!,
-                    showAddButton: false,
-                    onAdd: () {},
-                    onEnter: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProgramDetailPage(programName: program['title']!),
-                        ),
-                      );
-                    },
-                    onDelete: () => _removeProgram(program['title']!),
-                  )),
+                width: containerWidth,
+                title: program['title']!,
+                description: program['description']!,
+                showAddButton: false,
+                onAdd: () {},
+                onEnter: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProgramDetailPage(programName: program['title']!),
+                    ),
+                  );
+                },
+                onDelete: () => _removeProgram(program['title']!),
+              )),
               const SizedBox(height: 10),
             ],
           ),
@@ -820,8 +831,7 @@ class ProgramCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       ),
                       child: const Text(
                         'Add',
@@ -844,8 +854,7 @@ class ProgramCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           ),
                           child: const Text(
                             'Enter Now',

@@ -19,60 +19,64 @@ class AdditionalProgramsPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFC0B1E8).withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15),
+        child: SafeArea( // Wrap the AppBar in SafeArea
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFC0B1E8).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 ),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
-                  onPressed: () => Navigator.of(context).pop(),
+                const SizedBox(width: 8),
+                const Text(
+                  'Additional Programs',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'Additional Programs',
-                style: TextStyle(
-                  fontFamily: 'Urbanist',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-      body: Center(
-        child: additionalPrograms.isEmpty
-            ? const Text(
-                'No additional programs available',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color(0xFFA259FF),
+      body: SafeArea( // Wrap the main content in SafeArea
+        child: Center(
+          child: additionalPrograms.isEmpty
+              ? const Text(
+                  'No additional programs available',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xFFA259FF),
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: additionalPrograms.map((program) => ProgramCard(
+                      width: containerWidth,
+                      title: program,
+                      description: 'Description Of Program',
+                      showAddButton: true,
+                      onAdd: () {
+                        onAddProgram(program);
+                        Navigator.of(context).pop();
+                      },
+                      onEnter: () {},
+                      onDelete: () {},
+                    )).toList(),
+                  ),
                 ),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: additionalPrograms.map((program) => ProgramCard(
-                    width: containerWidth,
-                    title: program,
-                    description: 'Description Of Program',
-                    showAddButton: true,
-                    onAdd: () {
-                      onAddProgram(program);
-                      Navigator.of(context).pop();
-                    },
-                    onEnter: () {},
-                    onDelete: () {},
-                  )).toList(),
-                ),
-              ),
+        ),
       ),
     );
   }

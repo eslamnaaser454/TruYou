@@ -209,7 +209,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       icon: Icon(isRunning ? Icons.pause : Icons.play_arrow),
                       label: Text(isRunning ? 'Pause' : 'Resume'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFA259FF),
+                        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                         minimumSize: const Size(150, 50),
                         textStyle: const TextStyle(fontSize: 18),
                       ),
@@ -223,7 +223,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showImportanceDialog,
-        backgroundColor: const Color(0xFFA259FF),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         child: const Icon(Icons.search),
       ),
     );
