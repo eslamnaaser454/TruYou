@@ -5,7 +5,8 @@ import 'mulChoiceQuestionPage.dart'; // Adjust based on your actual file name
 class ScaleQuestionPage extends StatefulWidget {
   final String question;
   final double currentValue; // Current value of the slider
-  final ValueChanged<double> onValueChanged; // Callback to update value in parent
+  final ValueChanged<double>
+      onValueChanged; // Callback to update value in parent
   final VoidCallback onContinue;
   final VoidCallback? onBack;
 
@@ -98,7 +99,6 @@ class _ScaleQuestionPageState extends State<ScaleQuestionPage> {
 }
 
 class ScaleQuestionFlow extends StatefulWidget {
-
   final List<String> answers; // Collect answers from Yes/No questions
 
   const ScaleQuestionFlow({
@@ -152,18 +152,6 @@ class _ScaleQuestionFlowState extends State<ScaleQuestionFlow> {
   }
 
   void goToPreviousQuestion() {
-    if (currentPageIndex == 0){
-      setState(() {
-        
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => (YesNoQuestionFlow()),
-          ),
-        );
-      });
-    }
-
     if (currentPageIndex > 0) {
       setState(() {
         currentPageIndex--;
@@ -175,26 +163,27 @@ class _ScaleQuestionFlowState extends State<ScaleQuestionFlow> {
     }
   }
 
-@override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ScaleQuestionPage(
-          question: scaleQuestions[currentPageIndex],
-          currentValue: selectedValue, // Pass the current slider value
-          onValueChanged: (value) {    // Pass the callback to update the slider value
-            setState(() {
-              selectedValue = value;
-            });
-          },
-          onContinue: () => _onContinue(selectedValue),
-          onBack: goToPreviousQuestion,
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: ScaleQuestionPage(
+            question: scaleQuestions[currentPageIndex],
+            currentValue: selectedValue, // Pass the current slider value
+            onValueChanged: (value) {
+              // Pass the callback to update the slider value
+              setState(() {
+                selectedValue = value;
+              });
+            },
+            onContinue: () => _onContinue(selectedValue),
+            onBack: goToPreviousQuestion,
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

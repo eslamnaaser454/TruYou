@@ -13,6 +13,7 @@ import 'package:truyou/Login-Sginup/SplashScreen.dart';
 import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/creatnewchat.dart';
 import 'package:truyou/dashboard/dashboardPage.dart';
+import 'package:truyou/selfAssessmentPages/self_assessment_welcome.dart';
 
 import 'package:truyou/welcomeScreens/welcomescreen.dart';
 import 'package:truyou/welcomeScreens/welcomescreenCBT.dart';
@@ -54,7 +55,7 @@ class TruYouApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       initialRoute: '/splash',
       routes: {
-        '/CBT': (context) =>ExampleScreen(programs: [], ),
+        '/': (context) =>SelfAssessmentWelcome(),
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),
