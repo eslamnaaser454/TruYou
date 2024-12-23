@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truyou/settingspages/notificationsettingspage.dart';
 import 'aboutsettingspage.dart'; // Import the AboutPage
+import 'package:url_launcher/url_launcher.dart';
+import 'package:truyou/settingspages/trueyoupluspage.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class SettingsPage extends StatelessWidget {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,9 +32,17 @@ class SettingsPage extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Row(
+          title: Row(
             children: [
-              Image(image: AssetImage("Media/icons/previous.png")),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Image.asset("Media/icons/previous.png"),
+                ),
+              ),
               SizedBox(width: 10),
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -76,7 +88,9 @@ class SettingsPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationSetting()),
+                              builder: (context) => NotificationSetting(
+                                    userId: user!.uid,
+                                  )),
                         );
                       },
                     ),
@@ -549,7 +563,17 @@ class ContactSupportOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async {
+        const email =
+            'mailto:trueyou.mentalhealthapp@gmail.com?subject=Support&body=Hi%20Team,';
+        if (await canLaunch(email)) {
+          await launch(email);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open email app')),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         margin: const EdgeInsets.only(bottom: 12),
@@ -609,7 +633,17 @@ class ProblemReportOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async {
+        const email =
+            'mailto:trueyou.mentalhealthapp@gmail.com?subject=Problem%20Report&body=Please%20describe%20your%20problem:';
+        if (await canLaunch(email)) {
+          await launch(email);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open email app')),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         margin: const EdgeInsets.only(bottom: 12),
@@ -657,75 +691,89 @@ class ProblemReportOption extends StatelessWidget {
 class UpgradeAd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Color(0xFFFFCA28),
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: const Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Upgrade to',
-                style: TextStyle(
-                  fontFamily: 'Urbanist',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF393939),
-                ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TruYouPlusPage()),
+          );
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Color(0xFFFFCA28),
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 4,
+                offset: Offset(0, 2),
               ),
-              SizedBox(height: 4),
-              Row(
+            ],
+          ),
+          child: const Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.flash_on, color: Color(0xFF393939), size: 16),
-                  SizedBox(width: 4),
                   Text(
-                    'TruYou Plus',
+                    'Upgrade to',
                     style: TextStyle(
                       fontFamily: 'Urbanist',
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
+                      color: Color(0xFF393939),
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.flash_on, color: Color(0xFF393939), size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        'TruYou Plus',
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF393939),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    '• Ultimate experience\n• Remove ads',
+                    style: TextStyle(
+                      fontFamily: 'Urbanist',
+                      fontSize: 12,
                       color: Color(0xFF393939),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 4),
+              Spacer(),
               Text(
-                '• Ultimate experience\n• Remove ads',
+                'DEMO AD',
                 style: TextStyle(
                   fontFamily: 'Urbanist',
                   fontSize: 12,
+                  fontWeight: FontWeight.w700,
                   color: Color(0xFF393939),
                 ),
               ),
+              SizedBox(width: 8),
+              Icon(Icons.play_arrow, color: Color(0xFF393939), size: 24),
             ],
           ),
-          Spacer(),
-          Text(
-            'DEMO AD',
-            style: TextStyle(
-              fontFamily: 'Urbanist',
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF393939),
-            ),
-          ),
-          SizedBox(width: 8),
-          Icon(Icons.play_arrow, color: Color(0xFF393939), size: 24),
-        ],
+        ),
       ),
     );
   }
 }
+
+
+// comment

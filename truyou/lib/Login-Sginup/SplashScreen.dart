@@ -22,7 +22,6 @@ class SplashScreen extends StatelessWidget {
 
           pageBuilder: (context, animation, secondaryAnimation) => WelcomeScreen(),
 
-
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Applying ease-in-out animation
             const begin = Offset(1.0, 0.0); // Start from the right

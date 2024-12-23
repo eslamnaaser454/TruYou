@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart'; // Assuming this package is used for the API
 import 'package:truyou/chatboot/model.dart';
+import 'package:truyou/actionBar/actionBar.dart'; // Import ActionBar
+import 'package:truyou/dashboard/dashboardPage.dart'; // Import DashboardPage
+import 'package:truyou/chatboot/chatstart.dart'; // Import ChatbotstartScreen
+import 'package:truyou/profile/profilepage.dart'; // Import ProfilePage
 import 'model.dart'; // Assuming the MessageModel is in a separate file named model.dart
 import 'Gemini.dart';
 
@@ -26,14 +30,60 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<MessageModel> _messages = [];
-  
+  int currentPageIndex = 3;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
+        );
+        break;
+      // case 4:
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ProfilePage(
+      //             email: 'user@example.com')), // Pass the email as needed
+      //   );
+      //   break;
+      default:
+        // Handle other cases if necessary
+        break;
+    }
+  }
+
   // Create the GenerativeModel instance
   final GenerativeModel _model = GenerativeModel(
     model: 'gemini-1.5-flash-latest', // Replace with the correct model
-    apiKey: 'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
+    apiKey:
+        'AIzaSyAMEF5S1J8DFA7Ayg2_UJdPETf1FfzSDtQ', // Replace with actual API key
   );
+final directive = """
+You are a chatbot specialized in mental health and psychological support. 
+Your goal is to help users with emotional well-being by engaging in thoughtful, context-aware conversations. 
+You should:
+- Respond to topics related to mental health, stress, emotions, and coping strategies.
+- Acknowledge and address the user’s emotional state as inferred from their queries.
+- Reflect on the user’s past messages to provide context-aware responses.
+- Offer helpful resources, general advice, or reflective prompts when applicable.
+- Maintain an empathetic and supportive tone throughout the conversation.
 
+If a topic is unrelated to mental health, kindly redirect the user to focus on mental health-related discussions.
+""";
   // Send message to the model and get the response
+  
 Future<void> _sendMessage() async {
   if (_controller.text.isNotEmpty) {
     final userMessage = MessageModel(
@@ -50,38 +100,67 @@ Future<void> _sendMessage() async {
     // Clear the input field
     _controller.clear();
 
-    // Print the user's message for debugging purposes
-    print('User message: ${userMessage.message}');
+    // Combine previous messages for context
+    final conversationHistory = _messages
+        .map((msg) => msg.isUser ? "User: ${msg.message}" : "Bot: ${msg.message}")
+        .join('\n');
+
+    // Prepare the prompt with the conversation history
+    final prompt = """
+$directive
+
+Conversation so far:
+$conversationHistory
+
+User: ${userMessage.message}
+""";
 
     try {
-      // Prepare the conversation history as context for the model
-      // You can include the last few messages to give the model context
-      final conversationHistory = _messages.map((msg) => msg.message).join('\n');
-
-      // Create the prompt by including the conversation history
-      final prompt = conversationHistory + '\nUser: ' + userMessage.message;
-
-      // Create content for the API call
       final content = [Content.text(prompt)];
 
-      // Get the generated response from the model
+      // Add a "typing" placeholder
+      setState(() {
+        _messages.add(MessageModel(
+          isUser: false,
+          message: "Typing...",
+          time: DateTime.now(),
+        ));
+      });
+
+      // Get the response from the model
       final response = await _model.generateContent(content);
 
-      // Check if the response is non-empty
-      final botMessage = MessageModel(
-        isUser: false,
-        message: response.text ?? "Oops! Something went wrong.",
-        time: DateTime.now(),
-      );
-
-      // Add the bot's response to the message list
+      // Remove the "typing" placeholder
       setState(() {
-        _messages.add(botMessage);
+        _messages.removeWhere((msg) => msg.message == "Typing...");
       });
+
+      if (response.text != null) {
+        final botMessage = MessageModel(
+          isUser: false,
+          message: response.text!,
+          time: DateTime.now(),
+        );
+
+        // Add the bot's response to the message list
+        setState(() {
+          _messages.add(botMessage);
+        });
+      } else {
+        setState(() {
+          _messages.add(MessageModel(
+            isUser: false,
+            message:
+                "I'm here to assist with mental health and psychological support. Let's focus on your well-being.",
+            time: DateTime.now(),
+          ));
+        });
+      }
     } catch (e) {
       print('Error: $e');
-      // Handle errors gracefully and display an error message
+      // Handle errors gracefully
       setState(() {
+        _messages.removeWhere((msg) => msg.message == "Typing...");
         _messages.add(MessageModel(
           isUser: false,
           message: "Oops! Something went wrong. Please try again.",
@@ -91,7 +170,34 @@ Future<void> _sendMessage() async {
     }
   }
 }
-
+// Helper function to validate if the response relates to mental health topics
+  bool _isMentalHealthRelated(String message) {
+    final mentalHealthKeywords = [
+      'mental health',
+      'psychological support',
+      'anxiety',
+      'stress',
+      'depression',
+      'anger management',
+      'cognitive behavioral therapy',
+      'cbt',
+      'emotional well-being',
+      'self-care',
+      'trauma',
+      'ptsd',
+      'grief',
+      'loss',
+      'relationships',
+      'communication issues',
+      'mindfulness',
+      'relaxation',
+      'coping',
+      'mental wellness',
+      'life transitions',
+    ];
+    return mentalHealthKeywords
+        .any((keyword) => message.toLowerCase().contains(keyword));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +249,8 @@ Future<void> _sendMessage() async {
                         decoration: InputDecoration(
                           hintText: "Type To start Conversation",
                           hintStyle: TextStyle(
-                            color: Color.fromRGBO(162, 89, 255, 1).withOpacity(0.3),
+                            color: Color.fromRGBO(162, 89, 255, 1)
+                                .withOpacity(0.3),
                             fontFamily: 'Urbanist',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -180,6 +287,10 @@ Future<void> _sendMessage() async {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: ActionBar(
+        selectedIndex: currentPageIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
@@ -277,7 +388,8 @@ class MessageBubble extends StatelessWidget {
   final DateTime timestamp;
 
   MessageBubble({
-    this.message = "Focus on your senses. Notice the ground, sounds, and smells.",
+    this.message =
+        "Focus on your senses. Notice the ground, sounds, and smells.",
     this.isUser = false,
     DateTime? timestamp,
   }) : this.timestamp = timestamp ?? DateTime.now();
@@ -299,7 +411,7 @@ class MessageBubble extends StatelessWidget {
         children: [
           Container(
             constraints: BoxConstraints(
-              maxWidth: 237,
+              maxWidth: 300,
             ),
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             decoration: BoxDecoration(

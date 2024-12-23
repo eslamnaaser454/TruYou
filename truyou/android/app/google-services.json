@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "37382526611",
+    "firebase_url": "https://tru-you-n-default-rtdb.firebaseio.com",
+    "project_id": "tru-you-n",
+    "storage_bucket": "tru-you-n.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37382526611:android:d7d499f9d18de118d79f66",
+        "android_client_info": {
+          "package_name": "com.truyoun.flutterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ5apGf7VmnxqvciPz_IZD--IuY2mYl-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

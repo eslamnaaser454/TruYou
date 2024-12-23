@@ -45,7 +45,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                       const Text(
                         'TruYou',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontWeight: FontWeight.w600,
                           fontSize: 30,
                           color: Colors.black,
@@ -54,7 +54,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                       Text(
                         'Mental health assistant',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontWeight: FontWeight.w500,
                           fontSize: 9,
                           color: Colors.black.withOpacity(0.42),
@@ -66,7 +66,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                   const Text(
                     'Create new password',
                     style: TextStyle(
-                      fontFamily: 'Inter',
+                      fontFamily: 'Urbanist',
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Color(0xFFA259FF),
@@ -84,7 +84,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                       decoration: InputDecoration(
                         hintText: 'Password',
                         hintStyle: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'urbanist',
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                           color: const Color(0xFFC0B1E8).withOpacity(0.7),
@@ -105,7 +105,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                       decoration: InputDecoration(
                         hintText: 'Confirm new password',
                         hintStyle: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'urbanist',
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                           color: const Color(0xFFC0B1E8).withOpacity(0.7),
@@ -129,7 +129,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                     child: const Text(
                       'Change password',
                       style: TextStyle(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Urbanist',
                         fontWeight: FontWeight.w800,
                         fontSize: 16,
                         color: Colors.white,
@@ -144,7 +144,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                       const Text(
                         'Already have an account? ',
                         style: TextStyle(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Urbanist',
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
                           color: Color(0xFFC0B1E8),
@@ -154,7 +154,7 @@ class CreatePasswordScreen1 extends State<CreatePasswordScreen> {
                         child: const Text(
                           'Login',
                           style: TextStyle(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Urbanist',
                             fontWeight: FontWeight.w700,
                             fontSize: 12,
                             color: Color(0xFFA259FF),
