@@ -53,7 +53,7 @@ class TruYouApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Removes the debug banner
-      initialRoute: '/cbtpage',
+      initialRoute: '/splash',
       routes: {
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),

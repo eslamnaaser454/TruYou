@@ -240,6 +240,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           }
 
+
+
+if(passwordController.text.isEmpty){
+  _showAlert(context,'Not Valid', 'Password Can\'t be empty');
+            return;
+}
           if(emailController.text.isEmpty){
   _showAlert(context,'Not Valid', 'Email Can\'t be empty');
             return;

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/Errorpopup.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -45,25 +46,27 @@ class _ResetPassword extends State<ResetPassword> {
     );
   }
 
-  // Function to display an alert dialog
-  void _showAlertDialog(String title, String message) {
+  void _showAlertDialog(String t, String message) {
+     bool dialogOpen = true;
+
+    // Show the dialog
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+      builder: (context) => ErrorMessagePopup(
+        title: t,
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 1.5 seconds
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
   }
 
  // Function to send a verification link to the email
@@ -71,7 +74,7 @@ Future<void> _sendVerificationLink() async {
   String email = emailController.text;
 
   if (email.isEmpty) {
-    _showAlertDialog('Error', 'Please enter your email address.');
+    _showAlertDialog('Not Valid', 'Please enter your email address.');
     return;
   }
 
@@ -84,7 +87,7 @@ Future<void> _sendVerificationLink() async {
 
     if (querySnapshot.docs.isEmpty) {
       // No user found with the given email
-      _showAlertDialog('Error', 'User does not exist.');
+      _showAlertDialog('Not Valid', 'User does not exist.');
       return;
     }
 
@@ -97,7 +100,7 @@ Future<void> _sendVerificationLink() async {
     Navigator.push(context, _createPageRoute(LoginScreen()));
 
   } catch (e) {
-    _showAlertDialog('Error', 'Error: $e');
+    _showAlertDialog('Not Valid', 'Error: $e');
   }
 }
  PageRouteBuilder _createPageRoute(Widget page) {
