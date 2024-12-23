@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/Confirmpopup.dart';
+import 'package:truyou/Login-Sginup/Errorpopup.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 
 import 'package:truyou/Login-Sginup/VerificationScreen.dart';
@@ -23,9 +25,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      
       home: Scaffold(
+           backgroundColor: Colors.white, 
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -288,8 +293,8 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
   'uid': credential.user!.uid,
   'isVerify': false, // Add this field with a default value of false
 });
-
-            // Navigate to next screen
+      _showDoneDialog(context, 'Account created successfully');
+        await Future.delayed(Duration(seconds: 1, milliseconds: 500));
             Navigator.push(context, _createPageRoute( VerificationScreen( email: emailController.text)));
           } on FirebaseAuthException catch (e) {
             _showAlert(context, 'An error occurred: ${e.message}');
@@ -330,6 +335,33 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
     return result.docs.isNotEmpty;
   }
 
+
+
+  }
+  
+void _showDoneDialog(BuildContext context, String message) {
+   bool dialogOpen = true;
+
+    // Show the dialog
+    showDialog(
+      context: context,
+      builder: (context) => Confirmpopup(
+        title: 'Confirmation Message',
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 1.5 seconds
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+}
+
   // Show alert dialog
   void _showAlert(BuildContext context, String message) {
      bool dialogOpen = true;
@@ -339,7 +371,7 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
       context: context,
       builder: (context) => ErrorMessagePopup(
         title: 'Custom Error',
-        description: 'Something went wrong. Please try again.',
+        description: message,
       ),
     ).then((_) {
       // When the dialog is dismissed manually, set dialogOpen to false
@@ -353,7 +385,7 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
       }
     });
   }
-  }
+  
 
   // Page transition animation
   PageRouteBuilder _createPageRoute(Widget page) {

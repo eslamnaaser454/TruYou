@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/Confirmpopup.dart';
+import 'package:truyou/Login-Sginup/Errorpopup.dart';
 import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/ResetPassword.dart';
 import 'package:truyou/Login-Sginup/Sign_Up.dart';
@@ -23,8 +25,7 @@ class _LoginScreen extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool rememberMe = false;
-
+ 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -87,34 +88,7 @@ class _LoginScreen extends State<LoginScreen> {
                       const SizedBox(height: 15),
                       _buildPasswordField('Password', passwordController),
                       const SizedBox(height: 15),
-                      // Remember Me
-                      // Row(
-                      //   children: [
-                      //     StatefulBuilder(
-                      //       builder: (context, setState) {
-                      //         return Checkbox(
-                      //           value: rememberMe,
-                      //           onChanged: (value) {
-                      //             setState(() {
-                      //               rememberMe = value ?? false;
-                      //             });
-                      //           },
-                      //           fillColor: WidgetStateProperty.all(
-                      //               const Color(0xFFA259FF)),
-                      //         );
-                      //       },
-                      //     ),
-                      //     const Text(
-                      //       'Remember me',
-                      //       style: TextStyle(
-                      //         fontFamily: 'Inter',
-                      //         fontSize: 12,
-                      //         fontWeight: FontWeight.w500,
-                      //         color: Color(0xB2C0B1E8),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
+                      
                       const SizedBox(height: 20),
                       // Sign In Button
                       ElevatedButton(
@@ -145,6 +119,7 @@ class _LoginScreen extends State<LoginScreen> {
 
                               if (isVerified) {
                                 // If the user is verified, navigate to the HomePage
+                              
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -152,6 +127,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 ));
                               } else {
                                 // If the user is not verified, navigate to the KIP page
+                                 _showDoneDialog(context, "Success", "You have successfully signed in");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -163,25 +139,30 @@ class _LoginScreen extends State<LoginScreen> {
                             }
                           } catch (e) {
                             // Show an alert if there is an error (e.g., wrong credentials)
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(
-                                      "The email or password you entered is incorrect."),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("OK"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
+                  
+    bool dialogOpen = true;
+
+    // Show the dialog
+    showDialog(
+      context: context,
+      builder: (context) => ErrorMessagePopup(
+        title: "failed to Sign in",
+        description: "User name or password is incorrect",
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 1.5 seconds
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+  }
+  
+                          
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFA259FF),
@@ -204,6 +185,7 @@ class _LoginScreen extends State<LoginScreen> {
                       // Forget Password
                       TextButton(
                         onPressed: () {
+
                           Navigator.push(
                               context, _createPageRoute(ResetPassword()));
                         },
@@ -327,6 +309,8 @@ class _LoginScreen extends State<LoginScreen> {
         ],
       ),
     );
+ 
+ 
   }
 
   PageRouteBuilder _createPageRoute(Widget page) {
@@ -346,4 +330,26 @@ class _LoginScreen extends State<LoginScreen> {
       transitionDuration: const Duration(milliseconds: 300),
     );
   }
+  void _showDoneDialog(BuildContext context,String Ti, String message) {
+   bool dialogOpen = true;
+
+    // Show the dialog
+    showDialog(
+      context: context,
+      builder: (context) => Confirmpopup(
+        title: Ti,
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 2.5 seconds
+    Future.delayed(const Duration(seconds: 2, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+}
 }

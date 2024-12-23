@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:truyou/Login-Sginup/Confirmpopup.dart';
+import 'package:truyou/Login-Sginup/Errorpopup.dart';
 import 'package:truyou/Login-Sginup/PasswordRecover.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 import 'package:truyou/dashboard/dashboardPage.dart';
@@ -23,7 +25,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
   void initState() {
     super.initState();
     email = widget.email;
-
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sendVerificationLink(context);
+    });
   }
 
   @override
@@ -33,6 +37,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+            backgroundColor: Colors.white, 
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -151,14 +156,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification();
-        _showAlert(context, 'Verification Email Sent',
+        _showDoneDialog(context, 'Verification Email Sent',
             'A verification link has been sent to your email. Please check your inbox.');
       } else {
-        _showAlert(context, 'Action Not Needed',
+        _showDoneDialog(context, 'Action Not Needed',
             'No user is signed in or the email is already verified.');
       }
     } catch (e) {
-      _showAlert(context, 'Error', 'An error occurred: $e');
+      _showAlertE(context,'ERROR', 'An error occurred: $e');
     }
   }
 
@@ -188,18 +193,18 @@ Future<void> _checkVerificationStatus(BuildContext context) async {
         }
       } else {
         // Show alert if the email is still not verified
-        _showAlert(
+        _showAlertE(
           context,
           'Email not verified',
           'Please verify your email to proceed. Check your inbox for the verification email.',
         );
       }
     } else {
-      _showAlert(context, 'No user signed in',
+      _showAlertE(context, 'No user signed in',
           'You need to sign in first before verifying your email.');
     }
   } catch (e) {
-    _showAlert(
+    _showAlertE(
       context,
       'Error',
       'An error occurred while checking your email verification status: $e',
@@ -233,17 +238,52 @@ Future<void> _checkVerificationStatus(BuildContext context) async {
     return email.substring(0, 2) + '*' * (atIndex - 2) + email.substring(atIndex);
   }
 
-  void _showAlert(BuildContext context, String title, String message) {
+
+
+void _showDoneDialog(BuildContext context,String Ti, String message) {
+   bool dialogOpen = true;
+
+    // Show the dialog
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),);}
+      builder: (context) => Confirmpopup(
+        title: Ti,
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 2.5 seconds
+    Future.delayed(const Duration(seconds: 2, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+}
+
+void _showAlertE(BuildContext context, String Ti,String message) {
+     bool dialogOpen = true;
+
+    // Show the dialog
+    showDialog(
+      context: context,
+      builder: (context) => ErrorMessagePopup(
+        title: Ti,
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 1.5 seconds
+    Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+  }
+  
 }

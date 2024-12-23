@@ -1,96 +1,120 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: PopupExample(),
-  ));
+  runApp(MyApp());
 }
 
-class PopupExample extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Popup Example')),
+      appBar: AppBar(
+        title: const Text('Popup Example'),
+      ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Use the context available here
+            // Show the popup
             showDialog(
               context: context,
-              builder: (context) => ErrorMessagePopup(
-                title: 'Custom Error',
-                description: 'Something went wrong. Please try again.',
-              ),
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ConfirmationMessage(
+                    title: 'Success!',
+                    description: 'Your operation was successful.',
+                  ),
+                );
+              },
             );
           },
-          child: const Text('Show Error Message'),
+          child: const Text('Show Popup'),
         ),
       ),
     );
   }
 }
 
-class ErrorMessagePopup extends StatelessWidget {
+class ConfirmationMessage extends StatelessWidget {
   final String title;
   final String description;
 
-  const ErrorMessagePopup({
+  const ConfirmationMessage({
     Key? key,
-    this.title = 'Error Message',
-    this.description = 'Description of the message...',
+    this.title = 'Confirmation Message',
+    this.description = 'Description of Message ...........',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
+    return Container(
+      width: 815,
+      height: 273,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.green, width: 2),
       ),
       child: Container(
-        width: 300, // Adjust popup width
-        padding: const EdgeInsets.all(16.0),
+        width: 742,
+        height: 150,
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: const Color(0xFFEFFAF4),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/atention1.png',
-                width: 50,
-                height: 50,
+            const SizedBox(width: 31),
+            Container(
+              width: 78,
+              height: 78,
+           
+              child: Center(
+                child: Image.asset(
+                  'images/check.png',
+                  width: 55,
+                  height: 50,
+                ),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+            const SizedBox(width: 22),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF000000),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white.withOpacity(0.8),
-                    ),
+                ),
+                const SizedBox(height: 13),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xCC000000),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

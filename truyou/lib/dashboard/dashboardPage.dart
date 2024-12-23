@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:truyou/Login-Sginup/Confirmpopup.dart';
 import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/chatstart.dart';
 import 'package:truyou/explore/explore.dart';
@@ -18,7 +19,36 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int currentPageIndex = 0;
   int currentDialogIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    // Call _showDoneDialog when the page starts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showDoneDialog(context, "Confirmation", "Login Successfully!");
+    });
+  }
+     void _showDoneDialog(BuildContext context,String Ti, String message) {
+   bool dialogOpen = true;
 
+    // Show the dialog
+    showDialog(
+      context: context,
+      builder: (context) => Confirmpopup(
+        title: Ti,
+        description: message,
+      ),
+    ).then((_) {
+      // When the dialog is dismissed manually, set dialogOpen to false
+      dialogOpen = false;
+    });
+
+    // Dismiss the dialog automatically after 2.5 seconds
+    Future.delayed(const Duration(seconds: 2, milliseconds: 500), () {
+      if (dialogOpen) {
+        Navigator.of(context).pop(); // Dismiss the dialog only if still open
+      }
+    });
+}
   void showDialogSequence(BuildContext context) {
     List<String> dialogQuestions = [
       "How well did you sleep?",
@@ -252,6 +282,7 @@ class _DashboardPageState extends State<DashboardPage> {
 class UserScreen extends StatefulWidget {
 
    final VoidCallback onBackPressed;
+   
  final double maxWidth;
  UserScreen({required this.onBackPressed, required this.maxWidth});
 
@@ -266,11 +297,14 @@ late double maxWidth;
   @override
   void initState() {
     super.initState();
+                             
     fetchUserName();
+
     onBackPressed = widget.onBackPressed;
     maxWidth = widget.maxWidth;
 
   }
+  
   final String date;
 
   Header() : date = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
@@ -281,6 +315,7 @@ String userName='';
 
  Future<void> fetchUserName() async {
     try {
+      
       // Get the current user
       final User? user = FirebaseAuth.instance.currentUser;
 
@@ -313,6 +348,7 @@ String userName='';
       print('Error fetching user name: $e');
     }
   }
+ 
 
   @override
   Widget build(BuildContext context) {

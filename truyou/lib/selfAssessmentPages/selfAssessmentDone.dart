@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/dashboard/dashboardPage.dart';
 
 class ReadyToCommitScreen extends StatelessWidget {
   const ReadyToCommitScreen({
@@ -99,7 +100,16 @@ class ReadyToCommitScreen extends StatelessWidget {
                     width: 307,
                     height: 48,
                     child: ElevatedButton(
-                      onPressed: onReadyPressed,
+                      onPressed: () {
+    // Perform any additional actions here (if needed)
+    onReadyPressed();
+
+    // Navigate to the home page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => DashboardPage()), // Replace HomePage with your actual home page widget
+    );
+  },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFA259FF),
                         shape: RoundedRectangleBorder(
@@ -109,6 +119,7 @@ class ReadyToCommitScreen extends StatelessWidget {
                       ),
                       child: Text(
                         buttonText,
+                        
                         style: const TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 18,

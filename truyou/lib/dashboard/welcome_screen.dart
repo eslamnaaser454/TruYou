@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:truyou/selfAssessmentPages/self_assessment_welcome.dart';
 
 class WelcomeScreenn extends StatefulWidget {
   final String email;
@@ -41,9 +42,11 @@ Future<void> _submitName() async {
   */
       print("User data updated or created successfully.");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Name stored successfully!')),
-      );
+Navigator.push(
+context,
+MaterialPageRoute(
+builder: (context) => SelfAssessmentWelcome(), // Replace HomePage with your actual home widget
+));
 
   
     } catch (e) {
