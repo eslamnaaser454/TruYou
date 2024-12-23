@@ -43,6 +43,8 @@ void main() async {
   runApp(TruYouApp());
 }
 
+
+
 class TruYouApp extends StatelessWidget {
   const TruYouApp({super.key});
 
@@ -50,9 +52,9 @@ class TruYouApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Removes the debug banner
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
-        '/': (context) =>ExampleScreen(programs: [],),
+        '/CBT': (context) =>ExampleScreen(programs: [], ),
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),

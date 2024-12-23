@@ -24,9 +24,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
     super.initState();
     email = widget.email;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _sendVerificationLink(context);
-    });
   }
 
   @override

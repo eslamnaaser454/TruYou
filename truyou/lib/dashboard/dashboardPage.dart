@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/chatstart.dart';
+import 'package:truyou/explore/explore.dart';
 import 'package:truyou/notification/notification.dart';
 import 'package:truyou/profile/profilepage.dart';
 import 'package:truyou/settingspages/mainpage.dart';
@@ -147,9 +152,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 padding: EdgeInsets.all(constraints.maxWidth * 0.04),
                 child: Column(
                   children: [
-                    Header(
-                      userName: 'Waleed',
-                      date: 'Friday, Nov 22, 2024',
+                    UserScreen(
+                     
                       onBackPressed: () {},
                       maxWidth: constraints.maxWidth,
                     ),
@@ -174,6 +178,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     CBTProgressCard(
                       progress: 0.25,
                       onEnterCBT: () {
+                        //ExampleScreen
+                           Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExampleScreen(programs: [],),
+             
+              ));
                         print('Enter CBT tapped');
                       },
                       maxWidth: constraints.maxWidth,
@@ -205,18 +215,30 @@ class _DashboardPageState extends State<DashboardPage> {
                 MaterialPageRoute(builder: (context) => DashboardPage()),
               );
               break;
+              case 1:
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExampleScreen(programs: [],),
+             
+              ));
+              case 2:
+              
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExplorePage()),
+              );
             case 3:
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
               );
               break;
-            // case 4:
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => ProfilePage(email: )), // Pass the email as needed
-            //   );
-            //   break;
+             case 4:
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => ProfilePage()), // Pass the email as needed
+               );
+               break;
             default:
               // Handle other cases if necessary
               break;
@@ -227,21 +249,70 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-// Other card classes remain unchanged...
+class UserScreen extends StatefulWidget {
 
-class Header extends StatelessWidget {
-  final String userName;
+   final VoidCallback onBackPressed;
+ final double maxWidth;
+ UserScreen({required this.onBackPressed, required this.maxWidth});
+
+@override
+  Header createState() => Header();
+}
+
+class Header extends State<UserScreen> {
+late VoidCallback onBackPressed;
+late double maxWidth;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+    onBackPressed = widget.onBackPressed;
+    maxWidth = widget.maxWidth;
+
+  }
   final String date;
-  final VoidCallback onBackPressed;
-  final double maxWidth;
 
-  const Header({
-    Key? key,
-    this.userName = 'Waleed',
-    this.date = 'Friday, Nov 22, 2024',
-    required this.onBackPressed,
-    required this.maxWidth,
-  }) : super(key: key);
+  Header() : date = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
+String userName='';
+  //final String date;
+  //final VoidCallback onBackPressed;
+  //final double maxWidth;
+
+ Future<void> fetchUserName() async {
+    try {
+      // Get the current user
+      final User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Fetch the name from Firestore (assuming user ID is used as document ID)
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid) // Use current user's UID as document ID
+            .get();
+
+        if (userDoc.exists) {
+          // Assuming the field name in Firestore is 'name'
+          setState(() {
+            userName = userDoc['name'] ?? 'No Name Available';
+          });
+        } else {
+          setState(() {
+            userName = 'User data not found';
+          });
+        }
+      } else {
+        setState(() {
+          userName = 'No authenticated user';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        userName = 'Error fetching name';
+      });
+      print('Error fetching user name: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

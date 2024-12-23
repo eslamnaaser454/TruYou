@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.3.1
   shared_preferences: ^2.0.8
 
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

@@ -1,17 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:truyou/Login-Sginup/ResetPassword.dart';
 import 'package:truyou/Login-Sginup/ResetPasswordfromprofile.dart';
 import 'package:truyou/Login-Sginup/Sign_in.dart';
 import 'package:truyou/settingspages/trueyoupluspage.dart';
 
 
 class ProfilePage extends StatefulWidget {
-    final String email;
-
-  // Constructor to accept the email
-  ProfilePage({required this.email});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -21,17 +16,26 @@ class _ProfilePageState extends State<ProfilePage> {
  
   Map<String, dynamic>? userData;
    // Replace with your userId
-late String email;
+     late String email;
+
+ 
   @override
   void initState() {
-      email=widget.email;
+ 
     super.initState();
-   
+    _getUserEmail();
     fetchUserData();
    
   }
+    void _getUserEmail() {
+    final User user = FirebaseAuth.instance.currentUser!;
+    email = user.email!;
+    setState(() {}); // To trigger a rebuild if needed
+  }
 Future<void> fetchUserData() async {
   try {
+ 
+
     print("Fetching data for email: $email");
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -188,7 +192,7 @@ Future<void> fetchUserData() async {
                     SizedBox(height: size.height * 0.05),
                     ProfileHeader(
                       size: size,
-                      userName: userData!['username'] ?? 'Name not available',
+                      userName: userData!['name'] ?? 'Name not available',
                     ),
                     SizedBox(height: size.height * 0.02),
                     ProfileInfoItem(
