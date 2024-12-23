@@ -4,7 +4,7 @@ import 'dart:async';
 
 class TaskDetailPage extends StatefulWidget {
   final String taskName;
-  final String videoUrl; // Add a video URL parameter
+  final String videoUrl; // This parameter is no longer needed
 
   const TaskDetailPage({Key? key, required this.taskName, required this.videoUrl}) : super(key: key);
 
@@ -18,7 +18,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Timer? timer;
   int remainingSeconds = 120; // 2 minutes
 
-
   final Map<String, String> taskInstructions = {
     'Deep Breathing': 'Inhale deeply, hold briefly, exhale slowly, repeat for calm.',
     'Progressive Muscle Relaxation': 'Tense and relax each muscle group slowly.',
@@ -26,6 +25,12 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     'Mindful Walking': 'Focus on each step, breathe, and observe surroundings.',
     'Grounding Techniques': 'Use senses to connect with the present moment.',
   };
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   void _toggleTimer() {
     if (isRunning) {
@@ -207,22 +212,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         backgroundColor: const Color(0xFFA259FF),
                         minimumSize: const Size(150, 50),
                         textStyle: const TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(25),
-                    //   child: Image.network(
-                    //     'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW5jZmh0cGRrZnZucDY4Y3RncG5rNDBub2V3bm14OTBybDNreXgyeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/whVGEJ7ieEU41Hx7q0/giphy.gif',
-                    //     width: 300,
-                    //     height: 300,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
                       ),
                     ),
                   ],

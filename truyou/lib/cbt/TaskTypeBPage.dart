@@ -1,11 +1,16 @@
-//بسم الله
+// بسم الله
 import 'package:flutter/material.dart';
 
 class TaskTypeBPage extends StatefulWidget {
+  final String taskName; // Add taskName parameter
   final String questionText;
   final String imageAsset;
 
-  TaskTypeBPage({required this.questionText, required this.imageAsset});
+  TaskTypeBPage({
+    required this.taskName, // Initialize taskName
+    required this.questionText,
+    required this.imageAsset,
+  });
 
   @override
   _TaskTypeBPageState createState() => _TaskTypeBPageState();
@@ -59,7 +64,7 @@ class _TaskTypeBPageState extends State<TaskTypeBPage> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Task Type B Page')),
+      appBar: AppBar(title: Text(widget.taskName)), // Use taskName as the title
       body: PageView.builder(
         controller: _pageController,
         onPageChanged: (index) {
@@ -69,7 +74,7 @@ class _TaskTypeBPageState extends State<TaskTypeBPage> with SingleTickerProvider
             _animationController.forward();
           });
         },
-        itemCount: 3,
+        itemCount: 5, // Updated to 5 pages
         itemBuilder: (context, index) {
           return PageContent(
             pageIndex: index,
@@ -77,7 +82,7 @@ class _TaskTypeBPageState extends State<TaskTypeBPage> with SingleTickerProvider
             questionText: widget.questionText,
             imageAsset: widget.imageAsset,
             onNext: () {
-              if (_currentPage < 2) {
+              if (_currentPage < 4) { // Updated to handle 5 pages
                 _pageController.nextPage(
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeIn,

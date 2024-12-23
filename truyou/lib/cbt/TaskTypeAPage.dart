@@ -5,7 +5,7 @@ import 'package:truyou/cbt/AnxiousThoughtsPage.dart';
 class TaskTypeAPage extends StatefulWidget {
   final String taskName;
 
-  const TaskTypeAPage({Key? key, required this.taskName}) : super(key: key);
+  const TaskTypeAPage({Key? key, required this.taskName, required String imageAsset, required String questionText}) : super(key: key);
 
   @override
   _TaskTypeAPageState createState() => _TaskTypeAPageState();
@@ -74,9 +74,15 @@ class _TaskTypeAPageState extends State<TaskTypeAPage> {
                 ),
               ),
               const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.data_usage),
-                onPressed: _navigateToAnxiousThoughtsPage,
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFC0B1E8).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.data_saver_off, color: Color(0xFFA259FF)),
+                  onPressed: _navigateToAnxiousThoughtsPage,
+                ),
               ),
             ],
           ),
@@ -88,21 +94,44 @@ class _TaskTypeAPageState extends State<TaskTypeAPage> {
           children: [
             Text(
               instructions,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _textController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Identify anxious thoughts here ....',
+              decoration: InputDecoration(
+                hintText: 'Enter your anxious thoughts...',
+                filled: true,
+                fillColor: const Color(0xFFF5F1FF),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _storeEntry,
-              child: const Text('Store'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF7E6BF2),
+                minimumSize: const Size(double.infinity, 55),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+              child: const Text(
+                'Submit',
+                style: TextStyle(
+                  fontFamily: 'Urbanist',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

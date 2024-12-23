@@ -52,7 +52,7 @@ class TruYouApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => ExplorePage(),
+        '/': (context) =>ExampleScreen(programs: [],),
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),

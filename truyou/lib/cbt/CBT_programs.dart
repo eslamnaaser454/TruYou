@@ -306,7 +306,6 @@
 //   }
 // }
 
-
 // custom view
 // import 'package:flutter/material.dart';
 // import 'package:flutter_application_2/cbtpage/ProgramDetailPage.dart';
@@ -578,8 +577,9 @@
 //   }
 // }
 
+// بسم الله
 import 'package:flutter/material.dart';
-import 'package:truyou/cbt/ProgramDetailPage.dart';
+import 'package:truyou/cbt//ProgramDetailPage.dart';
 import 'package:truyou/cbt/AdditionalProgramsPage.dart';
 
 class ExampleScreen extends StatefulWidget {
@@ -593,26 +593,11 @@ class ExampleScreen extends StatefulWidget {
 
 class _ExampleScreenState extends State<ExampleScreen> {
   List<Map<String, String>> mainPrograms = [
-    {
-      'title': 'Anxiety Management',
-      'description': 'Learn new techniques'
-    },
-    {
-      'title': 'Depression Support',
-      'description': 'Find effective support'
-    },
-    {
-      'title': 'Stress Reduction',
-      'description': 'Explore better methods'
-    },
-    {
-      'title': 'Social Anxiety',
-      'description': 'Gain confidence'
-    },
-    {
-      'title': 'Mindfulness',
-      'description': 'Practice mindfulness'
-    },
+    {'title': 'Anxiety Management', 'description': 'Learn new techniques'},
+    {'title': 'Depression Support', 'description': 'Find effective support'},
+    {'title': 'Stress Reduction', 'description': 'Explore better methods'},
+    {'title': 'Social Anxiety', 'description': 'Gain confidence'},
+    {'title': 'Mindfulness', 'description': 'Practice mindfulness'},
     {
       'title': 'Cognitive Restructuring',
       'description': 'Change negative thought'
@@ -627,7 +612,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
   void _addProgram(String program) {
     setState(() {
       if (!mainPrograms.any((p) => p['title'] == program)) {
-        mainPrograms.add({'title': program, 'description': 'Description Of Program'});
+        mainPrograms
+            .add({'title': program, 'description': 'Description Of Program'});
         additionalPrograms.remove(program);
         _showToast(context, program);
       }
@@ -653,92 +639,98 @@ class _ExampleScreenState extends State<ExampleScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(10.0),
-              width: containerWidth,
-              height: 300, // Increased height from 250 to 300
-              decoration: BoxDecoration(
-                color: const Color(0xFFA259FF),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(10.0),
+                width: containerWidth,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFA259FF),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 5.0, left: 16.0, right: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 5.0),
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Icon(Icons.arrow_back,
+                                  color: Color(0xFFA259FF)),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5.0),
+                            child: Text(
+                              'CBT Programs',
+                              style: TextStyle(
+                                fontFamily: 'Urbanist',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
                             margin: const EdgeInsets.only(top: 5.0),
                             padding: const EdgeInsets.all(5.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                            child: const Icon(Icons.wysiwyg_rounded,
+                                color: Color(0xFFA259FF)),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5.0),
-                          child: Text(
-                            'CBT Programs',
-                            style: TextStyle(
-                              fontFamily: 'Urbanist',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 5.0),
-                          padding: const EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(Icons.wysiwyg_rounded, color: Color(0xFFA259FF)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Image.asset(
-                        'images/brain.png',
-                        width: 200,
-                        height: 200,
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Center(
+                        child: Image.asset(
+                          'Media/images/brain copy.png',
+                          width: 400, // Increased width
+                          height: 400, // Increased height
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            ...mainPrograms.map((program) => ProgramCard(
-              width: containerWidth,
-              title: program['title']!,
-              description: program['description']!,
-              showAddButton: false,
-              onAdd: () {},
-              onEnter: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProgramDetailPage(programName: program['title']!),
-                  ),
-                );
-              },
-              onDelete: () => _removeProgram(program['title']!),
-            )),
-            const SizedBox(height: 10),
-          ],
+              ...mainPrograms.map((program) => ProgramCard(
+                    width: containerWidth,
+                    title: program['title']!,
+                    description: program['description']!,
+                    showAddButton: false,
+                    onAdd: () {},
+                    onEnter: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProgramDetailPage(programName: program['title']!),
+                        ),
+                      );
+                    },
+                    onDelete: () => _removeProgram(program['title']!),
+                  )),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -784,7 +776,7 @@ class ProgramCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 120,
+      height: 140, // Increased height to prevent overflow
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
         color: const Color(0xFFEDE7F6),
@@ -828,7 +820,8 @@ class ProgramCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
                       ),
                       child: const Text(
                         'Add',
@@ -851,7 +844,8 @@ class ProgramCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
                           ),
                           child: const Text(
                             'Enter Now',
