@@ -88,7 +88,6 @@ class _LoginScreen extends State<LoginScreen> {
                       const SizedBox(height: 15),
                       _buildPasswordField('Password', passwordController),
                       const SizedBox(height: 15),
-                      
                       const SizedBox(height: 20),
                       // Sign In Button
                       ElevatedButton(

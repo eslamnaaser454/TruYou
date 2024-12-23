@@ -228,12 +228,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           bool usernameExists = await _checkIfExists('username', usernameController.text);
          String phoneNumber = mobileController.text.replaceAll(RegExp(r'\D'), ''); // Remove non-numeric characters
           if(usernameController.text.isEmpty){
-  _showAlert(context, 'Username Can\'t be empty');
+  _showAlert(context,'Not Valid', 'Username Can\'t be empty');
             return;
           }
           
           if(emailController.text.length>320){
-  _showAlert(context, 'Email is not Valid');
+  _showAlert(context,'Not Valid' ,'Email is not Valid');
             return;
 
 
@@ -241,7 +241,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
 
           if(emailController.text.isEmpty){
-  _showAlert(context, 'Email Can\'t be empty');
+  _showAlert(context,'Not Valid', 'Email Can\'t be empty');
             return;
 
 
@@ -249,14 +249,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
           // Check if phone number contains less than 8 digits
           if (phoneNumber.length < 8||phoneNumber.length>20) {
-            _showAlert(context, 'Invalid phone number');
+            _showAlert(context,'Not Valid', 'Invalid phone number');
             return;
           }
 
 
           
           if (emailExists) {
-            _showAlert(context, 'Email is already registered.');
+            _showAlert(context, 'Not Valid','Email is already registered.');
             return;
           }
   // Validate phone number (only digits or '+' allowed)
@@ -268,16 +268,16 @@ bool _validatePhoneNumber(String phoneNumber) {
 }
   if(_validatePhoneNumber(mobileController.text)==false){
 
-      _showAlert(context, 'Invalid phone number');
+      _showAlert(context,'Not Valid', 'Invalid phone number');
             return;
   }
           if (phoneExists) {
-            _showAlert(context, 'Phone number is already registered.');
+            _showAlert(context, 'Not Valid','Phone number is already registered.');
             return;
           }
 
           if (usernameExists) {
-            _showAlert(context, 'Username is already taken.');
+            _showAlert(context,'Not Valid', 'Username is already taken.');
             return;
           }
           
@@ -300,9 +300,9 @@ await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).s
         await Future.delayed(Duration(seconds: 1, milliseconds: 500));
             Navigator.push(context, _createPageRoute( VerificationScreen( email: emailController.text)));
           } on FirebaseAuthException catch (e) {
-            _showAlert(context, 'An error occurred: ${e.message}');
+            _showAlert(context,'Not Valid', 'An error occurred: ${e.message}');
           } catch (e) {
-            _showAlert(context, 'An unexpected error occurred.');
+            _showAlert(context,'Not Valid', 'An unexpected error occurred.');
           }
         },
         style: ElevatedButton.styleFrom(
@@ -366,14 +366,14 @@ void _showDoneDialog(BuildContext context, String message) {
 }
 
   // Show alert dialog
-  void _showAlert(BuildContext context, String message) {
+  void _showAlert(BuildContext context,String t, String message) {
      bool dialogOpen = true;
 
     // Show the dialog
     showDialog(
       context: context,
       builder: (context) => ErrorMessagePopup(
-        title: 'Custom Error',
+        title: t,
         description: message,
       ),
     ).then((_) {

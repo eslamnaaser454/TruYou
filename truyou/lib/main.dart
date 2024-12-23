@@ -55,7 +55,6 @@ class TruYouApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       initialRoute: '/cbtpage',
       routes: {
-      
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),
@@ -70,6 +69,7 @@ class TruYouApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/login': (context) => LoginScreen(),
         '/Pass': (context) => const PasswordRECOBERY(),
+        'zezo': (context) => const SelfAssessmentWelcome(),
       },
     );
 
