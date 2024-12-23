@@ -53,7 +53,7 @@ class TruYouApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Removes the debug banner
-      initialRoute: '/splash',
+      initialRoute: '/cbtpage',
       routes: {
       
         '/dashboard': (context) => DashboardPage(),
@@ -62,6 +62,7 @@ class TruYouApp extends StatelessWidget {
         '/welcome': (context) => const WelcomeScreen(),
         '/cbt': (context) => const Welcomescreencbt(),
         '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
+        '/cbtpage': (context) => const ExampleScreen(programs: [],),
         '/explore': (context) => const Welcomescreenexplore(),
         '/self_assessment': (context) => const WelcomescreenselfAssesment(),
         '/splash': (context) => SplashScreen(),

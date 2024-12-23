@@ -252,6 +252,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _showAlert(context, 'Invalid phone number');
             return;
           }
+
+
+          
           if (emailExists) {
             _showAlert(context, 'Email is already registered.');
             return;

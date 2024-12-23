@@ -69,6 +69,8 @@ class AdditionalProgramsPage extends StatelessWidget {
                       showAddButton: true,
                       onAdd: () {
                         onAddProgram(program);
+
+                        
                         Navigator.of(context).pop();
                       },
                       onEnter: () {},

@@ -19,13 +19,18 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int currentPageIndex = 0;
   int currentDialogIndex = 0;
+  bool show_confirm=true;
   @override
   void initState() {
     super.initState();
     // Call _showDoneDialog when the page starts
+    if(show_confirm){
+show_confirm=false;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showDoneDialog(context, "Confirmation", "Login Successfully!");
     });
+    }
+  
   }
      void _showDoneDialog(BuildContext context,String Ti, String message) {
    bool dialogOpen = true;
