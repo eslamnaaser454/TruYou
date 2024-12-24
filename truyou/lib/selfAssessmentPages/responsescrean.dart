@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:truyou/cbt/ProgramDetailPage.dart';
+import 'package:truyou/selfAssessmentPages/selfAssessmentDone.dart';
 
 class DiagnoseScreen extends StatelessWidget {
   const DiagnoseScreen({
@@ -101,7 +102,7 @@ class DiagnoseScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProgramDetailPage(programName: '',),
+                              builder: (context) =>ReadyToCommitScreen(onReadyPressed: () {  },),
                             ),
                           );
                         },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/selfAssessmentPages/responsescrean.dart';
 import 'selfAssessmentDone.dart';
 
 class mulChoiceQuestion extends StatefulWidget {
@@ -69,13 +70,21 @@ answers=widget.answers;
           print(answer);  // Prints each answer to the console
         }
 
-        // Navigate to the ReadyToCommitScreen without passing the answers
+        // // Navigate to the ReadyToCommitScreen without passing the answers
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ReadyToCommitScreen(onReadyPressed: () {  },),
+        //   ),
+        // );
+           // Navigate to the ReadyToCommitScreen without passing the answers
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ReadyToCommitScreen(onReadyPressed: () {  },),
+            builder: (context) => DiagnoseScreen(answers: widget.answers),
           ),
         );
+        
       }
     });
   }
