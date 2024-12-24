@@ -13,8 +13,8 @@ import 'package:truyou/Login-Sginup/SplashScreen.dart';
 import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/creatnewchat.dart';
 import 'package:truyou/dashboard/dashboardPage.dart';
+import 'package:truyou/selfAssessmentPages/responsescrean.dart';
 import 'package:truyou/selfAssessmentPages/self_assessment_welcome.dart';
-
 import 'package:truyou/welcomeScreens/welcomescreen.dart';
 import 'package:truyou/welcomeScreens/welcomescreenCBT.dart';
 import 'package:truyou/welcomeScreens/welcomescreenChatBot.dart';
@@ -53,13 +53,14 @@ class TruYouApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Removes the debug banner
-      initialRoute: '/splash',
+      initialRoute: '/zezo',
       routes: {
         '/dashboard': (context) => DashboardPage(),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),
         '/welcome': (context) => const WelcomeScreen(),
         '/cbt': (context) => const Welcomescreencbt(),
+        '/diagnose': (context) => const DiagnoseScreen(answers: [],),
         '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
         '/cbtpage': (context) => const ExampleScreen(programs: [],),
         '/explore': (context) => const Welcomescreenexplore(),
@@ -69,7 +70,7 @@ class TruYouApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/login': (context) => LoginScreen(),
         '/Pass': (context) => const PasswordRECOBERY(),
-        'zezo': (context) => const SelfAssessmentWelcome(),
+        '/zezo': (context) => const SelfAssessmentWelcome(),
       },
     );
 
