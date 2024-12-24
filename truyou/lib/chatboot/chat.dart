@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart'; // Assuming this package is used for the API
+import 'package:truyou/cbt/CBT_programs.dart';
 import 'package:truyou/chatboot/model.dart';
 import 'package:truyou/actionBar/actionBar.dart'; // Import ActionBar
 import 'package:truyou/dashboard/dashboardPage.dart'; // Import DashboardPage
 import 'package:truyou/chatboot/chatstart.dart'; // Import ChatbotstartScreen
+import 'package:truyou/explore/explore.dart';
 import 'package:truyou/profile/profilepage.dart'; // Import ProfilePage
 import 'model.dart'; // Assuming the MessageModel is in a separate file named model.dart
 import 'Gemini.dart';
@@ -37,31 +39,35 @@ class _ChatScreenState extends State<ChatScreen> {
       currentPageIndex = index;
     });
 
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardPage()),
-        );
-        break;
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChatbotstartScreen()),
-        );
-        break;
-      // case 4:
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => ProfilePage(
-      //             email: 'user@example.com')), // Pass the email as needed
-      //   );
-      //   break;
-      default:
-        // Handle other cases if necessary
-        break;
-    }
+     switch (index) {
+            case 0:
+            
+              break;
+              case 1:
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExampleScreen(programs: [],),
+             
+              ));
+              case 2:
+              
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExplorePage()),
+              );
+            case 3:
+             
+              break;
+             case 4:
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => ProfilePage()), // Pass the email as needed
+               );
+               break;
+            default:
+              // Handle other cases if necessary
+              break;
+          }
   }
 
   // Create the GenerativeModel instance

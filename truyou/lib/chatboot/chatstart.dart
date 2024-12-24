@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truyou/chatboot/chat.dart';
 
 class ChatbotstartScreen extends StatelessWidget {
   const ChatbotstartScreen({Key? key}) : super(key: key);
@@ -84,7 +85,8 @@ class ChatbotstartScreen extends StatelessWidget {
                       const SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/chatstart');
+                          
+                           Navigator.push(context, _createPageRoute(ChatScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -118,3 +120,20 @@ class ChatbotstartScreen extends StatelessWidget {
     );
   }
 }
+PageRouteBuilder _createPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+      transitionDuration: const Duration(milliseconds: 300),
+    );
+  }

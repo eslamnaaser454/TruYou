@@ -19,19 +19,31 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int currentPageIndex = 0;
   int currentDialogIndex = 0;
+  bool don=true;
   bool show_confirm=true;
+  bool finish_daily_log=false;
   @override
   void initState() {
     super.initState();
     // Call _showDoneDialog when the page starts
-    if(show_confirm){
+    if(show_confirm&&finish_daily_log==false&&don==true){
+      finish_daily_log=true;
 show_confirm=false;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showDoneDialog(context, "Confirmation", "Login Successfully!");
+      showDialogSequence(context);
     });
     }
+     
   
+
   }
+
+
+
+
+
+
+  
      void _showDoneDialog(BuildContext context,String Ti, String message) {
    bool dialogOpen = true;
 
@@ -54,126 +66,152 @@ show_confirm=false;
       }
     });
 }
-  void showDialogSequence(BuildContext context) {
-    List<String> dialogQuestions = [
-      "How well did you sleep?",
-      "How was your nutrition?",
-      "How are you feeling today?"
-    ];
 
-    String selectedOption = "Good";
+void showDialogSequence(BuildContext context) {
+  List<String> dialogQuestions = [
+    "How well did you sleep?",
+    "How was your nutrition?",
+    "How are you feeling today?"
+  ];
 
-    if (currentDialogIndex < dialogQuestions.length) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            dialogQuestions[currentDialogIndex],
+  String selectedOption = "Good";
+
+  if (currentDialogIndex < dialogQuestions.length) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          dialogQuestions[currentDialogIndex],
+                          style: TextStyle(
+                            fontSize: constraints.maxWidth * 0.06,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Urbanist',
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: constraints.maxHeight * 0.05),
+                        ...["Excellent", "Good", "Normal", "Bad"].map((option) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(197, 239, 230, 255),
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                color: option == selectedOption
+                                    ? const Color.fromARGB(255, 56, 199, 61)
+                                    : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                            child: RadioListTile(
+                              title: Text(
+                                option,
+                                style: TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              value: option,
+                              groupValue: selectedOption,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedOption = value.toString();
+                                });
+                              },
+                              activeColor: Colors.green,
+                            ),
+                          );
+                        }).toList(),
+                        SizedBox(height: constraints.maxHeight * 0.05),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF9747FF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            minimumSize: Size(double.infinity, 50),
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            if (currentDialogIndex <
+                                dialogQuestions.length - 1) {
+                              setState(() {
+                                currentDialogIndex++;
+                              });
+                              showDialogSequence(context);
+                            } else {
+
+
+                              setState(() {
+                                currentDialogIndex = 0;
+   
+                              });
+
+                              // Print last day's date on the Finish page
+                              String lastDay = DateFormat('yyyy-MM-dd')
+                                  .format(DateTime.now());
+                              print("Last Day: $lastDay");
+                              try{
+ User? user = FirebaseAuth.instance.currentUser;
+
+   await FirebaseFirestore.instance
+              .collection('users') // Replace with your actual collection name
+              .doc(user!.uid) // Use the user's Firebase Authentication UID
+              .update({'last_day': lastDay}); // Update the 'isVerify' field to true
+  
+  
+  
+  }catch (e) {
+      print("Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+   
+   
+                            }
+                          },
+                          child: Text(
+                            currentDialogIndex < dialogQuestions.length - 1
+                                ? "Next"
+                                : "Finish",
                             style: TextStyle(
-                              fontSize: constraints.maxWidth * 0.06,
+                              fontSize: constraints.maxWidth * 0.05,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Urbanist',
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
-                          SizedBox(height: constraints.maxHeight * 0.05),
-                          ...["Excellent", "Good", "Normal", "Bad"]
-                              .map((option) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(197, 239, 230, 255),
-                                borderRadius: BorderRadius.circular(25),
-                                border: Border.all(
-                                  color: option == selectedOption
-                                      ? const Color.fromARGB(255, 56, 199, 61)
-                                      : Colors.transparent,
-                                  width: 2,
-                                ),
-                              ),
-                              child: RadioListTile(
-                                title: Text(
-                                  option,
-                                  style: TextStyle(
-                                    fontFamily: 'Urbanist',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                value: option,
-                                groupValue: selectedOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedOption = value.toString();
-                                  });
-                                },
-                                activeColor: Colors.green,
-                              ),
-                            );
-                          }).toList(),
-                          SizedBox(height: constraints.maxHeight * 0.05),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF9747FF),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              minimumSize: Size(double.infinity, 50),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              if (currentDialogIndex <
-                                  dialogQuestions.length - 1) {
-                                setState(() {
-                                  currentDialogIndex++;
-                                });
-                                showDialogSequence(context);
-                              } else {
-                                setState(() {
-                                  currentDialogIndex = 0;
-                                });
-                              }
-                            },
-                            child: Text(
-                              currentDialogIndex < dialogQuestions.length - 1
-                                  ? "Next"
-                                  : "Finish",
-                              style: TextStyle(
-                                fontSize: constraints.maxWidth * 0.05,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Urbanist',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
-      );
-    } else {
-      setState(() {
-        currentDialogIndex = 0;
-      });
-    }
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  } else {
+    currentDialogIndex = 0;
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +234,13 @@ show_confirm=false;
                     StreakCard(
                       streakCount: 1,
                       onExplore: () {
-                        showDialogSequence(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExplorePage(),
+                          ),
+                        );
+                      
                       },
                       maxWidth: constraints.maxWidth,
                     ),
@@ -245,10 +289,8 @@ show_confirm=false;
           });
           switch (index) {
             case 0:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DashboardPage()),
-              );
+            don=false;
+
               break;
               case 1:
                 Navigator.push(
@@ -653,33 +695,7 @@ class MoodCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: maxWidth * 0.25, // Increased width
-                  height: maxWidth * 0.07, // Increased height
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color(0xFFFFCA28),
-                  ),
-                  child: TextButton(
-                    onPressed: onEnterMood,
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      backgroundColor: Color(0xFFFFCA28),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: const Text(
-                      'Enter Mood',
-                      style: TextStyle(
-                        fontFamily: 'Urbanist',
-                        fontSize: 14, // Increased font size
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+              
                 Image.asset(
                   'Media/images/growth.png',
                   width: maxWidth * 0.12, // Increased width
@@ -806,14 +822,14 @@ class CBTProgressCard extends StatelessWidget {
 }
 
 class ChatBotCard extends StatelessWidget {
-  final String title;
+  
   final String subtitle;
   final String description;
   final VoidCallback onChatBotPressed;
   final double maxWidth;
 
   const ChatBotCard({
-    this.title = '3',
+   
     this.subtitle = 'Conversation',
     this.description = 'TruYou Chat Wait For Ask All Day',
     required this.onChatBotPressed,
@@ -838,7 +854,7 @@ class ChatBotCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  title,
+                  '',
                   style: TextStyle(
                     fontFamily: 'Urbanist',
                     fontSize: 40, // Increased font size
