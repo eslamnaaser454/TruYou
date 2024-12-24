@@ -216,15 +216,17 @@ class PageContent extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Container(
-                width: imageSize,
-                height: imageSize,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(imageAsset),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+  width: imageSize,
+  height: imageSize,
+  decoration: BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage('Media/images/brain.png'),
+
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+
               SizedBox(height: 20),
             ],
           ),

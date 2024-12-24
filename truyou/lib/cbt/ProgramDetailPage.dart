@@ -1,5 +1,7 @@
 // بسم الله
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'TaskTypeAPage.dart';
@@ -24,6 +26,7 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
   @override
   void initState() {
     super.initState();
+     tasks = [];
     _loadTasks();
   }
 
@@ -58,8 +61,8 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           'description': 'Breathe deeply and slowly.'
         },
         {
-          'title': 'Progressive Muscle Relaxation',
-          'description': 'Relax each muscle group.'
+         'title': 'Grounding Techniques',
+          'description': 'Stay present in the moment.'
         },
         {
           'title': 'Thought Record Worksheet',
@@ -70,8 +73,8 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
           'description': 'Focus on each step mindfully.'
         },
         {
-          'title': 'Grounding Techniques',
-          'description': 'Stay present in the moment.'
+           'title': 'Progressive Muscle Relaxation',
+          'description': 'Relax each muscle group.'
         },
       ];
     } else {
@@ -89,18 +92,25 @@ class _ProgramDetailPageState extends State<ProgramDetailPage> {
   Future<void> _saveTasks() async {
     final prefs = await SharedPreferences.getInstance();
     final taskStrings =
-        tasks.map((task) => '${task['title']}|${task['description']}').toList();
+tasks.map((task) => '${task['title']}|${task['description']}').toList(); // Line 94
+    
     final completionStrings = taskCompletion.map((e) => e.toString()).toList();
     await prefs.setStringList('tasks', taskStrings);
     await prefs.setStringList('taskCompletion', completionStrings);
     await prefs.setInt('lastUpdated', DateTime.now().millisecondsSinceEpoch);
   }
 
-  void _calculateProgress() {
+  Future<void> _calculateProgress() async {
     final completedTasks =
         taskCompletion.where((completed) => completed).length;
     progress = (completedTasks / tasks.length) * 100;
+    User? user = FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .update({'progress': progress});
   }
+
 
   void openTaskPage(BuildContext context, String taskName, int taskIndex) {
     if (!taskCompletion[taskIndex]) {
