@@ -1,94 +1,168 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
-import 'package:truyou/cbt//ProgramDetailPage.dart';
-import 'package:truyou/cbt//AdditionalProgramsPage.dart';
+
+import 'package:truyou/cbt/AdditionalProgramsPage.dart';
+import 'package:truyou/cbt/ProgramDetailPage.dart';
 
 class ExampleScreen extends StatefulWidget {
-  const ExampleScreen({super.key, required this.programs});
+  const ExampleScreen({super.key, required this.programs, required List diagnoses});
 
   final List<String> programs;
 
   @override
   _ExampleScreenState createState() => _ExampleScreenState();
 }
-
+//a* algorithm
+// Initialize state variables for programs
 class _ExampleScreenState extends State<ExampleScreen> {
   List<Map<String, String>> mainPrograms = [
-    {
-      'title': 'Anxiety Management',
-      'description': 'Learn new techniques'
-    },
-    {
-      'title': 'Depression Support',
-      'description': 'Find effective support'
-    },
-    {
-      'title': 'Stress Reduction',
-      'description': 'Explore better methods'
-    },
-    {
-      'title': 'Social Anxiety',
-      'description': 'Gain confidence'
-    },
-    {
-      'title': 'Mindfulness',
-      'description': 'Practice mindfulness'
-    },
-    {
-      'title': 'Cognitive Restructuring',
-      'description': 'Change negative thought'
-    },
-    {
-      'title': 'Behavioral Activation',
-      'description': 'Boost mood & motivation.'
-    }
+    {'title': 'Anxiety Management', 'description': 'Learn new techniques'},
+    {'title': 'Depression Support', 'description': 'Find effective support'},
+    {'title': 'Stress Reduction', 'description': 'Explore better methods'},
+    {'title': 'Social Anxiety', 'description': 'Gain confidence'},
+    {'title': 'PTSD', 'description': 'Practice mindfulness'},
+    {'title': 'Bipolar Disorder', 'description': 'Change negative thought'},
   ];
+  //a* algorithm
+  // Additional programs that can be added later
   List<String> additionalPrograms = ['Program 9', 'Program 10'];
+  List<Map<String, String>> nonChosenPrograms = [];
 
   @override
   void initState() {
     super.initState();
-    _loadSavedPrograms();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showInputDialog();
+    });
   }
+//a* algorithm
+// Function to collect user responses through a series of dialogs
+  void _showInputDialog() async {
+    double depressionScore = await _getScore("Do you have depression?");
+    double anxietyScore = await _getScore("Do you have anxiety?");
+    double bipolarScore = await _getScore("Do you have bipolar disorder?");
+    double ptsdScore = await _getScore("Do you have PTSD?");
+    double socialAnxietyScore = await _getScore("Do you have social anxiety?");
 
-  Future<void> _loadSavedPrograms() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? savedPrograms = prefs.getStringList('savedPrograms');
-    if (savedPrograms != null) {
-      setState(() {
-        for (var program in savedPrograms) {
-          if (!mainPrograms.any((p) => p['title'] == program)) {
-            mainPrograms.add({'title': program, 'description': 'Description Of Program'});
-          }
-        }
-      });
+    var result = _aStarAlgorithm(depressionScore, anxietyScore, bipolarScore, ptsdScore, socialAnxietyScore);
+    _displayOutput(result);
+  }
+  //a* algorithm
+// Dialog to get user input for each condition
+
+  Future<double> _getScore(String question) async {
+    return await showDialog<double>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(question),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(1.0),
+                  child: const Text('Yes'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(0.0),
+                  child: const Text('No'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        0.0;
+  }
+//a* algorithm
+// A* algorithm implementation for program suggestion
+  List<Map<String, String>> _aStarAlgorithm(
+      double depressionScore,
+      double anxietyScore,
+      double bipolarScore,
+      double ptsdScore,
+      double socialAnxietyScore) {
+            // Map each program to its relevance score based on user input
+
+    Map<String, double> scores = {
+      'Anxiety Management': anxietyScore,
+      'Depression Support': depressionScore,
+      'Stress Reduction': (depressionScore + anxietyScore) / 2,
+      'Social Anxiety': socialAnxietyScore,
+      'PTSD': ptsdScore,
+      'Bipolar Disorder': bipolarScore
+    };
+    // A* algorithm implementation
+    // Initialize A* algorithm components
+    List<Map<String, String>> openSet = List.from(mainPrograms);
+    List<Map<String, String>> closedSet = [];
+    Map<String, double> gScore = {
+          // Calculate initial scores
+      for (var program in mainPrograms) program['title']!: double.infinity
+    };
+    //a* algorithm
+    // Main A* algorithm loop
+    Map<String, double> fScore = {
+            // Sort by f-score to get most promising program
+
+      for (var program in mainPrograms) program['title']!: double.infinity
+    };
+
+    for (var program in mainPrograms) {
+      gScore[program['title']!] = 1.0 - scores[program['title']]!;
+      fScore[program['title']!] = (gScore[program['title']] ?? 0.0) +
+          (1.0 - scores[program['title']]!);
     }
+
+    while (openSet.isNotEmpty) {
+      openSet.sort((a, b) => fScore[a['title']]!.compareTo(fScore[b['title']]!));
+      var current = openSet.removeAt(0);
+      closedSet.add(current);
+      // Stop after finding top 2 programs
+      // Evaluate neighboring programs
+
+      if (closedSet.length >= 3) break;
+
+      for (var neighbor in mainPrograms) {
+        if (closedSet.contains(neighbor)) continue;
+        // Calculate tentative g-score
+
+        double tentativeGScore = (gScore[current['title']] ?? 0.0) +
+            (1.0 - scores[neighbor['title']]!);
+        if (!openSet.contains(neighbor)) {
+          openSet.add(neighbor);
+        } else if (tentativeGScore >= gScore[neighbor['title']]!) {
+          continue;
+        }
+        // Update scores
+
+        gScore[neighbor['title']!] = tentativeGScore;
+        fScore[neighbor['title']!] = gScore[neighbor['title']]! +
+            (1.0 - scores[neighbor['title']]!);
+      }
+    }
+
+    return closedSet;
   }
 
-  Future<void> _addProgram(String program) async {
+  void _displayOutput(List<Map<String, String>> result) {
     setState(() {
-      if (!mainPrograms.any((p) => p['title'] == program)) {
-        mainPrograms.add({'title': program, 'description': 'Description Of Program'});
-        additionalPrograms.remove(program);
-        _showToast(context, program);
+      mainPrograms = result;
+      nonChosenPrograms = mainPrograms.where((program) => !result.contains(program)).toList();
+    });
+  }
+
+  void _removeProgram(String programTitle) {
+    setState(() {
+      additionalPrograms.add(programTitle);
+      mainPrograms.removeWhere((program) => program['title'] == programTitle);
+    });
+  }
+
+  void _addProgram(String programTitle) {
+    setState(() {
+      if (!mainPrograms.any((program) => program['title'] == programTitle)) {
+        mainPrograms.add(
+            {'title': programTitle, 'description': 'Description Of Program'});
+        additionalPrograms.remove(programTitle);
       }
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> savedPrograms = mainPrograms.map((p) => p['title']!).toList();
-    await prefs.setStringList('savedPrograms', savedPrograms);
-  }
-
-  void _removeProgram(String program) {
-    setState(() {
-      additionalPrograms.add(program);
-      mainPrograms.removeWhere((p) => p['title'] == program);
-    });
-  }
-
-  void _showToast(BuildContext context, String programTitle) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$programTitle: added successfully')),
-    );
   }
 
   @override
@@ -112,7 +186,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
+                      padding: const EdgeInsets.only(
+                          top: 5.0, left: 16.0, right: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -127,7 +202,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                              child: const Icon(Icons.arrow_back,
+                                  color: Color(0xFFA259FF)),
                             ),
                           ),
                           const Padding(
@@ -149,7 +225,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.wysiwyg_rounded, color: Color(0xFFA259FF)),
+                            child: const Icon(Icons.wysiwyg_rounded,
+                                color: Color(0xFFA259FF)),
                           ),
                         ],
                       ),
@@ -157,9 +234,9 @@ class _ExampleScreenState extends State<ExampleScreen> {
                     Expanded(
                       child: Center(
                         child: Image.asset(
-                          'Media/images/brain copy.png',
-                          width: 400, // Increased width
-                          height: 400, // Increased height
+                          'Media/images/brain.png',
+                          width: 400,
+                          height: 400,
                         ),
                       ),
                     ),
@@ -167,22 +244,53 @@ class _ExampleScreenState extends State<ExampleScreen> {
                 ),
               ),
               ...mainPrograms.map((program) => ProgramCard(
-                width: containerWidth,
-                title: program['title']!,
-                description: program['description']!,
-                showAddButton: false,
-                onAdd: () {},
-                onEnter: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProgramDetailPage(programName: program['title']!),
-                    ),
-                  );
-                },
-                onDelete: () => _removeProgram(program['title']!),
-              )),
+                    width: containerWidth,
+                    title: program['title']!,
+                    description: program['description']!,
+                    showAddButton: false,
+                    onAdd: () {},
+                    onEnter: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProgramDetailPage(
+                              programName: program['title']!),
+                        ),
+                      );
+                    },
+                    onDelete: () => _removeProgram(program['title']!),
+                    label: 'Suggested',
+                  )),
               const SizedBox(height: 10),
+              Container(
+                width: containerWidth,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFA259FF).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Non-Chosen Programs',
+                    style: TextStyle(
+                      fontFamily: 'Urbanist',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFFA259FF),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ...nonChosenPrograms.map((program) => ProgramCard(
+                    width: containerWidth,
+                    title: program['title']!,
+                    description: program['description']!,
+                    showAddButton: false,
+                    onAdd: () {},
+                    onEnter: () {},
+                    onDelete: () {},
+                  )),
             ],
           ),
         ),
@@ -214,6 +322,7 @@ class ProgramCard extends StatelessWidget {
   final VoidCallback onAdd;
   final VoidCallback onEnter;
   final VoidCallback onDelete;
+  final String label;
 
   const ProgramCard({
     super.key,
@@ -224,13 +333,14 @@ class ProgramCard extends StatelessWidget {
     required this.onAdd,
     required this.onEnter,
     required this.onDelete,
+    this.label = '',
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 140, // Increased height to prevent overflow
+      height: 140,
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
         color: const Color(0xFFEDE7F6),
@@ -241,14 +351,47 @@ class ProgramCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontFamily: 'Urbanist',
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFFA259FF),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFFA259FF),
+                  ),
+                ),
+                if (label.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.moving_rounded,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 4),
             Text(
@@ -274,7 +417,8 @@ class ProgramCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
                       ),
                       child: const Text(
                         'Add',
@@ -297,7 +441,8 @@ class ProgramCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
                           ),
                           child: const Text(
                             'Enter Now',
@@ -309,6 +454,7 @@ class ProgramCard extends StatelessWidget {
                             ),
                           ),
                         ),
+                        const SizedBox(width: 8),
                       ],
                     ),
                 ],

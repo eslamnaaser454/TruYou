@@ -46,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
               case 1:
                 Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ExampleScreen(programs: [],),
+                MaterialPageRoute(builder: (context) => ExampleScreen(programs: [], diagnoses: [],),
              
               ));
               case 2:

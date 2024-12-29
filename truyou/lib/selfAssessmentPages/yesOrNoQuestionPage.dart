@@ -15,15 +15,12 @@ class _YesNoQuestionFlowState extends State<YesNoQuestionFlow> {
     'In the past month, have you experienced physical symptoms of anxiety, like a racing heart or sweating, without an obvious cause?',
     'Do you find it difficult to fall asleep or stay asleep most nights?',
     'Have you been avoiding social interactions or isolating yourself more than usual?',
-    'Do you frequently forget important dates, tasks, or events?',
-    'Have you noticed a decline in your ability to think or process information clearly?',
     'Have you experienced feelings of guilt or worthlessness more than usual in the past month?',
     'Do you feel supported and connected to the people around you?',
-    'In the past month, have you had recurring distressing memories or dreams about a specific event?',
     'Do you find yourself avoiding thoughts, places, or people that remind you of a past traumatic event?',
-    'Over the past month, have you noticed significant changes in your appetite (eating much more or much less than usual)?',
-    'Have you been excessively concerned about your weight or body shape in a way that impacts your daily life?',
-    'In the past month, have you consumed alcohol, drugs, or other substances to cope with stress or emotional discomfort?',
+    'Have you noticed any changes in your habits (e.g., appetite, sleep)?',
+    'How often do you find it difficult to control your worries?',
+    'Do you find it hard to cope with stress or anxiety?',
   ];
 
   int currentQuestionIndex = 0;
@@ -34,8 +31,11 @@ class _YesNoQuestionFlowState extends State<YesNoQuestionFlow> {
 
   void goToNextQuestion() {
     if (selectedOption != null) {
-      answers.add(selectedOption!); // Save the selected answer
-
+      if (selectedOption == "Yes"){
+      answers.add('1'); // Save the selected answer
+}else{
+  answers.add('0');
+}
       if (currentQuestionIndex < questions.length - 1) {
         setState(() {
           currentQuestionIndex++;

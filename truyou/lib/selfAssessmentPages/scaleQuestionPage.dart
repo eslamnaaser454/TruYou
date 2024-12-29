@@ -123,12 +123,13 @@ class _ScaleQuestionFlowState extends State<ScaleQuestionFlow> {
   int currentPageIndex = 0;
 
   final List<String> scaleQuestions = [
-    "On a scale of 1 to 10, how often do you feel sad or down without a clear reason?",
-    "On a scale of 1 to 10, how often do you feel tense or anxious?",
+    'On average, how many days have you spent indoors in the past 10 days?',
+    // "On a scale of 1 to 10, how often do you feel sad or down without a clear reason?",
+    "On a scale of 1 to 10, how often do you feel stressed or anxious?",
     "On a scale of 1 to 10, how motivated do you feel to complete daily tasks?",
-    "On a scale of 1 to 10, how difficult has it been to concentrate on tasks or make decisions?",
-    "On a scale of 1 to 10, how often do you feel physically exhausted even after a full night's rest?",
-    "On a scale of 1 to 10, how satisfied are you with yourself and your life?",
+    // "On a scale of 1 to 10, how difficult has it been to concentrate on tasks or make decisions?",
+    // "On a scale of 1 to 10, how often do you feel physically exhausted even after a full night's rest?",
+    // "On a scale of 1 to 10, how satisfied are you with yourself and your life?",
   ];
 
   void _onContinue(double value) {

@@ -7,59 +7,60 @@ class DiagnoseScreen extends StatelessWidget {
     Key? key,
     this.diagnosis = 'You seem to have depression',
     this.disclaimer =
-        'This diagnosis is inaccurate. Please visit a specialist to verify the diagnosis.', required List<String> answers,
+        'This diagnosis is inaccurate. Please visit a specialist to verify the diagnosis.',
+    required this.diagnoses,
+    required List answers,
   }) : super(key: key);
 
   final String diagnosis;
   final String disclaimer;
+  final List<String> diagnoses;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            // Header with back button and title
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFC0B1E8).withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(15),
+        child: SingleChildScrollView( // Make the page scrollable
+          child: Column(
+            children: [
+              // Header with back button and title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFC0B1E8).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Color(0xFFA259FF)),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
                     ),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: Color(0xFFA259FF)),
-                      onPressed: () => Navigator.of(context).pop(),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Diagnose',
+                      style: TextStyle(
+                        fontFamily: 'Urbanist',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Diagnose',
-                    style: TextStyle(
-                      fontFamily: 'Urbanist',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // Content
-            Expanded(
-              child: Padding(
+              // Content
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Diagnosis text
                     Text(
-                      diagnosis,
+                      diagnosis.toString(),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Urbanist',
@@ -93,6 +94,24 @@ class DiagnoseScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
+                    // Dynamic Text View for Diagnoses
+                    Column(
+                      children: diagnoses.map((diagnosis) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Text(
+                            diagnosis.toString(),
+                            style: const TextStyle(
+                              fontFamily: 'Urbanist',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 40),
                     // Responsive Button
                     SizedBox(
                       width: double.infinity,
@@ -102,7 +121,7 @@ class DiagnoseScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>ReadyToCommitScreen(onReadyPressed: () {  },),
+                              builder: (context) => ReadyToCommitScreen(onReadyPressed: () {}, diagnoses: [],),
                             ),
                           );
                         },
@@ -127,8 +146,8 @@ class DiagnoseScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

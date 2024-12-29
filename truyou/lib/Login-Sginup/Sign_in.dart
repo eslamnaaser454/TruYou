@@ -122,7 +122,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DashboardPage(), // Replace HomePage with your actual home widget
+                                      builder: (context) => DashboardPage(diagnoses: [],), // Replace HomePage with your actual home widget
                                 ));
                               } else {
                                 // If the user is not verified, navigate to the KIP page

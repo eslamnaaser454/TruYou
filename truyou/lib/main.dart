@@ -55,14 +55,14 @@ class TruYouApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Removes the debug banner
       initialRoute: '/splash',
       routes: {
-        '/dashboard': (context) => DashboardPage(),
+        '/dashboard': (context) => DashboardPage(diagnoses: [],),
         '/chatstart': (context) => const Creatnewchat(),
         '/chatbot': (context) => ChatScreen(),
         '/welcome': (context) => const WelcomeScreen(),
         '/cbt': (context) => const Welcomescreencbt(),
-        '/diagnose': (context) => const DiagnoseScreen(answers: [],),
+        '/diagnose': (context) => const DiagnoseScreen(answers: [], diagnoses: [],),
         '/chatbotwelcome': (context) => const Welcomescreenchatbot(),
-        '/cbtpage': (context) => const ExampleScreen(programs: [],),
+        '/cbtpage': (context) => const ExampleScreen(programs: [], diagnoses: [],),
         '/explore': (context) => const Welcomescreenexplore(),
         '/self_assessment': (context) => const WelcomescreenselfAssesment(),
         '/splash': (context) => SplashScreen(),

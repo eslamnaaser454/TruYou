@@ -958,6 +958,14 @@ import 'package:truyou/settingspages/mainpage.dart';
 import 'package:truyou/actionBar/actionBar.dart'; // Import the ActionBar
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({
+    Key? key,
+    required this.diagnoses,
+
+  }): super (key: key);
+    final List<double> diagnoses;
+
+  
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
@@ -968,6 +976,7 @@ class _DashboardPageState extends State<DashboardPage> {
   bool don = true;
   bool show_confirm = true;
   bool finish_daily_log = false;
+  
 
   @override
   void initState() {
@@ -1194,7 +1203,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ExampleScreen(programs: []),
+                                    ExampleScreen(programs: [], diagnoses: [],),
                               ),
                             );
                             print('Enter CBT tapped');
@@ -1230,7 +1239,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ExampleScreen(programs: [])),
+                    builder: (context) => ExampleScreen(programs: [], diagnoses: [],)),
               );
               break;
             case 2:

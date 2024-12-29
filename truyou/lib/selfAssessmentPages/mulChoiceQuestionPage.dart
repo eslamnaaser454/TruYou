@@ -33,31 +33,14 @@ answers=widget.answers;
       'question': "Over the past two weeks, how often have you lost interest in activities you usually enjoy?",
       'choices': ['Never', 'Occasionally', 'Often', 'Almost always'],
     },
-    {
-      'question': "How often do you find it difficult to control your worries?",
-      'choices': ['Rarely', 'Sometimes', 'Often', 'Very often'],
-    },
-    {
-      'question': "How would you rate the quality of your sleep over the past month?",
-      'choices': ['Excellent', 'Good', 'Fair', 'Poor'],
-    },
-    {
-      'question': "On average, how many hours of sleep do you get per night?",
-      'choices': ['Less than 4 hours', '4~6 hours', '6~8 hours', 'More than 8 hours'],
-    },
-    {
-      'question': "Over the past month, how often have you acted impulsively or made decisions without much thought?",
-      'choices': ['Never', 'Occasionally', 'Often', 'Almost always'],
-    },
-    {
-      'question': "Over the past month, how often have you experienced unexplained physical symptoms like headaches, fatigue, or stomach issues?",
-      'choices': ['Never', 'Occasionally', 'Often', 'Very often'],
-    },
+   
   ];
+  
+  double depressionScore=0, anxietyScore=0,bipolarScore=0,ptsdScore=0,socialAnxietyScore=0;
 
   void _onContinue(int selectedChoice) {
     // Save the current selection
-    widget.answers.add(pages[currentPageIndex]['choices'][selectedChoice]);
+    widget.answers.add(selectedChoice.toString());
 
     // Navigate or move to the next page
     setState(() {
@@ -67,21 +50,190 @@ answers=widget.answers;
         // All questions answered, print answers to the debug console
         print("User's Answers:");
         for (var answer in widget.answers) {
+          if(int.parse(widget.answers[0]) ==1){
+            // depressionScore++;
+            anxietyScore++;
+            bipolarScore++;
+            //ptsdScore++;
+            // socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[1])==1){
+            //depressionScore++;
+            anxietyScore++;
+            anxietyScore++;
+            //bipolarScore++;
+            //ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[2])==1){
+            depressionScore++;
+            anxietyScore++;
+            // bipolarScore++;
+            // ptsdScore++;
+            //socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[3])==1){
+            depressionScore++;
+            //anxietyScore++;
+            //bipolarScore++;
+            //ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[4]) ==1){
+            depressionScore++;
+            anxietyScore++;
+            bipolarScore++;
+            ptsdScore++;
+            //socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[5]) ==0){
+            //depressionScore++;
+            //anxietyScore++;
+            bipolarScore++;
+            //ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[6]) ==1){
+            //depressionScore++;
+            //anxietyScore++;
+            //bipolarScore++;
+            ptsdScore++;
+            ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[7]) ==1){
+            depressionScore++;
+            anxietyScore++;
+            //bipolarScore++;
+            //ptsdScore++;
+            //socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[8]) ==1){
+            //depressionScore++;
+            anxietyScore++;
+            bipolarScore++;
+            //ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[9]) ==1){
+            depressionScore++;
+            anxietyScore++;
+            //bipolarScore++;
+            //ptsdScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[10]) >=5){
+            depressionScore++;
+            //anxietyScore++;
+            //bipolarScore++;
+            ptsdScore++;
+            socialAnxietyScore++;
+            socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[11])>=5){
+            //depressionScore++;
+            anxietyScore++;
+            anxietyScore++;
+            //bipolarScore++;
+            //ptsdScore++;
+            //socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[12]) <=5){
+            depressionScore++;
+            //anxietyScore++;
+            bipolarScore++;
+            //ptsdScore++;
+            //socialAnxietyScore++;
+
+          }
+            if(int.parse(widget.answers[13]) ==3){
+            depressionScore++;
+            depressionScore++;
+            anxietyScore++;
+            bipolarScore++;
+            bipolarScore++;
+            // ptsdScore++;
+            // socialAnxietyScore++;
+
+          }else if(int.parse(widget.answers[13]) ==2){
+            depressionScore++;
+            anxietyScore++;
+            bipolarScore++;
+
+          }else if(int.parse(widget.answers[13]) ==1){
+            bipolarScore++;
+          }
+
+
           print(answer);  // Prints each answer to the console
         }
+        print("ptsdScore");print(ptsdScore);
+        print("depr_score");print(depressionScore);
+        print("socialAnex_score");print(socialAnxietyScore);
+        print("anex_score");print(anxietyScore);
+        print("bipo_score");print(bipolarScore);
 
-        // // Navigate to the ReadyToCommitScreen without passing the answers
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ReadyToCommitScreen(onReadyPressed: () {  },),
-        //   ),
-        // );
-           // Navigate to the ReadyToCommitScreen without passing the answers
+        bool hasDepression=false, hasPTSD=false,hasSocialAnex=false,hasBiPo=false,hasAnex=false;
+        String  Ptsd,depression,socialAnex,Anex,biPolar;
+        if(ptsdScore>=42){
+          hasPTSD=true;
+          Ptsd='PTSD Yes';
+         
+        } else{
+          Ptsd='PTSD No';
+          
+        }
+        if(depressionScore>=60){
+          hasDepression=true;
+          depression='Depression Yes';
+        }else{
+          depression='Depression No';
+        }
+        if(anxietyScore>=60){
+          hasAnex=true;
+        Anex='Anexity Yes';
+        }
+        else{
+          Anex='Anexity No';
+        }
+        if(socialAnxietyScore>=56){
+          hasSocialAnex=true;
+          socialAnex='social Anexity Yes';
+        }else{
+          socialAnex='social Anexity No';
+        }
+        if(bipolarScore>=70){
+          hasBiPo=true;
+          biPolar='Bipolar Yes';
+        }else{
+          biPolar='Bipolar No';
+        }
+
+
+List<String> diagnoses = [
+  Ptsd,
+  depression,
+  Anex,
+  socialAnex,
+  biPolar,
+];
+        
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DiagnoseScreen(answers: widget.answers),
+            builder: (context) => DiagnoseScreen(diagnoses: diagnoses, answers: [],),
           ),
         );
         

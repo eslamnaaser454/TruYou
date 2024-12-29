@@ -17,7 +17,7 @@ class Creatnewchat extends StatelessWidget {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DashboardPage()),
+            MaterialPageRoute(builder: (context) => DashboardPage(diagnoses: [],)),
           );
           break;
         case 3:

@@ -4,6 +4,8 @@ import 'package:truyou/dashboard/dashboardPage.dart';
 class ReadyToCommitScreen extends StatelessWidget {
   const ReadyToCommitScreen({
     super.key,
+   required this.diagnoses,
+
     required this.onReadyPressed,
     this.title = 'Are you ready to commit for a better mental health?',
     this.completionText = 'Self Assessment Complete !',
@@ -14,6 +16,8 @@ class ReadyToCommitScreen extends StatelessWidget {
   final String title;
   final String completionText;
   final String buttonText;
+    final List<double> diagnoses;
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +111,7 @@ class ReadyToCommitScreen extends StatelessWidget {
     // Navigate to the home page
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => DashboardPage()), // Replace HomePage with your actual home page widget
+      MaterialPageRoute(builder: (context) => DashboardPage(diagnoses: [],)), // Replace HomePage with your actual home page widget
     );
   },
                       style: ElevatedButton.styleFrom(
